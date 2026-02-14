@@ -1,0 +1,135 @@
+.quizCard {
+  border: 1px solid #e3e0d9;
+  border-radius: 24px;
+  padding: 2rem;
+  background: white;
+  box-shadow: 0 10px 30px rgba(31, 42, 34, 0.08);
+}
+
+.quizHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.progress {
+  flex: 1 1 200px;
+  height: 6px;
+  background: #ece8e0;
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.progress span {
+  display: block;
+  height: 100%;
+  background: #2e8b57;
+  border-radius: inherit;
+  transition: width 0.3s ease;
+}
+
+.quizOptions {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1.25rem;
+  margin: 2rem 0 2.5rem;
+}
+
+.option {
+  border-radius: 18px;
+  border: 1px solid #ded8cd;
+  padding: 1.5rem 1.25rem;
+  background: #fffaf3;
+  color: #1f2a22;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: grid;
+  gap: 0.75rem;
+  justify-items: center;
+  text-align: center;
+  min-height: 140px;
+}
+
+.option:hover {
+  border-color: #2e8b57;
+  color: #2e8b57;
+}
+
+.optionActive {
+  background: #e7f3ec;
+  border-color: #2e8b57;
+  color: #2e8b57;
+}
+
+.optionIcon {
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  background: #f1ece3;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #2f5f3a;
+}
+
+.optionIcon svg {
+  width: 26px;
+  height: 26px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.optionLabel {
+  font-size: 1rem;
+}
+
+.pill {
+  display: inline-flex;
+  padding: 0.35rem 0.75rem;
+  border-radius: 999px;
+  background: #e7f3ec;
+  color: #2e8b57;
+  font-weight: 600;
+  font-size: 0.75rem;
+}
+
+.quizFooter {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.footerActions {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.quizStep h3 {
+  margin: 0;
+}
+
+.questionTitle {
+  text-align: center;
+  font-size: 1.4rem;
+  color: #365139;
+}
+
+.quizSummary {
+  margin: 0 0 1.5rem;
+}
+
+@media (max-width: 768px) {
+  .quizFooter {
+    justify-content: space-between;
+  }
+}

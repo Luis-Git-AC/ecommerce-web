@@ -1,0 +1,150 @@
+.siteFooter {
+  background: #1f2a22;
+  color: #f6f3ee;
+  padding: 3rem 0 1.5rem;
+}
+
+.logo {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #f6f3ee;
+}
+
+.footerGrid {
+  display: grid;
+  gap: 2rem;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+}
+
+.footerGrid ul {
+  list-style: none;
+  padding: 0;
+  margin: 1rem 0 0;
+  display: grid;
+  gap: 0.5rem;
+}
+
+.socials {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.socials a {
+  width: 36px;
+  height: 36px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.1);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #f6f3ee;
+}
+
+.socials svg {
+  width: 18px;
+  height: 18px;
+}
+
+.legalLinks {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  font-size: 0.9rem;
+  color: rgba(246, 243, 238, 0.75);
+  justify-content: center;
+}
+
+.footerBottom {
+  margin-top: 2rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding-top: 1rem;
+  font-size: 0.9rem;
+}
+
+.footerBar {
+  display: grid;
+  gap: 1rem;
+}
+
+.newsletterRow {
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+}
+
+.newsletterCard {
+  width: 100%;
+  display: flex;
+  gap: 1.25rem;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.65rem 1rem;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.newsletterCopy {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  font-size: 0.9rem;
+}
+
+.newsletterTitle {
+  font-weight: 600;
+  color: #f6f3ee;
+}
+
+.newsletterText {
+  color: rgba(246, 243, 238, 0.7);
+}
+
+.newsletterForm {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: nowrap;
+  align-items: center;
+}
+
+.newsletterForm input {
+  flex: 1 1 200px;
+  min-width: 220px;
+  padding: 0.45rem 0.85rem;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  background: rgba(31, 42, 34, 0.25);
+  color: #f6f3ee;
+}
+
+.newsletterForm input::placeholder {
+  color: rgba(246, 243, 238, 0.7);
+}
+
+.newsletterButton {
+  background: rgba(255, 255, 255, 0.85);
+  color: #1f2a22;
+  border: none;
+  padding: 0.45rem 0.95rem;
+  border-radius: 999px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.footerBar p {
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  .newsletterCard {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .newsletterForm {
+    flex-wrap: wrap;
+  }
+}
