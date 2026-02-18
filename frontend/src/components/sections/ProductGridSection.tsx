@@ -37,11 +37,17 @@ export default function ProductGridSection() {
       <div className="container section-inner">
         <div className="section-header">
           <h2>Plantas destacadas</h2>
-          <p className="muted">Selección curada con imágenes reales.</p>
+          <p className="muted">Incluir imágenes reales (pendiente).</p>
         </div>
         <div className="grid">
           {products.map((product) => (
-            <ProductCard key={product.id} name={product.name} price={product.price} image={product.image} />
+            <ProductCard
+              key={product.id}
+              id={product.id}
+              name={product.name}
+              price={product.price}
+              image={product.image}
+            />
           ))}
         </div>
       </div>

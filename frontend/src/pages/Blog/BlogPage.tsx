@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import Footer from '../../components/layout/Footer'
 import Header from '../../components/layout/Header'
 import { blogPostsMock } from '../../mocks/blog.mock'
@@ -39,7 +40,7 @@ export default function BlogPage() {
                   <p className="muted">{post.excerpt}</p>
                   <div className={styles.cardMeta}>
                     <span>{post.date}</span>
-                    <a href="#">Leer guia</a>
+                    <Link to={`/blog/${post.id}`}>Leer guia</Link>
                   </div>
                 </div>
               </article>

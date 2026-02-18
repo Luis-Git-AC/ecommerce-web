@@ -1,10 +1,11 @@
+import { Link } from 'react-router-dom'
 import styles from './Header.module.css'
 
 export default function Header() {
   return (
     <header className={styles.siteHeader}>
       <div className={`container ${styles.headerInner}`}>
-        <div className={styles.logo}>
+        <Link className={styles.logo} to="/">
           <span className={styles.logoIcon} aria-hidden="true">
             <svg viewBox="0 0 40 40" role="img" focusable="false">
               <circle cx="20" cy="20" r="20" fill="#2e8b57" />
@@ -16,12 +17,12 @@ export default function Header() {
             </svg>
           </span>
           VerdeVivo
-        </div>
+        </Link>
         <nav className={styles.nav}>
-          <a href="/">Inicio</a>
-          <a href="/shop">Tienda</a>
-          <a href="/club">Club</a>
-          <a href="/blog">Blog</a>
+          <Link to="/">Inicio</Link>
+          <Link to="/shop">Tienda</Link>
+          <Link to="/club">Club</Link>
+          <Link to="/blog">Blog</Link>
         </nav>
         <div className={styles.headerActions}>
           <button className={styles.iconBtn} aria-label="Mi perfil">

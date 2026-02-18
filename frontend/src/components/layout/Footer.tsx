@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import styles from './Footer.module.css'
 
 export default function Footer() {
@@ -37,25 +38,24 @@ export default function Footer() {
         <div>
           <h4>Explora</h4>
           <ul>
-            <li><a href="/shop">Tienda</a></li>
+            <li><Link to="/shop">Tienda</Link></li>
             <li><a href="/#quiz">Quiz de planta ideal</a></li>
-            <li><a href="/club">Planes</a></li>
+            <li><Link to="/club">Planes</Link></li>
           </ul>
         </div>
         <div>
           <h4>Compañía</h4>
           <ul>
-            <li><a href="#">Sobre VerdeVivo</a></li>
-            <li><a href="#">Blog</a></li>
-            <li><a href="#">Prensa</a></li>
+            <li><Link to="/about">Sobre nosotros</Link></li>
+            <li><Link to="/blog">Blog</Link></li>
           </ul>
         </div>
         <div>
           <h4>Soporte</h4>
           <ul>
-            <li><a href="#">Ayuda</a></li>
-            <li><a href="#">Envíos</a></li>
-            <li><a href="#">Contacto</a></li>
+            <li><Link to="/help">Ayuda</Link></li>
+            <li><Link to="/shipping">Envios</Link></li>
+            <li><Link to="/contact">Contacto</Link></li>
           </ul>
         </div>
       </div>
@@ -75,11 +75,11 @@ export default function Footer() {
           </div>
           <p className="muted">© 2026 VerdeVivo. Todos los derechos reservados.</p>
           <div className={styles.legalLinks}>
-            <a href="#">Privacidad</a>
+            <Link to="/legal/privacy">Privacidad</Link>
             <span>·</span>
-            <a href="#">Términos</a>
+            <Link to="/legal/terms">Terminos</Link>
             <span>·</span>
-            <a href="#">Cookies</a>
+            <Link to="/legal/cookies">Cookies</Link>
           </div>
         </div>
       </div>

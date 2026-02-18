@@ -66,7 +66,13 @@ export default function ShopPage() {
             </div>
             <div className={styles.grid}>
               {productsMock.map((product) => (
-                <ProductCard key={product.id} name={product.name} price={product.price} image={product.image} />
+                <ProductCard
+                  key={product.id}
+                  id={product.id}
+                  name={product.name}
+                  price={product.price}
+                  image={product.image}
+                />
               ))}
             </div>
           </section>
