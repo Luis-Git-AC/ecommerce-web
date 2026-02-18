@@ -18,10 +18,10 @@ export default function Header() {
           VerdeVivo
         </div>
         <nav className={styles.nav}>
-          <a href="#hero">Inicio</a>
-          <a href="#productos">Tienda</a>
-          <a href="#planes">Club</a>
-          <a href="#">Blog</a>
+          <a href="/">Inicio</a>
+          <a href="/shop">Tienda</a>
+          <a href="/club">Club</a>
+          <a href="/blog">Blog</a>
         </nav>
         <div className={styles.headerActions}>
           <button className={styles.iconBtn} aria-label="Mi perfil">

@@ -1,4 +1,4 @@
-import styles from './ProductGridSection.module.css'
+import ProductCard from '../ui/ProductCard'
 
 const products = [
   {
@@ -41,14 +41,7 @@ export default function ProductGridSection() {
         </div>
         <div className="grid">
           {products.map((product) => (
-            <article key={product.id} className="card">
-              <img className={styles.productImage} src={product.image} alt={product.name} />
-              <div className={styles.cardBody}>
-                <h3>{product.name}</h3>
-                <p className="muted">{product.price}</p>
-                <button className="btn btn-outline">Ver detalle</button>
-              </div>
-            </article>
+            <ProductCard key={product.id} name={product.name} price={product.price} image={product.image} />
           ))}
         </div>
       </div>

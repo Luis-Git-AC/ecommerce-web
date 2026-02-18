@@ -37,9 +37,9 @@ export default function Footer() {
         <div>
           <h4>Explora</h4>
           <ul>
-            <li><a href="#productos">Tienda</a></li>
-            <li><a href="#quiz">Quiz de planta ideal</a></li>
-            <li><a href="#planes">Planes</a></li>
+            <li><a href="/shop">Tienda</a></li>
+            <li><a href="/#quiz">Quiz de planta ideal</a></li>
+            <li><a href="/club">Planes</a></li>
           </ul>
         </div>
         <div>
