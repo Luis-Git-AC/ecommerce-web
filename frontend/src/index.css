@@ -4,6 +4,10 @@
   font-weight: 400;
   color: #1f2a22;
   background-color: #faf9f6;
+  --page-max-width: 640px;
+  --page-hero-top: 3.5rem;
+  --page-hero-bottom: 2rem;
+  --page-section: 4rem;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -65,7 +69,7 @@ img {
 }
 
 .section {
-  padding: 4rem 0;
+  padding: var(--page-section) 0;
 }
 
 .section-alt {
@@ -105,4 +109,45 @@ img {
   display: flex;
   flex-direction: column;
   min-height: 100%;
+}
+
+.page-hero {
+  padding: var(--page-hero-top) 0 var(--page-hero-bottom);
+  display: grid;
+  gap: 1rem;
+  max-width: var(--page-max-width);
+}
+
+.page-hero h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2.4rem, 4vw, 3.2rem);
+  margin: 0;
+}
+
+.page-eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  font-size: 0.8rem;
+  color: #5c6b61;
+}
+
+@media (max-width: 768px) {
+  :root {
+    --page-hero-top: 2.5rem;
+    --page-hero-bottom: 1.5rem;
+    --page-section: 3rem;
+  }
+
+  .container {
+    width: min(1120px, 94%);
+  }
+
+  .section-header {
+    margin-bottom: 1.5rem;
+  }
+
+  .btn {
+    width: 100%;
+    justify-content: center;
+  }
 }

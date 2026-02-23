@@ -2,26 +2,6 @@
   padding: 0 0 4rem;
 }
 
-.hero {
-  padding: 3.5rem 0 2rem;
-  display: grid;
-  gap: 1rem;
-  max-width: 640px;
-}
-
-.hero h1 {
-  font-family: 'Playfair Display', serif;
-  font-size: clamp(2.4rem, 4vw, 3.2rem);
-  margin: 0;
-}
-
-.eyebrow {
-  text-transform: uppercase;
-  letter-spacing: 0.2em;
-  font-size: 0.8rem;
-  color: #5c6b61;
-}
-
 .content {
   display: grid;
   gap: 2rem;
@@ -46,4 +26,19 @@
   display: grid;
   gap: 2rem;
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+}
+
+@media (max-width: 768px) {
+  .shipping {
+    padding: 0 0 3rem;
+  }
+
+  .grid,
+  .detail {
+    grid-template-columns: 1fr;
+  }
+
+  .card {
+    padding: 1.25rem;
+  }
 }

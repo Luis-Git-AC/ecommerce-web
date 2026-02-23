@@ -17,9 +17,9 @@ export default function BlogPostPage() {
     <div className="page">
       <Header />
       <main className={styles.post}>
-        <section className={`container ${styles.hero}`}>
+        <section className="container page-hero">
           <Link className={styles.backLink} to="/blog">Volver al blog</Link>
-          <p className={styles.eyebrow}>Guia VerdeVivo</p>
+          <p className="page-eyebrow">Guia VerdeVivo</p>
           <h1>{title}</h1>
           <div className={styles.meta}>
             <span>{date}</span>

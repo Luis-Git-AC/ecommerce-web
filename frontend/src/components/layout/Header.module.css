@@ -13,6 +13,7 @@
   justify-content: space-between;
   padding: 1rem 0;
   gap: 1.5rem;
+  position: relative;
 }
 
 .logo {
@@ -50,6 +51,7 @@
   align-items: center;
 }
 
+
 .iconBtn {
   width: 40px;
   height: 40px;
@@ -63,13 +65,96 @@
   cursor: pointer;
 }
 
+.iconBtn.menuButton {
+  display: none;
+}
+
 .iconBtn svg {
   width: 20px;
   height: 20px;
 }
 
+.mobileMenu {
+  display: none;
+  position: fixed;
+  top: 64px;
+  left: 0;
+  right: 0;
+  height: auto;
+  max-height: 220px;
+  width: 100%;
+  background: #f6f4ef;
+  border-top: 1px solid #e3e0d9;
+  box-shadow: 0 12px 24px rgba(31, 42, 34, 0.1);
+  transform: translateY(-6px);
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+  z-index: 11;
+  overflow-y: auto;
+}
+
+.mobileMenuInner {
+  display: grid;
+  gap: 0.6rem;
+  padding: 0.55rem 1rem 0.7rem;
+}
+
+.mobileNav {
+  display: grid;
+  gap: 0.6rem 1.25rem;
+  padding-top: 0.25rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.mobileLink {
+  font-weight: 600;
+  padding: 0.2rem 0;
+  font-size: 0.95rem;
+  color: #1f2a22;
+}
+
+.menuOverlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: transparent;
+  backdrop-filter: none;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s ease;
+  border: none;
+  padding: 0;
+  z-index: 12;
+  pointer-events: none;
+}
+
+.menuOverlayOpen {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
 @media (max-width: 768px) {
   .nav {
     display: none;
+  }
+
+  .iconBtn.menuButton {
+    display: inline-flex;
+  }
+
+  .mobileMenu {
+    display: block;
+  }
+
+  .menuOverlay {
+    display: block;
+  }
+
+  .mobileMenuOpen {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
   }
 }

@@ -2,26 +2,6 @@
   padding: 0 0 4rem;
 }
 
-.hero {
-  padding: 3.5rem 0 2rem;
-  display: grid;
-  gap: 1rem;
-  max-width: 640px;
-}
-
-.hero h1 {
-  font-family: 'Playfair Display', serif;
-  font-size: clamp(2.4rem, 4vw, 3.2rem);
-  margin: 0;
-}
-
-.eyebrow {
-  text-transform: uppercase;
-  letter-spacing: 0.2em;
-  font-size: 0.8rem;
-  color: #5c6b61;
-}
-
 .content {
   display: grid;
   gap: 2rem;
@@ -90,4 +70,34 @@
 
 .cardMeta a {
   color: #2e8b57;
+}
+
+@media (max-width: 768px) {
+  .blog {
+    padding: 0 0 3rem;
+  }
+
+  .filters {
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    padding-bottom: 0.25rem;
+  }
+
+  .filterButton {
+    white-space: nowrap;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .card img {
+    height: 180px;
+  }
+
+  .cardMeta {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.35rem;
+  }
 }

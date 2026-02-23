@@ -7,8 +7,8 @@ export default function CookiesPage() {
     <div className="page">
       <Header />
       <main className={styles.legal}>
-        <section className={`container ${styles.hero}`}>
-          <p className={styles.eyebrow}>Cookies</p>
+        <section className="container page-hero">
+          <p className="page-eyebrow">Cookies</p>
           <h1>Politica de cookies</h1>
           <p className="muted">Contenido provisional.</p>
         </section>

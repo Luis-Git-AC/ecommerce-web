@@ -7,8 +7,8 @@ export default function ContactPage() {
     <div className="page">
       <Header />
       <main className={styles.contact}>
-        <section className={`container ${styles.hero}`}>
-          <p className={styles.eyebrow}>Contacto</p>
+        <section className="container page-hero">
+          <p className="page-eyebrow">Contacto</p>
           <h1>Estamos aqui para ayudarte</h1>
           <p className="muted">Escribenos y respondemos en menos de 24 horas.</p>
         </section>

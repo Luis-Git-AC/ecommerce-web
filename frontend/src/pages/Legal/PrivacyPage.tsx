@@ -7,8 +7,8 @@ export default function PrivacyPage() {
     <div className="page">
       <Header />
       <main className={styles.legal}>
-        <section className={`container ${styles.hero}`}>
-          <p className={styles.eyebrow}>Privacidad</p>
+        <section className="container page-hero">
+          <p className="page-eyebrow">Privacidad</p>
           <h1>Politica de privacidad</h1>
           <p className="muted">Contenido provisional.</p>
         </section>

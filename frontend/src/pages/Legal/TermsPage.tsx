@@ -7,8 +7,8 @@ export default function TermsPage() {
     <div className="page">
       <Header />
       <main className={styles.legal}>
-        <section className={`container ${styles.hero}`}>
-          <p className={styles.eyebrow}>Terminos</p>
+        <section className="container page-hero">
+          <p className="page-eyebrow">Terminos</p>
           <h1>Terminos y condiciones</h1>
           <p className="muted">Contenido provisional.</p>
         </section>

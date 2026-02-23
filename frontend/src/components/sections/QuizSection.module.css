@@ -129,6 +129,25 @@
 }
 
 @media (max-width: 768px) {
+  .quizCard {
+    padding: 1.5rem;
+  }
+
+  .quizOptions {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    margin: 1.5rem 0 2rem;
+  }
+
+  .option {
+    min-height: auto;
+    padding: 1.25rem 1rem;
+  }
+
+  .questionTitle {
+    font-size: 1.2rem;
+  }
+
   .quizFooter {
     justify-content: space-between;
   }

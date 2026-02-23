@@ -22,8 +22,8 @@ export default function ShippingPage() {
     <div className="page">
       <Header />
       <main className={styles.shipping}>
-        <section className={`container ${styles.hero}`}>
-          <p className={styles.eyebrow}>Envios</p>
+        <section className="container page-hero">
+          <p className="page-eyebrow">Envios</p>
           <h1>Entregas cuidadas para que tu planta llegue perfecta</h1>
           <p className="muted">Cuidamos el embalaje y el transporte para reducir el estres de la planta.</p>
         </section>

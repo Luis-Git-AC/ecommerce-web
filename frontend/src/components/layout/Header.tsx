@@ -1,7 +1,35 @@
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import styles from './Header.module.css'
 
 export default function Header() {
+  const [menuOpen, setMenuOpen] = useState(false)
+  const navLinks = [
+    { to: '/', label: 'Inicio' },
+    { to: '/shop', label: 'Tienda' },
+    { to: '/club', label: 'Club' },
+    { to: '/blog', label: 'Blog' },
+  ]
+
+  const toggleMenu = () => setMenuOpen((prev) => !prev)
+  const closeMenu = () => setMenuOpen(false)
+
+  useEffect(() => {
+    if (!menuOpen) {
+      document.body.style.overflow = ''
+      return
+    }
+
+    const handleScroll = () => {
+      closeMenu()
+    }
+
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    return () => {
+      window.removeEventListener('scroll', handleScroll)
+    }
+  }, [menuOpen])
+
   return (
     <header className={styles.siteHeader}>
       <div className={`container ${styles.headerInner}`}>
@@ -19,12 +47,31 @@ export default function Header() {
           VerdeVivo
         </Link>
         <nav className={styles.nav}>
-          <Link to="/">Inicio</Link>
-          <Link to="/shop">Tienda</Link>
-          <Link to="/club">Club</Link>
-          <Link to="/blog">Blog</Link>
+          {navLinks.map((link) => (
+            <Link key={link.to} to={link.to}>
+              {link.label}
+            </Link>
+          ))}
         </nav>
         <div className={styles.headerActions}>
+          <button
+            className={`${styles.iconBtn} ${styles.menuButton}`}
+            type="button"
+            aria-label="Abrir menu"
+            aria-expanded={menuOpen}
+            aria-controls="mobile-menu"
+            onClick={toggleMenu}
+          >
+            <svg viewBox="0 0 24 24" role="img" focusable="false">
+              <path
+                d="M4 6h16M4 12h16M4 18h16"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+                stroke-linecap="round"
+              />
+            </svg>
+          </button>
           <button className={styles.iconBtn} aria-label="Mi perfil">
             <svg viewBox="0 0 24 24" role="img" focusable="false">
               <path
@@ -43,6 +90,27 @@ export default function Header() {
           </button>
         </div>
       </div>
+      <div
+        id="mobile-menu"
+        className={`${styles.mobileMenu} ${menuOpen ? styles.mobileMenuOpen : ''}`}
+      >
+        <div className={styles.mobileMenuInner}>
+          <nav className={styles.mobileNav}>
+            {navLinks.map((link) => (
+              <Link key={link.to} to={link.to} className={styles.mobileLink} onClick={closeMenu}>
+                {link.label}
+              </Link>
+            ))}
+          </nav>
+        </div>
+      </div>
+      <button
+        className={`${styles.menuOverlay} ${menuOpen ? styles.menuOverlayOpen : ''}`}
+        type="button"
+        aria-hidden="true"
+        tabIndex={-1}
+        onClick={closeMenu}
+      />
     </header>
   )
 }

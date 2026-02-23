@@ -23,8 +23,8 @@ export default function HelpPage() {
     <div className="page">
       <Header />
       <main className={styles.help}>
-        <section className={`container ${styles.hero}`}>
-          <p className={styles.eyebrow}>Ayuda</p>
+        <section className="container page-hero">
+          <p className="page-eyebrow">Ayuda</p>
           <h1>Resolvemos tus dudas antes de comprar</h1>
           <p className="muted">Respuestas rapidas para que compres con confianza.</p>
         </section>
