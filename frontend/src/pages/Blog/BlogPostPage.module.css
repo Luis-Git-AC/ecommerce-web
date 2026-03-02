@@ -1,5 +1,5 @@
 .post {
-  padding: 0 0 4rem;
+  padding: 0 0 var(--page-bottom-desktop);
 }
 
 .meta {
@@ -13,6 +13,12 @@
   color: #2e8b57;
   font-size: 0.9rem;
   text-decoration: none;
+}
+
+.backLink:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(46, 139, 87, 0.18);
+  border-radius: 6px;
 }
 
 .content {
@@ -32,7 +38,7 @@
 
 @media (max-width: 768px) {
   .post {
-    padding: 0 0 3rem;
+    padding: 0 0 var(--page-bottom-mobile);
   }
 
   .meta {

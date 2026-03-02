@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import { useEffect, useMemo } from 'react'
 import { useParams } from 'react-router-dom'
 import Footer from '../../components/layout/Footer'
 import Header from '../../components/layout/Header'
@@ -17,6 +17,10 @@ const formatLabel = (value: string) => (value ? value.charAt(0).toUpperCase() + 
 export default function ProductPage() {
   const { id } = useParams()
   const product = productsMock.find((item) => item.id === id) ?? productsMock[0]
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }, [id])
 
   const gallery = useMemo(() => {
     const images = [product.image, ...fallbackGallery]

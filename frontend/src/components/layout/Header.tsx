@@ -20,6 +20,8 @@ export default function Header() {
       return
     }
 
+    document.body.style.overflow = 'hidden'
+
     const handleScroll = () => {
       closeMenu()
     }
@@ -27,6 +29,7 @@ export default function Header() {
     window.addEventListener('scroll', handleScroll, { passive: true })
     return () => {
       window.removeEventListener('scroll', handleScroll)
+      document.body.style.overflow = ''
     }
   }, [menuOpen])
 

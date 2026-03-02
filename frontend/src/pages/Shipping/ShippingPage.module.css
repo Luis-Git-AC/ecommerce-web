@@ -1,5 +1,5 @@
 .shipping {
-  padding: 0 0 4rem;
+  padding: 0 0 var(--page-bottom-desktop);
 }
 
 .content {
@@ -20,6 +20,12 @@
   background: #fffdf7;
   display: grid;
   gap: 0.75rem;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+  border-color: #ddd6ca;
+  box-shadow: 0 10px 20px rgba(31, 42, 34, 0.06);
 }
 
 .detail {
@@ -30,7 +36,7 @@
 
 @media (max-width: 768px) {
   .shipping {
-    padding: 0 0 3rem;
+    padding: 0 0 var(--page-bottom-mobile);
   }
 
   .grid,

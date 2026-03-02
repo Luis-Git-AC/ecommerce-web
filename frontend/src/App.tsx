@@ -1,4 +1,6 @@
+import { useEffect } from 'react'
 import { Navigate, Route, Routes } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 import HomePage from './pages/Home/HomePage'
 import AboutPage from './pages/About/AboutPage'
 import ClubPage from './pages/Club/ClubPage'
@@ -14,6 +16,21 @@ import ShopPage from './pages/Shop/ShopPage'
 import ShippingPage from './pages/Shipping/ShippingPage'
 
 function App() {
+  const { pathname, hash } = useLocation()
+
+  useEffect(() => {
+    if (hash) {
+      const id = hash.replace('#', '')
+      const target = document.getElementById(id)
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' })
+        return
+      }
+    }
+
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }, [pathname, hash])
+
   return (
     <Routes>
       <Route path="/" element={<HomePage />} />

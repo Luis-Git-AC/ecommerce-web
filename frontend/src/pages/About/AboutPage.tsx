@@ -66,7 +66,7 @@ export default function AboutPage() {
           </div>
           <div className={styles.ctaActions}>
             <Link className="btn" to="/shop">Ver tienda</Link>
-            <a className="btn btn-ghost" href="/#quiz">Hacer el quiz</a>
+            <Link className="btn btn-ghost" to="/#quiz">Hacer el quiz</Link>
           </div>
         </section>
       </main>

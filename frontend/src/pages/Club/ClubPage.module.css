@@ -1,5 +1,5 @@
 .club {
-  padding: 0 0 4rem;
+  padding: 0 0 var(--page-bottom-desktop);
 }
 
 .hero {
@@ -47,7 +47,7 @@
 .plans,
 .preview,
 .faq {
-  margin-top: 4rem;
+  margin-top: var(--content-block-gap-desktop);
   display: grid;
   gap: 2rem;
 }
@@ -60,7 +60,7 @@
 
 .stepCard {
   border: 1px solid #e7e2d8;
-  border-radius: 18px;
+  border-radius: 20px;
   padding: 1.5rem;
   background: #fffdf7;
   display: grid;
@@ -112,7 +112,7 @@
 
 .previewCard {
   border: 1px solid #e7e2d8;
-  border-radius: 18px;
+  border-radius: 20px;
   padding: 1.5rem;
   background: #fffdf7;
   display: flex;
@@ -130,7 +130,7 @@
 
 .faqCard {
   border: 1px solid #e7e2d8;
-  border-radius: 18px;
+  border-radius: 20px;
   padding: 1.5rem;
   background: white;
   display: grid;
@@ -139,7 +139,7 @@
 
 @media (max-width: 768px) {
   .club {
-    padding: 0 0 3rem;
+    padding: 0 0 var(--page-bottom-mobile);
   }
 
   .hero {
@@ -159,7 +159,7 @@
   .plans,
   .preview,
   .faq {
-    margin-top: 3rem;
+    margin-top: var(--content-block-gap-mobile);
   }
 
   .stepGrid,

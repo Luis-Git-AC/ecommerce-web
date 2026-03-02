@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import styles from './SubscriptionPlansSection.module.css'
 
 const plans = [
@@ -37,7 +38,7 @@ export default function SubscriptionPlansSection() {
                 <p className={styles.price}>{plan.price}</p>
                 <p className="muted">{plan.description}</p>
               </div>
-              <button className="btn">Empezar</button>
+              <Link className="btn" to="/club#planes">Empezar</Link>
             </article>
           ))}
         </div>

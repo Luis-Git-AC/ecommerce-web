@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import Footer from '../../components/layout/Footer'
 import Header from '../../components/layout/Header'
 import styles from './ClubPage.module.css'
@@ -70,14 +71,14 @@ export default function ClubPage() {
               cada eleccion.
             </p>
             <div className={styles.heroActions}>
-              <button className="btn">Elegir plan</button>
-              <button className="btn btn-ghost">Ver como funciona</button>
+              <a className="btn" href="#planes">Elegir plan</a>
+              <a className="btn btn-ghost" href="#como-funciona">Ver como funciona</a>
             </div>
             <p className={styles.trust}>Sin permanencia · Cancela cuando quieras · Garantia de devolucion</p>
           </div>
         </section>
 
-        <section className={`container ${styles.steps}`}>
+        <section id="como-funciona" className={`container ${styles.steps}`}>
           <div className={styles.sectionHeader}>
             <h2>Como funciona</h2>
             <p className="muted">Un flujo simple para recibir plantas que encajan contigo.</p>
@@ -93,7 +94,7 @@ export default function ClubPage() {
           </div>
         </section>
 
-        <section className={`container ${styles.plans}`}>
+        <section id="planes" className={`container ${styles.plans}`}>
           <div className={styles.sectionHeader}>
             <h2>Planes del club</h2>
             <p className="muted">Elige el nivel que mejor se adapte a tu ritmo.</p>
@@ -111,7 +112,7 @@ export default function ClubPage() {
                     ))}
                   </ul>
                 </div>
-                <button className="btn">Empezar</button>
+                <Link className="btn" to={`/contact?plan=${plan.id}`}>Empezar</Link>
               </article>
             ))}
           </div>

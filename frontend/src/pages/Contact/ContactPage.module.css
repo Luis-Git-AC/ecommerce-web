@@ -1,5 +1,5 @@
 .contact {
-  padding: 0 0 4rem;
+  padding: 0 0 var(--page-bottom-desktop);
 }
 
 .content {
@@ -14,20 +14,28 @@
   padding: 2rem;
   background: #fffdf7;
   display: grid;
-  gap: 1rem;
+  gap: 1.1rem;
 }
 
 .field {
   display: grid;
-  gap: 0.5rem;
+  gap: 0.45rem;
+}
+
+.field label {
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: #314135;
 }
 
 .field input,
 .field textarea {
-  border-radius: 12px;
-  border: 1px solid #d7d2c8;
-  padding: 0.65rem 0.85rem;
-  background: white;
+  padding: 0.72rem 0.92rem;
+}
+
+.field textarea {
+  resize: vertical;
+  min-height: 120px;
 }
 
 .info {
@@ -41,7 +49,7 @@
 
 @media (max-width: 768px) {
   .contact {
-    padding: 0 0 3rem;
+    padding: 0 0 var(--page-bottom-mobile);
   }
 
   .content {

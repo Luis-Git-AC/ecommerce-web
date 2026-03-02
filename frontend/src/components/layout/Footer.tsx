@@ -1,7 +1,26 @@
+import { useState } from 'react'
+import type { FormEvent } from 'react'
 import { Link } from 'react-router-dom'
 import styles from './Footer.module.css'
 
 export default function Footer() {
+  const [newsletterEmail, setNewsletterEmail] = useState('')
+  const [newsletterMessage, setNewsletterMessage] = useState('')
+
+  const handleNewsletterSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+    const email = newsletterEmail.trim()
+    const isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
+
+    if (!isValidEmail) {
+      setNewsletterMessage('Introduce un correo valido.')
+      return
+    }
+
+    setNewsletterMessage('Suscripcion registrada (modo portfolio, backend pendiente).')
+    setNewsletterEmail('')
+  }
+
   return (
     <footer className={styles.siteFooter}>
       <div className={`container ${styles.footerGrid}`}>
@@ -16,7 +35,7 @@ export default function Footer() {
             <h4>Explora</h4>
             <ul>
               <li><Link to="/shop">Tienda</Link></li>
-              <li><a href="/#quiz">Quiz de planta ideal</a></li>
+              <li><Link to="/#quiz">Quiz de planta ideal</Link></li>
               <li><Link to="/club">Planes</Link></li>
             </ul>
           </div>
@@ -67,7 +86,7 @@ export default function Footer() {
             <summary>Explora</summary>
             <ul>
               <li><Link to="/shop">Tienda</Link></li>
-              <li><a href="/#quiz">Quiz de planta ideal</a></li>
+              <li><Link to="/#quiz">Quiz de planta ideal</Link></li>
               <li><Link to="/club">Planes</Link></li>
             </ul>
           </details>
@@ -119,11 +138,18 @@ export default function Footer() {
                 <span className={styles.newsletterTitle}>Newsletter VerdeVivo</span>
                 <span className={styles.newsletterText}>Consejos breves de cuidado y novedades.</span>
               </div>
-              <div className={styles.newsletterForm}>
-                <input type="email" placeholder="Tu correo" aria-label="Tu correo" />
+              <form className={styles.newsletterForm} onSubmit={handleNewsletterSubmit}>
+                <input
+                  type="email"
+                  placeholder="Tu correo"
+                  aria-label="Tu correo"
+                  value={newsletterEmail}
+                  onChange={(event) => setNewsletterEmail(event.target.value)}
+                />
                 <button className={styles.newsletterButton}>Recibir novedades</button>
-              </div>
+              </form>
             </div>
+            {newsletterMessage ? <p className={styles.newsletterStatus}>{newsletterMessage}</p> : null}
           </details>
         </div>
       </div>
@@ -135,12 +161,19 @@ export default function Footer() {
                 <span className={styles.newsletterTitle}>Newsletter VerdeVivo</span>
                 <span className={styles.newsletterText}>Consejos breves de cuidado y novedades.</span>
               </div>
-              <div className={styles.newsletterForm}>
-                <input type="email" placeholder="Tu correo" aria-label="Tu correo" />
+              <form className={styles.newsletterForm} onSubmit={handleNewsletterSubmit}>
+                <input
+                  type="email"
+                  placeholder="Tu correo"
+                  aria-label="Tu correo"
+                  value={newsletterEmail}
+                  onChange={(event) => setNewsletterEmail(event.target.value)}
+                />
                 <button className={styles.newsletterButton}>Recibir novedades</button>
-              </div>
+              </form>
             </div>
           </div>
+          {newsletterMessage ? <p className={styles.newsletterStatus}>{newsletterMessage}</p> : null}
           <p className="muted">© 2026 VerdeVivo. Todos los derechos reservados.</p>
           <div className={styles.legalLinks}>
             <Link to="/legal/privacy">Privacidad</Link>

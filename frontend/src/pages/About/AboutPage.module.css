@@ -1,5 +1,5 @@
 .about {
-  padding: 0 0 4rem;
+  padding: 0 0 var(--page-bottom-desktop);
 }
 
 .story {
@@ -23,10 +23,16 @@
   padding: 1.5rem;
   background: #fffdf7;
   color: #2a3b2f;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.highlight:hover {
+  border-color: #ddd6ca;
+  box-shadow: 0 10px 22px rgba(31, 42, 34, 0.07);
 }
 
 .values {
-  margin-top: 4rem;
+  margin-top: var(--content-block-gap-desktop);
   display: grid;
   gap: 1.5rem;
 }
@@ -44,10 +50,16 @@
   background: white;
   display: grid;
   gap: 0.75rem;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.valueCard:hover {
+  border-color: #ddd6ca;
+  box-shadow: 0 10px 22px rgba(31, 42, 34, 0.07);
 }
 
 .cta {
-  margin-top: 4rem;
+  margin-top: var(--content-block-gap-desktop);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -59,4 +71,15 @@
   display: flex;
   gap: 1rem;
   flex-wrap: wrap;
+}
+
+@media (max-width: 768px) {
+  .about {
+    padding: 0 0 var(--page-bottom-mobile);
+  }
+
+  .values,
+  .cta {
+    margin-top: var(--content-block-gap-mobile);
+  }
 }

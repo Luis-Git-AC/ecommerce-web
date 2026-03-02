@@ -1,5 +1,5 @@
 .shop {
-  padding: 3rem 0 4rem;
+  padding: 3rem 0 var(--page-bottom-desktop);
 }
 
 .layout {
@@ -39,6 +39,10 @@
   font-size: 0.95rem;
 }
 
+.filterOption input {
+  accent-color: #2e8b57;
+}
+
 .results {
   display: grid;
   gap: 1.5rem;
@@ -63,12 +67,13 @@
   border-radius: 999px;
   border: 1px solid #d7d2c8;
   background: white;
+  min-height: 42px;
 }
 
 .grid {
   display: grid;
   gap: 1.5rem;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
 }
 
 
@@ -84,7 +89,7 @@
 
 @media (max-width: 768px) {
   .shop {
-    padding: 2.5rem 0 3rem;
+    padding: 2.5rem 0 var(--page-bottom-mobile);
   }
 
   .filters {
@@ -103,5 +108,11 @@
 
   .sort {
     width: 100%;
+  }
+}
+
+@media (max-width: 520px) {
+  .filterOptions {
+    grid-template-columns: 1fr;
   }
 }

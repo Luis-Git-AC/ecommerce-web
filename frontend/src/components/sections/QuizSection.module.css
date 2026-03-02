@@ -57,12 +57,19 @@
 .option:hover {
   border-color: #2e8b57;
   color: #2e8b57;
+  box-shadow: 0 8px 18px rgba(31, 42, 34, 0.08);
 }
 
 .optionActive {
   background: #e7f3ec;
   border-color: #2e8b57;
   color: #2e8b57;
+}
+
+.option:focus-visible {
+  outline: none;
+  border-color: #2e8b57;
+  box-shadow: 0 0 0 3px rgba(46, 139, 87, 0.2);
 }
 
 .optionIcon {

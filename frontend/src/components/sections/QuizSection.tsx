@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import styles from './QuizSection.module.css'
 
 const QUESTIONS = [
@@ -93,6 +94,7 @@ const getSummary = (answers: string[]) => {
 }
 
 export default function QuizSection() {
+  const navigate = useNavigate()
   const [stepIndex, setStepIndex] = useState(0)
   const [answers, setAnswers] = useState<string[]>(Array(QUESTIONS.length).fill(''))
 
@@ -123,6 +125,15 @@ export default function QuizSection() {
   const resetQuiz = () => {
     setStepIndex(0)
     setAnswers(Array(QUESTIONS.length).fill(''))
+  }
+
+  const handlePrimaryAction = () => {
+    if (isLastStep) {
+      navigate('/shop')
+      return
+    }
+    if (!answers[stepIndex]) return
+    goNext()
   }
 
   return (
@@ -170,8 +181,13 @@ export default function QuizSection() {
               <button className="btn btn-ghost" type="button" onClick={resetQuiz}>
                 Reiniciar
               </button>
-              <button className="btn" type="button" onClick={goNext} disabled={!answers[stepIndex] || isLastStep}>
-                Continuar
+              <button
+                className="btn"
+                type="button"
+                onClick={handlePrimaryAction}
+                disabled={!isLastStep && !answers[stepIndex]}
+              >
+                {isLastStep ? 'Ver en tienda' : 'Continuar'}
               </button>
             </div>
           </div>

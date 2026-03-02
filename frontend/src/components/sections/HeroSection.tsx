@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import styles from './HeroSection.module.css'
 
 export default function HeroSection() {
@@ -12,8 +13,8 @@ export default function HeroSection() {
         </p>
         <p className={styles.trust}>Sin permanencia · Cancela cuando quieras · Garantía de devolución</p>
         <div className={styles.heroActions}>
-          <button className="btn">Encontrar mi planta ideal</button>
-          <button className="btn btn-ghost">Ver catálogo completo</button>
+          <Link className="btn" to="/#quiz">Encontrar mi planta ideal</Link>
+          <Link className="btn btn-ghost" to="/shop">Ver catálogo completo</Link>
         </div>
       </div>
       <div className={styles.heroOverlay} />
