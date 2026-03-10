@@ -1,0 +1,177 @@
+[
+  {
+    "source": "aloes/aloe1.jpg",
+    "jpg": "optimized/aloes/aloe1.jpg",
+    "webp": "optimized/aloes/aloe1.webp"
+  },
+  {
+    "source": "aloes/aloe2.jpg",
+    "jpg": "optimized/aloes/aloe2.jpg",
+    "webp": "optimized/aloes/aloe2.webp"
+  },
+  {
+    "source": "aloes/aloe3.jpg",
+    "jpg": "optimized/aloes/aloe3.jpg",
+    "webp": "optimized/aloes/aloe3.webp"
+  },
+  {
+    "source": "crassula/CrassulaOvata1.jpg",
+    "jpg": "optimized/crassula/CrassulaOvata1.jpg",
+    "webp": "optimized/crassula/CrassulaOvata1.webp"
+  },
+  {
+    "source": "crassula/CrassulaOvata2.jpg",
+    "jpg": "optimized/crassula/CrassulaOvata2.jpg",
+    "webp": "optimized/crassula/CrassulaOvata2.webp"
+  },
+  {
+    "source": "crassula/CrassulaOvata3.jpg",
+    "jpg": "optimized/crassula/CrassulaOvata3.jpg",
+    "webp": "optimized/crassula/CrassulaOvata3.webp"
+  },
+  {
+    "source": "curio/Curio rowleyanus1.jpg",
+    "jpg": "optimized/curio/Curio rowleyanus1.jpg",
+    "webp": "optimized/curio/Curio rowleyanus1.webp"
+  },
+  {
+    "source": "curio/Curio rowleyanus2.jpg",
+    "jpg": "optimized/curio/Curio rowleyanus2.jpg",
+    "webp": "optimized/curio/Curio rowleyanus2.webp"
+  },
+  {
+    "source": "curio/Curio rowleyanus3.webp",
+    "jpg": "optimized/curio/Curio rowleyanus3.jpg",
+    "webp": "optimized/curio/Curio rowleyanus3.webp"
+  },
+  {
+    "source": "curio/Curio rowleyanus4.webp",
+    "jpg": "optimized/curio/Curio rowleyanus4.jpg",
+    "webp": "optimized/curio/Curio rowleyanus4.webp"
+  },
+  {
+    "source": "echeveria/echeveria1.jpg",
+    "jpg": "optimized/echeveria/echeveria1.jpg",
+    "webp": "optimized/echeveria/echeveria1.webp"
+  },
+  {
+    "source": "echeveria/echeveria2.webp",
+    "jpg": "optimized/echeveria/echeveria2.jpg",
+    "webp": "optimized/echeveria/echeveria2.webp"
+  },
+  {
+    "source": "echeveria/echeveria3.webp",
+    "jpg": "optimized/echeveria/echeveria3.jpg",
+    "webp": "optimized/echeveria/echeveria3.webp"
+  },
+  {
+    "source": "echeveria/echeveria4.jpg",
+    "jpg": "optimized/echeveria/echeveria4.jpg",
+    "webp": "optimized/echeveria/echeveria4.webp"
+  },
+  {
+    "source": "echeveria/echeveria5.jpg",
+    "jpg": "optimized/echeveria/echeveria5.jpg",
+    "webp": "optimized/echeveria/echeveria5.webp"
+  },
+  {
+    "source": "epipremnum/epipremnum1.webp",
+    "jpg": "optimized/epipremnum/epipremnum1.jpg",
+    "webp": "optimized/epipremnum/epipremnum1.webp"
+  },
+  {
+    "source": "epipremnum/epipremnum2.webp",
+    "jpg": "optimized/epipremnum/epipremnum2.jpg",
+    "webp": "optimized/epipremnum/epipremnum2.webp"
+  },
+  {
+    "source": "epipremnum/epipremnum3.webp",
+    "jpg": "optimized/epipremnum/epipremnum3.jpg",
+    "webp": "optimized/epipremnum/epipremnum3.webp"
+  },
+  {
+    "source": "haworthia/haworthia1.webp",
+    "jpg": "optimized/haworthia/haworthia1.jpg",
+    "webp": "optimized/haworthia/haworthia1.webp"
+  },
+  {
+    "source": "haworthia/haworthia2.webp",
+    "jpg": "optimized/haworthia/haworthia2.jpg",
+    "webp": "optimized/haworthia/haworthia2.webp"
+  },
+  {
+    "source": "haworthia/haworthia3.webp",
+    "jpg": "optimized/haworthia/haworthia3.jpg",
+    "webp": "optimized/haworthia/haworthia3.webp"
+  },
+  {
+    "source": "haworthia/haworthia4.jpg",
+    "jpg": "optimized/haworthia/haworthia4.jpg",
+    "webp": "optimized/haworthia/haworthia4.webp"
+  },
+  {
+    "source": "kalanchoe/Kalanchoe blossfeldiana1.webp",
+    "jpg": "optimized/kalanchoe/Kalanchoe blossfeldiana1.jpg",
+    "webp": "optimized/kalanchoe/Kalanchoe blossfeldiana1.webp"
+  },
+  {
+    "source": "kalanchoe/Kalanchoe blossfeldiana2.webp",
+    "jpg": "optimized/kalanchoe/Kalanchoe blossfeldiana2.jpg",
+    "webp": "optimized/kalanchoe/Kalanchoe blossfeldiana2.webp"
+  },
+  {
+    "source": "kalanchoe/Kalanchoe blossfeldiana3.jpg",
+    "jpg": "optimized/kalanchoe/Kalanchoe blossfeldiana3.jpg",
+    "webp": "optimized/kalanchoe/Kalanchoe blossfeldiana3.webp"
+  },
+  {
+    "source": "lithops/Lithops1.jpg",
+    "jpg": "optimized/lithops/Lithops1.jpg",
+    "webp": "optimized/lithops/Lithops1.webp"
+  },
+  {
+    "source": "lithops/Lithops2.jpg",
+    "jpg": "optimized/lithops/Lithops2.jpg",
+    "webp": "optimized/lithops/Lithops2.webp"
+  },
+  {
+    "source": "lithops/lithops3.webp",
+    "jpg": "optimized/lithops/lithops3.jpg",
+    "webp": "optimized/lithops/lithops3.webp"
+  },
+  {
+    "source": "lithops/lithops4.webp",
+    "jpg": "optimized/lithops/lithops4.jpg",
+    "webp": "optimized/lithops/lithops4.webp"
+  },
+  {
+    "source": "monstera/monstera1.webp",
+    "jpg": "optimized/monstera/monstera1.jpg",
+    "webp": "optimized/monstera/monstera1.webp"
+  },
+  {
+    "source": "monstera/monstera2.jpg",
+    "jpg": "optimized/monstera/monstera2.jpg",
+    "webp": "optimized/monstera/monstera2.webp"
+  },
+  {
+    "source": "monstera/monstera3.webp",
+    "jpg": "optimized/monstera/monstera3.jpg",
+    "webp": "optimized/monstera/monstera3.webp"
+  },
+  {
+    "source": "zamioculas/Zamioculcas zamiifoli2.jpg",
+    "jpg": "optimized/zamioculas/Zamioculcas zamiifoli2.jpg",
+    "webp": "optimized/zamioculas/Zamioculcas zamiifoli2.webp"
+  },
+  {
+    "source": "zamioculas/Zamioculcas zamiifolia1.webp",
+    "jpg": "optimized/zamioculas/Zamioculcas zamiifolia1.jpg",
+    "webp": "optimized/zamioculas/Zamioculcas zamiifolia1.webp"
+  },
+  {
+    "source": "zamioculas/Zamioculcas zamiifolia3.jpg",
+    "jpg": "optimized/zamioculas/Zamioculcas zamiifolia3.jpg",
+    "webp": "optimized/zamioculas/Zamioculcas zamiifolia3.webp"
+  }
+]

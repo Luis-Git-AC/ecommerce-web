@@ -14,11 +14,220 @@
   gap: 1rem;
 }
 
+.mainImageWrap {
+  display: grid;
+  gap: 0.75rem;
+  touch-action: pan-y;
+}
+
+.mainImageButton {
+  border: 0;
+  padding: 0;
+  background: transparent;
+  cursor: zoom-in;
+  width: 100%;
+}
+
+.mainImageButton:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(46, 139, 87, 0.28);
+  border-radius: 20px;
+}
+
+.mainImageFrame {
+  animation-duration: 300ms;
+  animation-timing-function: cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+.mainImageFrameNext {
+  animation-name: imageRevealNext;
+}
+
+.mainImageFramePrev {
+  animation-name: imageRevealPrev;
+}
+
+.mainImageWrap:focus-visible {
+  outline: 2px solid #2e8b57;
+  outline-offset: 6px;
+  border-radius: 20px;
+}
+
 .mainImage {
   border-radius: 20px;
   height: 420px;
   object-fit: cover;
   width: 100%;
+}
+
+.lightboxOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1100;
+  background: rgba(15, 20, 17, 0.82);
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+}
+
+.lightboxDialog {
+  width: min(980px, 100%);
+  max-height: calc(100vh - 2rem);
+  border-radius: 20px;
+  background: #101512;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  padding: 1rem;
+  display: grid;
+  gap: 0.8rem;
+}
+
+.lightboxDialog:focus-visible {
+  outline: 2px solid #8fdbb2;
+  outline-offset: 4px;
+}
+
+.lightboxClose {
+  justify-self: end;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.1);
+  color: #f6fff8;
+  border-radius: 999px;
+  padding: 0.4rem 0.9rem;
+  min-height: 36px;
+  cursor: pointer;
+}
+
+.lightboxClose:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(143, 219, 178, 0.35);
+}
+
+.lightboxImageFrame {
+  display: block;
+}
+
+.lightboxImage {
+  width: 100%;
+  max-height: min(72vh, 860px);
+  object-fit: contain;
+  border-radius: 14px;
+  background: #0b110d;
+}
+
+.lightboxControls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+}
+
+@keyframes imageRevealNext {
+  from {
+    opacity: 0.7;
+    transform: translateX(4px) scale(0.998);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}
+
+@keyframes imageRevealPrev {
+  from {
+    opacity: 0.7;
+    transform: translateX(-4px) scale(0.998);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}
+
+.mainControls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.navButton {
+  border: 1px solid #d7d2c8;
+  background: white;
+  color: #1f2a22;
+  border-radius: 999px;
+  padding: 0.45rem 0.9rem;
+  min-height: 38px;
+  cursor: pointer;
+}
+
+.navButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.navButton:focus-visible {
+  outline: none;
+  border-color: #2e8b57;
+  box-shadow: 0 0 0 3px rgba(46, 139, 87, 0.2);
+}
+
+.counter {
+  font-size: 0.9rem;
+  color: #5c6b61;
+  min-width: 3.2rem;
+  text-align: center;
+}
+
+.counterWrap {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  min-width: 4.4rem;
+  justify-content: center;
+}
+
+.directionHint {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1rem;
+  color: #2e8b57;
+  font-size: 0.8rem;
+  opacity: 0.72;
+}
+
+.directionHintNext {
+  animation: directionFlashNext 220ms ease-out;
+}
+
+.directionHintPrev {
+  animation: directionFlashPrev 220ms ease-out;
+}
+
+@keyframes directionFlashNext {
+  from {
+    opacity: 0.25;
+    transform: translateX(-3px);
+  }
+
+  to {
+    opacity: 0.72;
+    transform: translateX(0);
+  }
+}
+
+@keyframes directionFlashPrev {
+  from {
+    opacity: 0.25;
+    transform: translateX(3px);
+  }
+
+  to {
+    opacity: 0.72;
+    transform: translateX(0);
+  }
 }
 
 .thumbs {
@@ -45,6 +254,11 @@
   outline: none;
   border-color: #2e8b57;
   box-shadow: 0 0 0 3px rgba(46, 139, 87, 0.2);
+}
+
+.thumbActive {
+  border-color: #2e8b57;
+  box-shadow: 0 0 0 2px rgba(46, 139, 87, 0.22);
 }
 
 .thumb img {
@@ -143,6 +357,18 @@
     height: 320px;
   }
 
+  .mainImageFrame {
+    animation-duration: 220ms;
+  }
+
+  .mainControls {
+    gap: 0.5rem;
+  }
+
+  .navButton {
+    flex: 1;
+  }
+
   .thumbs {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
@@ -166,6 +392,14 @@
   .related {
     margin-top: var(--content-block-gap-mobile);
   }
+
+  .lightboxDialog {
+    padding: 0.75rem;
+  }
+
+  .lightboxControls {
+    flex-wrap: wrap;
+  }
 }
 
 @media (max-width: 520px) {
@@ -175,6 +409,17 @@
 
   .thumbs {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mainImageFrame {
+    animation: none;
+  }
+
+  .directionHintNext,
+  .directionHintPrev {
+    animation: none;
   }
 }
 
