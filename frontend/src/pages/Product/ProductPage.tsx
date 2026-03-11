@@ -1,25 +1,30 @@
 import { useCallback, useEffect, useMemo, useRef, useState, type KeyboardEvent, type TouchEvent } from 'react'
+import { Link } from 'react-router-dom'
 import { useParams } from 'react-router-dom'
 import Footer from '../../components/layout/Footer'
+import { useProductById, useRelatedProducts } from '../../features/products/useProducts'
 import Header from '../../components/layout/Header'
 import ProductCard from '../../components/ui/ProductCard'
-import { productsMock } from '../../mocks/products.mock'
 import styles from './ProductPage.module.css'
 
 const formatLabel = (value: string) => (value ? value.charAt(0).toUpperCase() + value.slice(1) : value)
 
 export default function ProductPage() {
   const { id } = useParams()
-  const product = productsMock.find((item) => item.id === id) ?? productsMock[0]
+  const product = useProductById(id)
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }, [id])
 
   const gallery = useMemo(() => {
+    if (!product) {
+      return []
+    }
+
     const images = [product.images.card, ...product.images.gallery]
     return images.filter((image, index) => image.src && images.findIndex((item) => item.src === image.src) === index)
-  }, [product.images.card, product.images.gallery])
+  }, [product])
 
   const [selectedImageSrc, setSelectedImageSrc] = useState<string | null>(null)
   const [transitionDirection, setTransitionDirection] = useState<'next' | 'prev'>('next')
@@ -27,13 +32,15 @@ export default function ProductPage() {
   const touchStartXRef = useRef<number | null>(null)
   const touchStartYRef = useRef<number | null>(null)
   const lightboxRef = useRef<HTMLDivElement | null>(null)
+  const mainImageButtonRef = useRef<HTMLButtonElement | null>(null)
+  const previousFocusRef = useRef<HTMLElement | null>(null)
 
   const activeIndexFromSelection = selectedImageSrc
     ? gallery.findIndex((image) => image.src === selectedImageSrc)
     : -1
   const activeIndex = activeIndexFromSelection >= 0 ? activeIndexFromSelection : 0
-  const activeImage = gallery[activeIndex] ?? product.images.card
-  const isLightboxOpen = lightboxProductId === product.id
+  const activeImage = gallery[activeIndex] ?? product?.images.card
+  const isLightboxOpen = product ? lightboxProductId === product.id : false
   const canGoPrev = activeIndex > 0
   const canGoNext = activeIndex < gallery.length - 1
 
@@ -111,14 +118,44 @@ export default function ProductPage() {
 
   useEffect(() => {
     if (!isLightboxOpen) {
+      previousFocusRef.current?.focus()
       return
     }
 
     const previousOverflow = document.body.style.overflow
+    previousFocusRef.current = document.activeElement instanceof HTMLElement ? document.activeElement : null
     document.body.style.overflow = 'hidden'
     lightboxRef.current?.focus()
 
     const onWindowKeyDown = (event: globalThis.KeyboardEvent) => {
+      if (event.key === 'Tab' && lightboxRef.current) {
+        const focusables = Array.from(
+          lightboxRef.current.querySelectorAll<HTMLElement>(
+            'button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])',
+          ),
+        )
+
+        if (focusables.length === 0) {
+          event.preventDefault()
+          return
+        }
+
+        const first = focusables[0]
+        const last = focusables[focusables.length - 1]
+        const active = document.activeElement
+
+        if (event.shiftKey && active === first) {
+          event.preventDefault()
+          last.focus()
+          return
+        }
+
+        if (!event.shiftKey && active === last) {
+          event.preventDefault()
+          first.focus()
+        }
+      }
+
       if (event.key === 'Escape') {
         setLightboxProductId(null)
       }
@@ -144,18 +181,33 @@ export default function ProductPage() {
 
   const careInfo = useMemo(
     () => [
-      { label: 'Luz', value: formatLabel(product.lightRequired) },
-      { label: 'Riego', value: product.careLevel === 'experto' ? '2-3 veces por semana' : '1 vez por semana' },
-      { label: 'Dificultad', value: formatLabel(product.careLevel) },
-      { label: 'Pet-friendly', value: product.petSafe ? 'Si' : 'No' },
+      { label: 'Luz', value: formatLabel(product?.lightRequired ?? '') },
+      { label: 'Riego', value: product?.careLevel === 'experto' ? '2-3 veces por semana' : '1 vez por semana' },
+      { label: 'Dificultad', value: formatLabel(product?.careLevel ?? '') },
+      { label: 'Pet-friendly', value: product?.petSafe ? 'Sí' : 'No' },
     ],
-    [product.careLevel, product.lightRequired, product.petSafe],
+    [product],
   )
 
-  const related = useMemo(
-    () => productsMock.filter((item) => item.id !== product.id).slice(0, 3),
-    [product.id],
-  )
+  const related = useRelatedProducts(product?.id, 3)
+
+  if (!product) {
+    return (
+      <div className="page">
+        <Header />
+        <main className={styles.product}>
+          <div className={`container ${styles.stateCard}`} role="status" aria-live="polite">
+            <h1>Producto no disponible</h1>
+            <p className="muted">Este producto no existe o fue retirado del catálogo.</p>
+            <Link to="/shop" className="btn">
+              Volver a tienda
+            </Link>
+          </div>
+        </main>
+        <Footer />
+      </div>
+    )
+  }
 
   return (
     <div className="page">
@@ -166,7 +218,7 @@ export default function ProductPage() {
             <div
               className={styles.mainImageWrap}
               role="group"
-              aria-label="Galeria de imagenes del producto"
+              aria-label="Galería de imágenes del producto"
               tabIndex={0}
               onKeyDown={onGalleryKeyDown}
               onTouchStart={onTouchStart}
@@ -177,6 +229,7 @@ export default function ProductPage() {
                 className={styles.mainImageButton}
                 aria-label="Ver imagen ampliada"
                 onClick={() => setLightboxProductId(product.id)}
+                ref={mainImageButtonRef}
               >
                 <picture
                   key={activeImage.src}
@@ -247,10 +300,10 @@ export default function ProductPage() {
             <h1>{product.name}</h1>
             <p className={styles.price}>{product.price}</p>
             <p className="muted">
-              Ideal para espacios con luz {product.lightRequired} y cuidado {product.careLevel}. Tamano
+              Ideal para espacios con luz {product.lightRequired} y cuidado {product.careLevel}. Tamaño
               {` ${product.size}`} y estilo {product.category}.
             </p>
-            <button className="btn">Anadir al carrito</button>
+            <button className="btn">Añadir al carrito</button>
             <div className={styles.care}>
               <h2>Ficha de cuidado</h2>
               <div className={styles.careGrid}>
@@ -266,7 +319,7 @@ export default function ProductPage() {
         </div>
         <section className={`container ${styles.related}`}>
           <div className={styles.relatedHeader}>
-            <h2>Quizas tambien te guste</h2>
+            <h2>Quizás también te guste</h2>
             <p className="muted">Complementa tu espacio con opciones similares.</p>
           </div>
           <div className={styles.relatedGrid}>
@@ -298,7 +351,10 @@ export default function ProductPage() {
             <button
               type="button"
               className={styles.lightboxClose}
-              onClick={() => setLightboxProductId(null)}
+              onClick={() => {
+                setLightboxProductId(null)
+                mainImageButtonRef.current?.focus()
+              }}
               aria-label="Cerrar vista ampliada"
             >
               Cerrar

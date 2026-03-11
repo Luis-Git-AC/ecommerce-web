@@ -10,16 +10,16 @@ export type BlogPostMock = {
 export const blogPostsMock: BlogPostMock[] = [
   {
     id: 'b1',
-    title: 'Como regar suculentas sin pasarte',
+    title: 'Cómo regar suculentas sin pasarte',
     category: 'Cuidados',
-    excerpt: 'Un metodo simple para saber cuando regar y evitar hojas blandas o podridas.',
+    excerpt: 'Un método simple para saber cuándo regar y evitar hojas blandas o podridas.',
     date: '12 Feb 2026',
     image:
       'https://images.unsplash.com/photo-1459664018906-085c36f472af?auto=format&fit=crop&w=900&q=80',
   },
   {
     id: 'b2',
-    title: 'Luz natural: como medirla en casa',
+    title: 'Luz natural: cómo medirla en casa',
     category: 'Cuidados',
     excerpt: 'Aprende a identificar si tu espacio tiene luz baja, media o alta sin instrumentos.',
     date: '05 Feb 2026',
@@ -28,7 +28,7 @@ export const blogPostsMock: BlogPostMock[] = [
   },
   {
     id: 'b3',
-    title: 'Plantas que transforman un rincon pequeno',
+    title: 'Plantas que transforman un rincón pequeño',
     category: 'Diseño',
     excerpt: 'Ideas sencillas para sumar verde sin saturar el espacio.',
     date: '29 Jan 2026',
@@ -37,16 +37,16 @@ export const blogPostsMock: BlogPostMock[] = [
   },
   {
     id: 'b4',
-    title: 'Hojas amarillas: causas y soluciones rapidas',
+    title: 'Hojas amarillas: causas y soluciones rápidas',
     category: 'Problemas comunes',
-    excerpt: 'Las razones mas frecuentes y como corregirlas sin perder tu planta.',
+    excerpt: 'Las razones más frecuentes y cómo corregirlas sin perder tu planta.',
     date: '22 Jan 2026',
     image:
       'https://images.unsplash.com/photo-1422568374078-27d3842ba676?auto=format&fit=crop&w=900&q=80',
   },
   {
     id: 'b5',
-    title: 'Guia basica para iniciar tu coleccion',
+    title: 'Guía básica para iniciar tu colección',
     category: 'Cuidados',
     excerpt: 'Las primeras plantas ideales para empezar con buen pie y poco riesgo.',
     date: '15 Jan 2026',
@@ -55,7 +55,7 @@ export const blogPostsMock: BlogPostMock[] = [
   },
   {
     id: 'b6',
-    title: 'Combina alturas y texturas en tu estanteria',
+    title: 'Combina alturas y texturas en tu estantería',
     category: 'Diseño',
     excerpt: 'Un esquema simple para mezclar plantas y crear profundidad visual.',
     date: '08 Jan 2026',

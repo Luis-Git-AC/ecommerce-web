@@ -1,23 +1,4 @@
-export type ProductMock = {
-  id: string
-  name: string
-  price: string
-  category: 'suculenta' | 'tropical' | 'cactus' | 'trepadora'
-  careLevel: 'facil' | 'moderado' | 'experto'
-  lightRequired: 'baja' | 'media' | 'alta'
-  petSafe: boolean
-  size: 'pequena' | 'mediana' | 'grande'
-  images: {
-    card: ProductImage
-    gallery: ProductImage[]
-  }
-}
-
-export type ProductImage = {
-  src: string
-  webp?: string
-  jpg?: string
-}
+import type { Product, ProductImage } from '../types/product'
 
 const shopImageModules = import.meta.glob('../assets/shop/optimized/**/*.{jpg,jpeg,webp}', {
   eager: true,
@@ -42,7 +23,7 @@ const imageFromAsset = (relativePath: string): ProductImage => {
   }
 }
 
-export const productsMock: ProductMock[] = [
+export const productsMock: Product[] = [
   {
     id: 'p1',
     name: 'Monstera Deliciosa',

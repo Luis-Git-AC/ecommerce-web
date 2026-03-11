@@ -8,9 +8,9 @@ export default function TermsPage() {
       <Header />
       <main className={styles.legal}>
         <section className="container page-hero">
-          <p className="page-eyebrow">Terminos</p>
-          <h1>Terminos y condiciones</h1>
-          <p className="muted">Contenido provisional.</p>
+          <p className="page-eyebrow">Términos</p>
+          <h1>Términos y condiciones</h1>
+          <p className="muted">Resumen de las condiciones de uso y compra en VerdeVivo.</p>
         </section>
 
         <section className={`container ${styles.content}`}>
@@ -23,8 +23,8 @@ export default function TermsPage() {
             <p className="muted">Las condiciones de compra se confirman en el checkout.</p>
           </article>
           <article className={styles.card}>
-            <h2>Limitacion de responsabilidad</h2>
-            <p className="muted">La informacion es referencial y puede actualizarse sin previo aviso.</p>
+            <h2>Limitación de responsabilidad</h2>
+            <p className="muted">La información es referencial y puede actualizarse sin previo aviso.</p>
           </article>
         </section>
       </main>

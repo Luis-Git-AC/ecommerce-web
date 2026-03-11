@@ -8,9 +8,9 @@ export default function BlogPostPage() {
   const { slug = '' } = useParams()
   const post = blogPostsMock.find((item) => item.id === slug)
 
-  const title = post?.title ?? 'Guia VerdeVivo'
-  const date = post?.date ?? 'Proximamente'
-  const category = post?.category ?? 'Guia'
+  const title = post?.title ?? 'Guía VerdeVivo'
+  const date = post?.date ?? 'Próximamente'
+  const category = post?.category ?? 'Guía'
   const image = post?.image
 
   return (
@@ -19,7 +19,7 @@ export default function BlogPostPage() {
       <main className={styles.post}>
         <section className="container page-hero">
           <Link className={styles.backLink} to="/blog">Volver al blog</Link>
-          <p className="page-eyebrow">Guia VerdeVivo</p>
+          <p className="page-eyebrow">Guía VerdeVivo</p>
           <h1>{title}</h1>
           <div className={styles.meta}>
             <span>{date}</span>
@@ -29,9 +29,12 @@ export default function BlogPostPage() {
 
         <section className={`container ${styles.content}`}>
           {image ? <img className={styles.image} src={image} alt={title} /> : null}
-          <p className="muted">Contenido provisional.</p>
           <p className="muted">
-            Si quieres una version personalizada, escribe a nuestro equipo y te enviaremos recursos y consejos.
+            Este artículo reúne recomendaciones prácticas para aplicar hoy mismo, con pasos simples y
+            ajustes según tu espacio.
+          </p>
+          <p className="muted">
+            Si quieres una versión personalizada, escribe a nuestro equipo y te enviaremos recursos y consejos.
           </p>
           <Link className="btn" to="/contact">Contactar</Link>
         </section>

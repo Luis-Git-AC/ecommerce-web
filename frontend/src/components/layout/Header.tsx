@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+import logo from '../../assets/logo2-trimmed.png'
 import styles from './Header.module.css'
 
 export default function Header() {
@@ -38,16 +39,9 @@ export default function Header() {
       <div className={`container ${styles.headerInner}`}>
         <Link className={styles.logo} to="/">
           <span className={styles.logoIcon} aria-hidden="true">
-            <svg viewBox="0 0 40 40" role="img" focusable="false">
-              <circle cx="20" cy="20" r="20" fill="#2e8b57" />
-              <path
-                d="M12.5 21.5c5-1.8 9-5.7 12.2-12.1 3.7 8.8 1.4 16.7-5.7 18.3-2.8.6-5.6.3-8.2-.5 2.5-.6 4.7-2.4 6-5.3-1.6.6-3.2.7-4.3-.4Z"
-                fill="#ffffff"
-              />
-              <path d="M18 16.5c3.2 4.3 4 8.5 3 12" fill="none" stroke="#ffffff" stroke-width="1.8" stroke-linecap="round" />
-            </svg>
+            <img src={logo} alt="" />
           </span>
-          VerdeVivo
+          {/* Name */}
         </Link>
         <nav className={styles.nav}>
           {navLinks.map((link) => (
@@ -60,7 +54,7 @@ export default function Header() {
           <button
             className={`${styles.iconBtn} ${styles.menuButton}`}
             type="button"
-            aria-label="Abrir menu"
+            aria-label="Abrir menú"
             aria-expanded={menuOpen}
             aria-controls="mobile-menu"
             onClick={toggleMenu}

@@ -1,3 +1,4 @@
+import { useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import Footer from '../../components/layout/Footer'
 import Header from '../../components/layout/Header'
@@ -7,6 +8,16 @@ import styles from './BlogPage.module.css'
 const categories = ['Todos', 'Cuidados', 'Diseño', 'Problemas comunes'] as const
 
 export default function BlogPage() {
+  const [activeCategory, setActiveCategory] = useState<(typeof categories)[number]>('Todos')
+
+  const visiblePosts = useMemo(
+    () =>
+      activeCategory === 'Todos'
+        ? blogPostsMock
+        : blogPostsMock.filter((post) => post.category === activeCategory),
+    [activeCategory],
+  )
+
   return (
     <div className="page">
       <Header />
@@ -14,9 +25,9 @@ export default function BlogPage() {
         <section className="container page-hero">
           <div>
             <p className="page-eyebrow">Blog VerdeVivo</p>
-            <h1>Guias y consejos para cuidar tus plantas</h1>
+            <h1>Guías y consejos para cuidar tus plantas</h1>
             <p className="muted">
-              Articulos practicos para mejorar el cuidado, resolver problemas comunes y crear espacios mas verdes.
+              Artículos prácticos para mejorar el cuidado, resolver problemas comunes y crear espacios más verdes.
             </p>
           </div>
         </section>
@@ -24,14 +35,20 @@ export default function BlogPage() {
         <section className={`container ${styles.content}`}>
           <div className={styles.filters}>
             {categories.map((category) => (
-              <button key={category} type="button" className={styles.filterButton}>
+              <button
+                key={category}
+                type="button"
+                className={`${styles.filterButton} ${activeCategory === category ? styles.filterButtonActive : ''}`}
+                onClick={() => setActiveCategory(category)}
+                aria-pressed={activeCategory === category}
+              >
                 {category}
               </button>
             ))}
           </div>
 
           <div className={styles.grid}>
-            {blogPostsMock.map((post) => (
+            {visiblePosts.map((post) => (
               <article key={post.id} className={styles.card}>
                 <img src={post.image} alt={post.title} />
                 <div className={styles.cardBody}>
@@ -40,7 +57,7 @@ export default function BlogPage() {
                   <p className="muted">{post.excerpt}</p>
                   <div className={styles.cardMeta}>
                     <span>{post.date}</span>
-                    <Link to={`/blog/${post.id}`}>Leer guia</Link>
+                    <Link to={`/blog/${post.id}`}>Leer guía</Link>
                   </div>
                 </div>
               </article>

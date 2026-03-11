@@ -137,6 +137,43 @@
   gap: 0.75rem;
 }
 
+.previewModal {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: grid;
+  place-items: center;
+  padding: 1.25rem;
+}
+
+.previewBackdrop {
+  position: absolute;
+  inset: 0;
+  border: 0;
+  padding: 0;
+  background: rgba(15, 26, 20, 0.5);
+}
+
+.previewPanel {
+  position: relative;
+  z-index: 1;
+  width: min(520px, 100%);
+  border: 1px solid #e7e2d8;
+  border-radius: 20px;
+  background: #fffdf7;
+  padding: 1.5rem;
+  display: grid;
+  gap: 1rem;
+}
+
+.previewList {
+  margin: 0;
+  padding-left: 1.2rem;
+  display: grid;
+  gap: 0.4rem;
+  color: #2a3b2f;
+}
+
 @media (max-width: 768px) {
   .club {
     padding: 0 0 var(--page-bottom-mobile);

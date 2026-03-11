@@ -1,33 +1,77 @@
+import { useState } from 'react'
+import type { FormEvent } from 'react'
 import Footer from '../../components/layout/Footer'
 import Header from '../../components/layout/Header'
 import styles from './ContactPage.module.css'
 
 export default function ContactPage() {
+  const [name, setName] = useState('')
+  const [email, setEmail] = useState('')
+  const [message, setMessage] = useState('')
+  const [statusMessage, setStatusMessage] = useState('')
+
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+    const trimmedName = name.trim()
+    const trimmedEmail = email.trim()
+    const trimmedMessage = message.trim()
+    const isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trimmedEmail)
+
+    if (!trimmedName || !trimmedMessage || !isValidEmail) {
+      setStatusMessage('Completa todos los campos con un correo válido.')
+      return
+    }
+
+    setStatusMessage('Mensaje enviado. Te responderemos dentro de 24 horas hábiles.')
+    setName('')
+    setEmail('')
+    setMessage('')
+  }
+
   return (
     <div className="page">
       <Header />
       <main className={styles.contact}>
         <section className="container page-hero">
           <p className="page-eyebrow">Contacto</p>
-          <h1>Estamos aqui para ayudarte</h1>
-          <p className="muted">Escribenos y respondemos en menos de 24 horas.</p>
+          <h1>Estamos aquí para ayudarte</h1>
+          <p className="muted">Escríbenos y respondemos en menos de 24 horas.</p>
         </section>
 
         <section className={`container ${styles.content}`}>
-          <form className={styles.form}>
+          <form className={styles.form} onSubmit={handleSubmit}>
             <div className={styles.field}>
               <label htmlFor="name">Nombre</label>
-              <input id="name" type="text" placeholder="Tu nombre" />
+              <input
+                id="name"
+                type="text"
+                placeholder="Tu nombre"
+                value={name}
+                onChange={(event) => setName(event.target.value)}
+              />
             </div>
             <div className={styles.field}>
               <label htmlFor="email">Email</label>
-              <input id="email" type="email" placeholder="tu@email.com" />
+              <input
+                id="email"
+                type="email"
+                placeholder="tu@email.com"
+                value={email}
+                onChange={(event) => setEmail(event.target.value)}
+              />
             </div>
             <div className={styles.field}>
               <label htmlFor="message">Mensaje</label>
-              <textarea id="message" rows={4} placeholder="Como podemos ayudarte?" />
+              <textarea
+                id="message"
+                rows={4}
+                placeholder="¿Cómo podemos ayudarte?"
+                value={message}
+                onChange={(event) => setMessage(event.target.value)}
+              />
             </div>
-            <button className="btn" type="button">Enviar mensaje</button>
+            <button className="btn" type="submit">Enviar mensaje</button>
+            {statusMessage ? <p className={styles.statusMessage}>{statusMessage}</p> : null}
           </form>
 
           <div className={styles.info}>

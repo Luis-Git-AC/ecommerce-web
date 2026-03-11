@@ -2,6 +2,16 @@
   padding: 3rem 0 var(--page-bottom-desktop);
 }
 
+.stateCard {
+  border: 1px solid #e7e2d8;
+  border-radius: 18px;
+  background: #fffdf7;
+  padding: 2rem;
+  display: grid;
+  gap: 0.9rem;
+  max-width: 640px;
+}
+
 .layout {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));

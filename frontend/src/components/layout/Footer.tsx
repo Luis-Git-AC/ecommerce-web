@@ -13,11 +13,11 @@ export default function Footer() {
     const isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
 
     if (!isValidEmail) {
-      setNewsletterMessage('Introduce un correo valido.')
+      setNewsletterMessage('Introduce un correo válido.')
       return
     }
 
-    setNewsletterMessage('Suscripcion registrada (modo portfolio, backend pendiente).')
+    setNewsletterMessage('Suscripción registrada. Te avisaremos con las próximas novedades.')
     setNewsletterEmail('')
   }
 
@@ -50,13 +50,13 @@ export default function Footer() {
             <h4>Soporte</h4>
             <ul>
               <li><Link to="/help">Ayuda</Link></li>
-              <li><Link to="/shipping">Envios</Link></li>
+              <li><Link to="/shipping">Envíos</Link></li>
               <li><Link to="/contact">Contacto</Link></li>
             </ul>
           </div>
         </div>
         <div className={`${styles.socials} ${styles.socialsDesktop}`}>
-          <a href="#" aria-label="Instagram">
+          <a href="https://instagram.com" target="_blank" rel="noreferrer" aria-label="Instagram">
             <svg viewBox="0 0 24 24" role="img" focusable="false">
               <path
                 d="M8 3h8a5 5 0 0 1 5 5v8a5 5 0 0 1-5 5H8a5 5 0 0 1-5-5V8a5 5 0 0 1 5-5Zm8 2H8a3 3 0 0 0-3 3v8a3 3 0 0 0 3 3h8a3 3 0 0 0 3-3V8a3 3 0 0 0-3-3Zm-4 3.5a4.5 4.5 0 1 1-4.5 4.5A4.5 4.5 0 0 1 12 8.5Zm0 2a2.5 2.5 0 1 0 2.5 2.5A2.5 2.5 0 0 0 12 10.5Zm5.2-2.9a1 1 0 1 1-1 1 1 1 0 0 1 1-1Z"
@@ -64,7 +64,7 @@ export default function Footer() {
               />
             </svg>
           </a>
-          <a href="#" aria-label="X">
+          <a href="https://x.com" target="_blank" rel="noreferrer" aria-label="X">
             <svg viewBox="0 0 24 24" role="img" focusable="false">
               <path
                 d="M4 3h4.5l4 5.6L17.4 3H21l-7 8.1L21.5 21H17l-4.6-6.3L6.7 21H3l7.4-8.6Z"
@@ -72,7 +72,7 @@ export default function Footer() {
               />
             </svg>
           </a>
-          <a href="#" aria-label="Facebook">
+          <a href="https://facebook.com" target="_blank" rel="noreferrer" aria-label="Facebook">
             <svg viewBox="0 0 24 24" role="img" focusable="false">
               <path
                 d="M13.5 9H16V6h-2.5A4.5 4.5 0 0 0 9 10.5V12H7v3h2v6h3v-6h2.5l.5-3H12v-1.5A1.5 1.5 0 0 1 13.5 9Z"
@@ -97,7 +97,7 @@ export default function Footer() {
               <li><Link to="/blog">Blog</Link></li>
             </ul>
             <div className={styles.socials}>
-              <a href="#" aria-label="Instagram">
+              <a href="https://instagram.com" target="_blank" rel="noreferrer" aria-label="Instagram">
                 <svg viewBox="0 0 24 24" role="img" focusable="false">
                   <path
                     d="M8 3h8a5 5 0 0 1 5 5v8a5 5 0 0 1-5 5H8a5 5 0 0 1-5-5V8a5 5 0 0 1 5-5Zm8 2H8a3 3 0 0 0-3 3v8a3 3 0 0 0 3 3h8a3 3 0 0 0 3-3V8a3 3 0 0 0-3-3Zm-4 3.5a4.5 4.5 0 1 1-4.5 4.5A4.5 4.5 0 0 1 12 8.5Zm0 2a2.5 2.5 0 1 0 2.5 2.5A2.5 2.5 0 0 0 12 10.5Zm5.2-2.9a1 1 0 1 1-1 1 1 1 0 0 1 1-1Z"
@@ -105,7 +105,7 @@ export default function Footer() {
                   />
                 </svg>
               </a>
-              <a href="#" aria-label="X">
+              <a href="https://x.com" target="_blank" rel="noreferrer" aria-label="X">
                 <svg viewBox="0 0 24 24" role="img" focusable="false">
                   <path
                     d="M4 3h4.5l4 5.6L17.4 3H21l-7 8.1L21.5 21H17l-4.6-6.3L6.7 21H3l7.4-8.6Z"
@@ -113,7 +113,7 @@ export default function Footer() {
                   />
                 </svg>
               </a>
-              <a href="#" aria-label="Facebook">
+              <a href="https://facebook.com" target="_blank" rel="noreferrer" aria-label="Facebook">
                 <svg viewBox="0 0 24 24" role="img" focusable="false">
                   <path
                     d="M13.5 9H16V6h-2.5A4.5 4.5 0 0 0 9 10.5V12H7v3h2v6h3v-6h2.5l.5-3H12v-1.5A1.5 1.5 0 0 1 13.5 9Z"
@@ -127,7 +127,7 @@ export default function Footer() {
             <summary>Soporte</summary>
             <ul>
               <li><Link to="/help">Ayuda</Link></li>
-              <li><Link to="/shipping">Envios</Link></li>
+              <li><Link to="/shipping">Envíos</Link></li>
               <li><Link to="/contact">Contacto</Link></li>
             </ul>
           </details>
@@ -178,7 +178,7 @@ export default function Footer() {
           <div className={styles.legalLinks}>
             <Link to="/legal/privacy">Privacidad</Link>
             <span>·</span>
-            <Link to="/legal/terms">Terminos</Link>
+            <Link to="/legal/terms">Términos</Link>
             <span>·</span>
             <Link to="/legal/cookies">Cookies</Link>
           </div>

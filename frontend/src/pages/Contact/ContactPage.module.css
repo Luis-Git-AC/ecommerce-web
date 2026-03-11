@@ -38,6 +38,12 @@
   min-height: 120px;
 }
 
+.statusMessage {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #2e8b57;
+}
+
 .info {
   border: 1px solid #e7e2d8;
   border-radius: 20px;

@@ -1,33 +1,122 @@
+import { useMemo, useState } from 'react'
 import Footer from '../../components/layout/Footer'
 import Header from '../../components/layout/Header'
 import ProductCard from '../../components/ui/ProductCard'
-import { productsMock } from '../../mocks/products.mock'
+import type { Product } from '../../types/product'
+import { useProducts } from '../../features/products/useProducts'
 import styles from './ShopPage.module.css'
 
 const filters = [
   {
+    key: 'category',
     title: 'Tipo',
     options: ['Suculenta', 'Tropical', 'Cactus', 'Trepadora'],
   },
   {
+    key: 'careLevel',
     title: 'Nivel de cuidado',
-    options: ['Facil', 'Moderado', 'Experto'],
+    options: ['Fácil', 'Moderado', 'Experto'],
   },
   {
+    key: 'lightRequired',
     title: 'Necesidad de luz',
     options: ['Baja', 'Media', 'Alta'],
   },
   {
-    title: 'Tamano',
-    options: ['Pequena', 'Mediana', 'Grande'],
+    key: 'size',
+    title: 'Tamaño',
+    options: ['Pequeña', 'Mediana', 'Grande'],
   },
   {
+    key: 'petSafe',
     title: 'Pet-friendly',
-    options: ['Si', 'No'],
+    options: ['Sí', 'No'],
   },
-]
+] as const
+
+type FilterKey = (typeof filters)[number]['key']
+type SortOption = 'featured' | 'price-asc' | 'price-desc'
+type FiltersState = Record<FilterKey, string[]>
+
+const toId = (value: string) =>
+  value
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '')
+
+const normalize = (value: string) =>
+  value
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+
+const initialFiltersState: FiltersState = {
+  category: [],
+  careLevel: [],
+  lightRequired: [],
+  size: [],
+  petSafe: [],
+}
+
+const parsePrice = (price: string) => Number.parseFloat(price.replace(/[^\d.]/g, '')) || 0
+
+const getProductValue = (product: Product, key: FilterKey) => {
+  if (key === 'petSafe') {
+    return product.petSafe ? 'si' : 'no'
+  }
+
+  return String(product[key])
+}
 
 export default function ShopPage() {
+  const products = useProducts()
+  const [activeFilters, setActiveFilters] = useState<FiltersState>(initialFiltersState)
+  const [sortBy, setSortBy] = useState<SortOption>('featured')
+
+  const visibleProducts = useMemo(() => {
+    const filtered = products.filter((product) =>
+      filters.every((group) => {
+        const selected = activeFilters[group.key]
+        if (!selected.length) {
+          return true
+        }
+
+        const productValue = normalize(getProductValue(product, group.key))
+        return selected.some((value) => normalize(value) === productValue)
+      }),
+    )
+
+    if (sortBy === 'price-asc') {
+      return [...filtered].sort((a, b) => parsePrice(a.price) - parsePrice(b.price))
+    }
+
+    if (sortBy === 'price-desc') {
+      return [...filtered].sort((a, b) => parsePrice(b.price) - parsePrice(a.price))
+    }
+
+    return filtered
+  }, [activeFilters, products, sortBy])
+
+  const hasActiveFilters = Object.values(activeFilters).some((group) => group.length > 0)
+
+  const toggleFilter = (key: FilterKey, option: string) => {
+    setActiveFilters((prev) => {
+      const current = prev[key]
+      const exists = current.includes(option)
+      return {
+        ...prev,
+        [key]: exists ? current.filter((value) => value !== option) : [...current, option],
+      }
+    })
+  }
+
+  const clearFilters = () => {
+    setActiveFilters(initialFiltersState)
+    setSortBy('featured')
+  }
+
   return (
     <div className="page">
       <Header />
@@ -37,19 +126,29 @@ export default function ShopPage() {
             <div className={styles.filtersHeader}>
               <h2>Tienda</h2>
               <p className="muted">Filtra para encontrar tu planta ideal.</p>
+              {hasActiveFilters ? (
+                <button type="button" className={styles.resetButton} onClick={clearFilters}>
+                  Limpiar filtros
+                </button>
+              ) : null}
             </div>
             {filters.map((group) => (
-              <div key={group.title} className={styles.filterGroup}>
-                <h3>{group.title}</h3>
+              <fieldset key={group.title} className={styles.filterGroup}>
+                <legend>{group.title}</legend>
                 <div className={styles.filterOptions}>
                   {group.options.map((option) => (
-                    <label key={option} className={styles.filterOption}>
-                      <input type="checkbox" />
+                    <label key={option} className={styles.filterOption} htmlFor={`${toId(group.title)}-${toId(option)}`}>
+                      <input
+                        id={`${toId(group.title)}-${toId(option)}`}
+                        type="checkbox"
+                        checked={activeFilters[group.key].includes(option)}
+                        onChange={() => toggleFilter(group.key, option)}
+                      />
                       <span>{option}</span>
                     </label>
                   ))}
                 </div>
-              </div>
+              </fieldset>
             ))}
           </aside>
           <section className={styles.results}>
@@ -57,24 +156,39 @@ export default function ShopPage() {
               <div>
                 <h2>Plantas disponibles</h2>
                 <p className="muted">Seleccionadas para distintos espacios y ritmos.</p>
+                <p className={styles.resultsCount} aria-live="polite">
+                  {visibleProducts.length} productos
+                </p>
               </div>
-              <select className={styles.sort} aria-label="Ordenar">
-                <option>Destacadas</option>
-                <option>Precio: menor a mayor</option>
-                <option>Precio: mayor a menor</option>
+              <select
+                className={styles.sort}
+                aria-label="Ordenar"
+                value={sortBy}
+                onChange={(event) => setSortBy(event.target.value as SortOption)}
+              >
+                <option value="featured">Destacadas</option>
+                <option value="price-asc">Precio: menor a mayor</option>
+                <option value="price-desc">Precio: mayor a menor</option>
               </select>
             </div>
-            <div className={styles.grid}>
-              {productsMock.map((product) => (
-                <ProductCard
-                  key={product.id}
-                  id={product.id}
-                  name={product.name}
-                  price={product.price}
-                  image={product.images.card}
-                />
-              ))}
-            </div>
+            {visibleProducts.length === 0 ? (
+              <div className={styles.emptyState} role="status" aria-live="polite">
+                <h3>No encontramos plantas con ese criterio</h3>
+                <p className="muted">Ajusta los filtros para descubrir más opciones.</p>
+              </div>
+            ) : (
+              <div className={styles.grid}>
+                {visibleProducts.map((product) => (
+                  <ProductCard
+                    key={product.id}
+                    id={product.id}
+                    name={product.name}
+                    price={product.price}
+                    image={product.images.card}
+                  />
+                ))}
+              </div>
+            )}
           </section>
         </div>
       </main>

@@ -9,22 +9,22 @@ export default function CookiesPage() {
       <main className={styles.legal}>
         <section className="container page-hero">
           <p className="page-eyebrow">Cookies</p>
-          <h1>Politica de cookies</h1>
-          <p className="muted">Contenido provisional.</p>
+          <h1>Política de cookies</h1>
+          <p className="muted">Usamos cookies para mejorar navegación, seguridad y medición básica.</p>
         </section>
 
         <section className={`container ${styles.content}`}>
           <article className={styles.card}>
-            <h2>Que son las cookies</h2>
-            <p className="muted">Archivos que ayudan a mejorar la navegacion.</p>
+            <h2>Qué son las cookies</h2>
+            <p className="muted">Archivos que ayudan a mejorar la navegación.</p>
           </article>
           <article className={styles.card}>
             <h2>Tipos de cookies</h2>
-            <p className="muted">Usamos cookies esenciales y de analitica basica.</p>
+            <p className="muted">Usamos cookies esenciales y de analítica básica.</p>
           </article>
           <article className={styles.card}>
-            <h2>Como gestionarlas</h2>
-            <p className="muted">Puedes desactivarlas desde la configuracion de tu navegador.</p>
+            <h2>Cómo gestionarlas</h2>
+            <p className="muted">Puedes desactivarlas desde la configuración de tu navegador.</p>
           </article>
         </section>
       </main>
