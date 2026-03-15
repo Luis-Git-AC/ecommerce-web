@@ -1,21 +1,55 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import Footer from '../../components/layout/Footer'
 import Header from '../../components/layout/Header'
-import { blogPostsMock } from '../../mocks/blog.mock'
+import { contentRepository, type BlogPost } from '../../services/content.repository'
 import styles from './BlogPage.module.css'
 
 const categories = ['Todos', 'Cuidados', 'Diseño', 'Problemas comunes'] as const
 
 export default function BlogPage() {
+  const [posts, setPosts] = useState<BlogPost[]>([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
   const [activeCategory, setActiveCategory] = useState<(typeof categories)[number]>('Todos')
+
+  useEffect(() => {
+    let isMounted = true
+
+    const run = async () => {
+      try {
+        setLoading(true)
+        setError(null)
+        const data = await contentRepository.listBlog()
+        if (isMounted) {
+          setPosts(data)
+        }
+      } catch (requestError) {
+        if (isMounted) {
+          const message = requestError instanceof Error ? requestError.message : 'No se pudo cargar el blog.'
+          setError(message)
+          setPosts([])
+        }
+      } finally {
+        if (isMounted) {
+          setLoading(false)
+        }
+      }
+    }
+
+    void run()
+
+    return () => {
+      isMounted = false
+    }
+  }, [])
 
   const visiblePosts = useMemo(
     () =>
       activeCategory === 'Todos'
-        ? blogPostsMock
-        : blogPostsMock.filter((post) => post.category === activeCategory),
-    [activeCategory],
+        ? posts
+        : posts.filter((post) => post.category === activeCategory),
+    [activeCategory, posts],
   )
 
   return (
@@ -47,22 +81,26 @@ export default function BlogPage() {
             ))}
           </div>
 
-          <div className={styles.grid}>
-            {visiblePosts.map((post) => (
-              <article key={post.id} className={styles.card}>
-                <img src={post.image} alt={post.title} />
-                <div className={styles.cardBody}>
-                  <span className={styles.tag}>{post.category}</span>
-                  <h3>{post.title}</h3>
-                  <p className="muted">{post.excerpt}</p>
-                  <div className={styles.cardMeta}>
-                    <span>{post.date}</span>
-                    <Link to={`/blog/${post.id}`}>Leer guía</Link>
+          {loading ? <p className="muted">Cargando artículos...</p> : null}
+          {error ? <p className="muted">{error}</p> : null}
+          {!loading && !error ? (
+            <div className={styles.grid}>
+              {visiblePosts.map((post) => (
+                <article key={post._id} className={styles.card}>
+                  <img src={post.image} alt={post.title} />
+                  <div className={styles.cardBody}>
+                    <span className={styles.tag}>{post.category}</span>
+                    <h3>{post.title}</h3>
+                    <p className="muted">{post.excerpt}</p>
+                    <div className={styles.cardMeta}>
+                      <span>{new Date(post.publishedAt).toLocaleDateString('es-ES')}</span>
+                      <Link to={`/blog/${post.slug}`}>Leer guía</Link>
+                    </div>
                   </div>
-                </div>
-              </article>
-            ))}
-          </div>
+                </article>
+              ))}
+            </div>
+          ) : null}
         </section>
       </main>
       <Footer />

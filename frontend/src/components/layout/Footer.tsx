@@ -1,13 +1,15 @@
 import { useState } from 'react'
 import type { FormEvent } from 'react'
 import { Link } from 'react-router-dom'
+import { contentRepository } from '../../services/content.repository'
 import styles from './Footer.module.css'
 
 export default function Footer() {
   const [newsletterEmail, setNewsletterEmail] = useState('')
   const [newsletterMessage, setNewsletterMessage] = useState('')
+  const [isNewsletterSubmitting, setIsNewsletterSubmitting] = useState(false)
 
-  const handleNewsletterSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleNewsletterSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     const email = newsletterEmail.trim()
     const isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
@@ -17,8 +19,18 @@ export default function Footer() {
       return
     }
 
-    setNewsletterMessage('Suscripción registrada. Te avisaremos con las próximas novedades.')
-    setNewsletterEmail('')
+    try {
+      setIsNewsletterSubmitting(true)
+      setNewsletterMessage('')
+      await contentRepository.subscribeNewsletter({ email })
+      setNewsletterMessage('Suscripción registrada. Te avisaremos con las próximas novedades.')
+      setNewsletterEmail('')
+    } catch (error) {
+      const message = error instanceof Error ? error.message : 'No se pudo registrar la suscripción.'
+      setNewsletterMessage(message)
+    } finally {
+      setIsNewsletterSubmitting(false)
+    }
   }
 
   return (
@@ -146,7 +158,9 @@ export default function Footer() {
                   value={newsletterEmail}
                   onChange={(event) => setNewsletterEmail(event.target.value)}
                 />
-                <button className={styles.newsletterButton}>Recibir novedades</button>
+                <button className={styles.newsletterButton} disabled={isNewsletterSubmitting}>
+                  {isNewsletterSubmitting ? 'Enviando...' : 'Recibir novedades'}
+                </button>
               </form>
             </div>
             {newsletterMessage ? <p className={styles.newsletterStatus}>{newsletterMessage}</p> : null}
@@ -169,7 +183,9 @@ export default function Footer() {
                   value={newsletterEmail}
                   onChange={(event) => setNewsletterEmail(event.target.value)}
                 />
-                <button className={styles.newsletterButton}>Recibir novedades</button>
+                <button className={styles.newsletterButton} disabled={isNewsletterSubmitting}>
+                  {isNewsletterSubmitting ? 'Enviando...' : 'Recibir novedades'}
+                </button>
               </form>
             </div>
           </div>

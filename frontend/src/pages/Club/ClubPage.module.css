@@ -52,6 +52,46 @@
   gap: 2rem;
 }
 
+.leadSection {
+  margin-top: var(--content-block-gap-desktop);
+  display: grid;
+  gap: 1.25rem;
+}
+
+.leadForm {
+  border: 1px solid #e7e2d8;
+  border-radius: 20px;
+  background: #fffdf7;
+  padding: 1.5rem;
+  display: grid;
+  gap: 1rem;
+}
+
+.leadField {
+  display: grid;
+  gap: 0.45rem;
+}
+
+.leadField label {
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: #314135;
+}
+
+.leadField input,
+.leadField select {
+  padding: 0.72rem 0.92rem;
+  border: 1px solid #d7d2c8;
+  border-radius: 10px;
+  background: #fff;
+}
+
+.leadStatus {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #2e8b57;
+}
+
 .stepGrid {
   display: grid;
   gap: 1.5rem;
@@ -195,7 +235,8 @@
   .steps,
   .plans,
   .preview,
-  .faq {
+  .faq,
+  .leadSection {
     margin-top: var(--content-block-gap-mobile);
   }
 

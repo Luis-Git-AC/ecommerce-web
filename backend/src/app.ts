@@ -5,6 +5,7 @@ import pinoHttp from 'pino-http'
 import { env } from './config/env'
 import { logger } from './config/logger'
 import { errorHandler, notFoundHandler } from './middlewares/error-handler'
+import { contentRouter } from './modules/content/content.routes'
 import { productsRouter } from './modules/products/products.routes'
 import { systemRouter } from './routes/system.routes'
 
@@ -21,6 +22,7 @@ app.get('/', (_req, res) => {
 
 app.use(env.API_PREFIX, systemRouter)
 app.use(env.API_PREFIX, productsRouter)
+app.use(env.API_PREFIX, contentRouter)
 
 app.use(notFoundHandler)
 app.use(errorHandler)

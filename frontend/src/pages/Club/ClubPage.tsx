@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import Footer from '../../components/layout/Footer'
 import Header from '../../components/layout/Header'
+import { contentRepository } from '../../services/content.repository'
 import styles from './ClubPage.module.css'
 
 const plans = [
@@ -60,6 +61,11 @@ const faqs = [
 
 export default function ClubPage() {
   const [previewOpen, setPreviewOpen] = useState(false)
+  const [leadName, setLeadName] = useState('')
+  const [leadEmail, setLeadEmail] = useState('')
+  const [leadPlan, setLeadPlan] = useState<'basic' | 'medio' | 'premium'>('medio')
+  const [leadStatus, setLeadStatus] = useState('')
+  const [isLeadSubmitting, setIsLeadSubmitting] = useState(false)
 
   useEffect(() => {
     if (!previewOpen) {
@@ -77,6 +83,39 @@ export default function ClubPage() {
       document.removeEventListener('keydown', onKeyDown)
     }
   }, [previewOpen])
+
+  const handleLeadSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+
+    const name = leadName.trim()
+    const email = leadEmail.trim()
+    const isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
+
+    if (!name || !isValidEmail) {
+      setLeadStatus('Completa nombre y un correo válido para registrarte.')
+      return
+    }
+
+    try {
+      setIsLeadSubmitting(true)
+      setLeadStatus('')
+
+      await contentRepository.createClubLead({
+        name,
+        email,
+        plan: leadPlan,
+      })
+
+      setLeadStatus('Listo. Te contactaremos con una propuesta de plan personalizada.')
+      setLeadName('')
+      setLeadEmail('')
+    } catch (error) {
+      const message = error instanceof Error ? error.message : 'No se pudo registrar tu interés.'
+      setLeadStatus(message)
+    } finally {
+      setIsLeadSubmitting(false)
+    }
+  }
 
   return (
     <div className="page">
@@ -152,6 +191,47 @@ export default function ClubPage() {
               Ver ejemplo
             </button>
           </div>
+        </section>
+
+        <section className={`container ${styles.leadSection}`}>
+          <div className={styles.sectionHeader}>
+            <h2>Únete a la lista prioritaria</h2>
+            <p className="muted">Déjanos tus datos y te contactamos para activar tu plan.</p>
+          </div>
+          <form className={styles.leadForm} onSubmit={handleLeadSubmit}>
+            <div className={styles.leadField}>
+              <label htmlFor="club-name">Nombre</label>
+              <input
+                id="club-name"
+                type="text"
+                placeholder="Tu nombre"
+                value={leadName}
+                onChange={(event) => setLeadName(event.target.value)}
+              />
+            </div>
+            <div className={styles.leadField}>
+              <label htmlFor="club-email">Email</label>
+              <input
+                id="club-email"
+                type="email"
+                placeholder="tu@email.com"
+                value={leadEmail}
+                onChange={(event) => setLeadEmail(event.target.value)}
+              />
+            </div>
+            <div className={styles.leadField}>
+              <label htmlFor="club-plan">Plan de interés</label>
+              <select id="club-plan" value={leadPlan} onChange={(event) => setLeadPlan(event.target.value as 'basic' | 'medio' | 'premium')}>
+                <option value="basic">Básico</option>
+                <option value="medio">Medio</option>
+                <option value="premium">Premium</option>
+              </select>
+            </div>
+            <button className="btn" type="submit" disabled={isLeadSubmitting}>
+              {isLeadSubmitting ? 'Enviando...' : 'Quiero unirme'}
+            </button>
+            {leadStatus ? <p className={styles.leadStatus}>{leadStatus}</p> : null}
+          </form>
         </section>
 
         <section className={`container ${styles.faq}`}>

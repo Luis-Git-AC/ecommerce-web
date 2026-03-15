@@ -2,6 +2,7 @@ import { useState } from 'react'
 import type { FormEvent } from 'react'
 import Footer from '../../components/layout/Footer'
 import Header from '../../components/layout/Header'
+import { contentRepository } from '../../services/content.repository'
 import styles from './ContactPage.module.css'
 
 export default function ContactPage() {
@@ -9,8 +10,9 @@ export default function ContactPage() {
   const [email, setEmail] = useState('')
   const [message, setMessage] = useState('')
   const [statusMessage, setStatusMessage] = useState('')
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     const trimmedName = name.trim()
     const trimmedEmail = email.trim()
@@ -22,10 +24,26 @@ export default function ContactPage() {
       return
     }
 
-    setStatusMessage('Mensaje enviado. Te responderemos dentro de 24 horas hábiles.')
-    setName('')
-    setEmail('')
-    setMessage('')
+    try {
+      setIsSubmitting(true)
+      setStatusMessage('')
+
+      await contentRepository.createContactMessage({
+        name: trimmedName,
+        email: trimmedEmail,
+        message: trimmedMessage,
+      })
+
+      setStatusMessage('Mensaje enviado. Te responderemos dentro de 24 horas hábiles.')
+      setName('')
+      setEmail('')
+      setMessage('')
+    } catch (error) {
+      const messageText = error instanceof Error ? error.message : 'No se pudo enviar el mensaje.'
+      setStatusMessage(messageText)
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   return (
@@ -70,7 +88,9 @@ export default function ContactPage() {
                 onChange={(event) => setMessage(event.target.value)}
               />
             </div>
-            <button className="btn" type="submit">Enviar mensaje</button>
+            <button className="btn" type="submit" disabled={isSubmitting}>
+              {isSubmitting ? 'Enviando...' : 'Enviar mensaje'}
+            </button>
             {statusMessage ? <p className={styles.statusMessage}>{statusMessage}</p> : null}
           </form>
 
