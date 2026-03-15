@@ -12,6 +12,18 @@ dist
 dist-ssr
 *.local
 
+# Env files
+.env
+.env.*
+**/.env
+**/.env.*
+!.env.example
+!**/.env.example
+
+# Frontend local assets (source of truth now in Cloudinary)
+frontend/src/assets/shop/
+frontend/src/assets/imagenes_ia/
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

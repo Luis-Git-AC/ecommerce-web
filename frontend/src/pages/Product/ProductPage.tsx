@@ -9,9 +9,28 @@ import styles from './ProductPage.module.css'
 
 const formatLabel = (value: string) => (value ? value.charAt(0).toUpperCase() + value.slice(1) : value)
 
+const valueLabelMap: Record<string, string> = {
+  low: 'Baja',
+  medium: 'Media',
+  high: 'Alta',
+  easy: 'Fácil',
+  hard: 'Difícil',
+  xs: 'XS',
+  s: 'S',
+  m: 'M',
+  l: 'L',
+  xl: 'XL',
+  suculentas: 'Suculentas',
+  interior: 'Interior',
+  florales: 'Florales',
+  colgantes: 'Colgantes',
+}
+
+const humanizeValue = (value: string) => valueLabelMap[value] ?? formatLabel(value)
+
 export default function ProductPage() {
   const { id } = useParams()
-  const product = useProductById(id)
+  const { product, loading, error } = useProductById(id)
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' })
@@ -181,15 +200,48 @@ export default function ProductPage() {
 
   const careInfo = useMemo(
     () => [
-      { label: 'Luz', value: formatLabel(product?.lightRequired ?? '') },
-      { label: 'Riego', value: product?.careLevel === 'experto' ? '2-3 veces por semana' : '1 vez por semana' },
-      { label: 'Dificultad', value: formatLabel(product?.careLevel ?? '') },
+      { label: 'Luz', value: humanizeValue(product?.lightRequired ?? '') },
+      { label: 'Riego', value: product?.careLevel === 'hard' ? '2-3 veces por semana' : '1 vez por semana' },
+      { label: 'Dificultad', value: humanizeValue(product?.careLevel ?? '') },
       { label: 'Pet-friendly', value: product?.petSafe ? 'Sí' : 'No' },
     ],
     [product],
   )
 
-  const related = useRelatedProducts(product?.id, 3)
+  const { products: related } = useRelatedProducts(product?.id, 3)
+
+  if (loading) {
+    return (
+      <div className="page">
+        <Header />
+        <main className={styles.product}>
+          <div className={`container ${styles.stateCard}`} role="status" aria-live="polite">
+            <h1>Cargando producto...</h1>
+            <p className="muted">Estamos trayendo la información desde el backend.</p>
+          </div>
+        </main>
+        <Footer />
+      </div>
+    )
+  }
+
+  if (error) {
+    return (
+      <div className="page">
+        <Header />
+        <main className={styles.product}>
+          <div className={`container ${styles.stateCard}`} role="alert" aria-live="assertive">
+            <h1>No pudimos cargar el producto</h1>
+            <p className="muted">{error}</p>
+            <Link to="/shop" className="btn">
+              Volver a tienda
+            </Link>
+          </div>
+        </main>
+        <Footer />
+      </div>
+    )
+  }
 
   if (!product) {
     return (
@@ -296,12 +348,12 @@ export default function ProductPage() {
             </div>
           </section>
           <section className={styles.details}>
-            <p className={styles.category}>Planta de interior</p>
+            <p className={styles.category}>{humanizeValue(product.category)}</p>
             <h1>{product.name}</h1>
             <p className={styles.price}>{product.price}</p>
             <p className="muted">
-              Ideal para espacios con luz {product.lightRequired} y cuidado {product.careLevel}. Tamaño
-              {` ${product.size}`} y estilo {product.category}.
+              Ideal para espacios con luz {humanizeValue(product.lightRequired)} y cuidado {humanizeValue(product.careLevel)}.
+              Tamaño {` ${humanizeValue(product.size)}`} y estilo {humanizeValue(product.category)}.
             </p>
             <button className="btn">Añadir al carrito</button>
             <div className={styles.care}>

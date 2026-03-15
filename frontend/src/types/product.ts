@@ -1,10 +1,10 @@
-export type ProductCategory = 'suculenta' | 'tropical' | 'cactus' | 'trepadora'
+export type ProductCategory = string
 
-export type ProductCareLevel = 'facil' | 'moderado' | 'experto'
+export type ProductCareLevel = string
 
-export type ProductLightRequired = 'baja' | 'media' | 'alta'
+export type ProductLightRequired = string
 
-export type ProductSize = 'pequena' | 'mediana' | 'grande'
+export type ProductSize = string
 
 export type ProductImage = {
   src: string

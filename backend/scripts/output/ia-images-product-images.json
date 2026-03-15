@@ -1,0 +1,253 @@
+{
+  "aloes": [
+    {
+      "url": "https://res.cloudinary.com/dehgir74t/image/upload/v1773587946/ecommerce/products/aloes/aloes-01-aloe1.png",
+      "alt": "Aloes imagen 1",
+      "publicId": "ecommerce/products/aloes/aloes-01-aloe1",
+      "role": "card",
+      "order": 1
+    },
+    {
+      "url": "https://res.cloudinary.com/dehgir74t/image/upload/v1773587947/ecommerce/products/aloes/aloes-02-aloe2.png",
+      "alt": "Aloes imagen 2",
+      "publicId": "ecommerce/products/aloes/aloes-02-aloe2",
+      "role": "gallery",
+      "order": 2
+    },
+    {
+      "url": "https://res.cloudinary.com/dehgir74t/image/upload/v1773587949/ecommerce/products/aloes/aloes-03-aloe3.png",
+      "alt": "Aloes imagen 3",
+      "publicId": "ecommerce/products/aloes/aloes-03-aloe3",
+      "role": "gallery",
+      "order": 3
+    },
+    {
+      "url": "https://res.cloudinary.com/dehgir74t/image/upload/v1773587949/ecommerce/products/aloes/aloes-04-aloe4.png",
+      "alt": "Aloes imagen 4",
+      "publicId": "ecommerce/products/aloes/aloes-04-aloe4",
+      "role": "gallery",
+      "order": 4
+    }
+  ],
+  "crassula": [
+    {
+      "url": "https://res.cloudinary.com/dehgir74t/image/upload/v1773587950/ecommerce/products/crassula/crassula-01-crassula1.png",
+      "alt": "Crassula imagen 1",
+      "publicId": "ecommerce/products/crassula/crassula-01-crassula1",
+      "role": "card",
+      "order": 1
+    },
+    {
+      "url": "https://res.cloudinary.com/dehgir74t/image/upload/v1773587952/ecommerce/products/crassula/crassula-02-crassula2.png",
+      "alt": "Crassula imagen 2",
+      "publicId": "ecommerce/products/crassula/crassula-02-crassula2",
+      "role": "gallery",
+      "order": 2
+    },
+    {
+      "url": "https://res.cloudinary.com/dehgir74t/image/upload/v1773587953/ecommerce/products/crassula/crassula-03-crassula3.png",
+      "alt": "Crassula imagen 3",
+      "publicId": "ecommerce/products/crassula/crassula-03-crassula3",
+      "role": "gallery",
+      "order": 3
+    }
+  ],
+  "curio": [
+    {
+      "url": "https://res.cloudinary.com/dehgir74t/image/upload/v1773587955/ecommerce/products/curio/curio-01-curio1.png",
+      "alt": "Curio imagen 1",
+      "publicId": "ecommerce/products/curio/curio-01-curio1",
+      "role": "card",
+      "order": 1
+    },
+    {
+      "url": "https://res.cloudinary.com/dehgir74t/image/upload/v1773587956/ecommerce/products/curio/curio-02-curio2.png",
+      "alt": "Curio imagen 2",
+      "publicId": "ecommerce/products/curio/curio-02-curio2",
+      "role": "gallery",
+      "order": 2
+    },
+    {
+      "url": "https://res.cloudinary.com/dehgir74t/image/upload/v1773587957/ecommerce/products/curio/curio-03-curio3.png",
+      "alt": "Curio imagen 3",
+      "publicId": "ecommerce/products/curio/curio-03-curio3",
+      "role": "gallery",
+      "order": 3
+    }
+  ],
+  "echeveria": [
+    {
+      "url": "https://res.cloudinary.com/dehgir74t/image/upload/v1773587958/ecommerce/products/echeveria/echeveria-01-echeveria1.png",
+      "alt": "Echeveria imagen 1",
+      "publicId": "ecommerce/products/echeveria/echeveria-01-echeveria1",
+      "role": "card",
+      "order": 1
+    },
+    {
+      "url": "https://res.cloudinary.com/dehgir74t/image/upload/v1773587959/ecommerce/products/echeveria/echeveria-02-echeveria2.png",
+      "alt": "Echeveria imagen 2",
+      "publicId": "ecommerce/products/echeveria/echeveria-02-echeveria2",
+      "role": "gallery",
+      "order": 2
+    },
+    {
+      "url": "https://res.cloudinary.com/dehgir74t/image/upload/v1773587961/ecommerce/products/echeveria/echeveria-03-echeveria3.png",
+      "alt": "Echeveria imagen 3",
+      "publicId": "ecommerce/products/echeveria/echeveria-03-echeveria3",
+      "role": "gallery",
+      "order": 3
+    }
+  ],
+  "epipremnum": [
+    {
+      "url": "https://res.cloudinary.com/dehgir74t/image/upload/v1773587962/ecommerce/products/epipremnum/epipremnum-01-epipremnum1.png",
+      "alt": "Epipremnum imagen 1",
+      "publicId": "ecommerce/products/epipremnum/epipremnum-01-epipremnum1",
+      "role": "card",
+      "order": 1
+    },
+    {
+      "url": "https://res.cloudinary.com/dehgir74t/image/upload/v1773587964/ecommerce/products/epipremnum/epipremnum-02-epipremnum2.png",
+      "alt": "Epipremnum imagen 2",
+      "publicId": "ecommerce/products/epipremnum/epipremnum-02-epipremnum2",
+      "role": "gallery",
+      "order": 2
+    },
+    {
+      "url": "https://res.cloudinary.com/dehgir74t/image/upload/v1773587965/ecommerce/products/epipremnum/epipremnum-03-epipremnum3.png",
+      "alt": "Epipremnum imagen 3",
+      "publicId": "ecommerce/products/epipremnum/epipremnum-03-epipremnum3",
+      "role": "gallery",
+      "order": 3
+    }
+  ],
+  "haworthia": [
+    {
+      "url": "https://res.cloudinary.com/dehgir74t/image/upload/v1773587967/ecommerce/products/haworthia/haworthia-01-haworthia.png",
+      "alt": "Haworthia imagen 1",
+      "publicId": "ecommerce/products/haworthia/haworthia-01-haworthia",
+      "role": "card",
+      "order": 1
+    },
+    {
+      "url": "https://res.cloudinary.com/dehgir74t/image/upload/v1773587968/ecommerce/products/haworthia/haworthia-02-haworthia1.png",
+      "alt": "Haworthia imagen 2",
+      "publicId": "ecommerce/products/haworthia/haworthia-02-haworthia1",
+      "role": "gallery",
+      "order": 2
+    },
+    {
+      "url": "https://res.cloudinary.com/dehgir74t/image/upload/v1773587969/ecommerce/products/haworthia/haworthia-03-haworthia2.png",
+      "alt": "Haworthia imagen 3",
+      "publicId": "ecommerce/products/haworthia/haworthia-03-haworthia2",
+      "role": "gallery",
+      "order": 3
+    },
+    {
+      "url": "https://res.cloudinary.com/dehgir74t/image/upload/v1773587970/ecommerce/products/haworthia/haworthia-04-haworthia3.png",
+      "alt": "Haworthia imagen 4",
+      "publicId": "ecommerce/products/haworthia/haworthia-04-haworthia3",
+      "role": "gallery",
+      "order": 4
+    }
+  ],
+  "kalanchoe": [
+    {
+      "url": "https://res.cloudinary.com/dehgir74t/image/upload/v1773587972/ecommerce/products/kalanchoe/kalanchoe-01-kalanchoe.png",
+      "alt": "Kalanchoe imagen 1",
+      "publicId": "ecommerce/products/kalanchoe/kalanchoe-01-kalanchoe",
+      "role": "card",
+      "order": 1
+    },
+    {
+      "url": "https://res.cloudinary.com/dehgir74t/image/upload/v1773587973/ecommerce/products/kalanchoe/kalanchoe-02-kalanchoe1.png",
+      "alt": "Kalanchoe imagen 2",
+      "publicId": "ecommerce/products/kalanchoe/kalanchoe-02-kalanchoe1",
+      "role": "gallery",
+      "order": 2
+    },
+    {
+      "url": "https://res.cloudinary.com/dehgir74t/image/upload/v1773587974/ecommerce/products/kalanchoe/kalanchoe-03-kalanchoe2.png",
+      "alt": "Kalanchoe imagen 3",
+      "publicId": "ecommerce/products/kalanchoe/kalanchoe-03-kalanchoe2",
+      "role": "gallery",
+      "order": 3
+    }
+  ],
+  "lithops": [
+    {
+      "url": "https://res.cloudinary.com/dehgir74t/image/upload/v1773587975/ecommerce/products/lithops/lithops-01-lithops.png",
+      "alt": "Lithops imagen 1",
+      "publicId": "ecommerce/products/lithops/lithops-01-lithops",
+      "role": "card",
+      "order": 1
+    },
+    {
+      "url": "https://res.cloudinary.com/dehgir74t/image/upload/v1773587977/ecommerce/products/lithops/lithops-02-lithops1.png",
+      "alt": "Lithops imagen 2",
+      "publicId": "ecommerce/products/lithops/lithops-02-lithops1",
+      "role": "gallery",
+      "order": 2
+    },
+    {
+      "url": "https://res.cloudinary.com/dehgir74t/image/upload/v1773587978/ecommerce/products/lithops/lithops-03-lithops2.png",
+      "alt": "Lithops imagen 3",
+      "publicId": "ecommerce/products/lithops/lithops-03-lithops2",
+      "role": "gallery",
+      "order": 3
+    },
+    {
+      "url": "https://res.cloudinary.com/dehgir74t/image/upload/v1773587979/ecommerce/products/lithops/lithops-04-lithops3.png",
+      "alt": "Lithops imagen 4",
+      "publicId": "ecommerce/products/lithops/lithops-04-lithops3",
+      "role": "gallery",
+      "order": 4
+    }
+  ],
+  "monstera": [
+    {
+      "url": "https://res.cloudinary.com/dehgir74t/image/upload/v1773587980/ecommerce/products/monstera/monstera-01-monstera.png",
+      "alt": "Monstera imagen 1",
+      "publicId": "ecommerce/products/monstera/monstera-01-monstera",
+      "role": "card",
+      "order": 1
+    },
+    {
+      "url": "https://res.cloudinary.com/dehgir74t/image/upload/v1773587981/ecommerce/products/monstera/monstera-02-monstera1.png",
+      "alt": "Monstera imagen 2",
+      "publicId": "ecommerce/products/monstera/monstera-02-monstera1",
+      "role": "gallery",
+      "order": 2
+    },
+    {
+      "url": "https://res.cloudinary.com/dehgir74t/image/upload/v1773587982/ecommerce/products/monstera/monstera-03-monstera2.png",
+      "alt": "Monstera imagen 3",
+      "publicId": "ecommerce/products/monstera/monstera-03-monstera2",
+      "role": "gallery",
+      "order": 3
+    }
+  ],
+  "zamioculcas": [
+    {
+      "url": "https://res.cloudinary.com/dehgir74t/image/upload/v1773587983/ecommerce/products/zamioculcas/zamioculcas-01-zamioculcas-1.png",
+      "alt": "Zamioculcas imagen 1",
+      "publicId": "ecommerce/products/zamioculcas/zamioculcas-01-zamioculcas-1",
+      "role": "card",
+      "order": 1
+    },
+    {
+      "url": "https://res.cloudinary.com/dehgir74t/image/upload/v1773587984/ecommerce/products/zamioculcas/zamioculcas-02-zamioculcas-2.png",
+      "alt": "Zamioculcas imagen 2",
+      "publicId": "ecommerce/products/zamioculcas/zamioculcas-02-zamioculcas-2",
+      "role": "gallery",
+      "order": 2
+    },
+    {
+      "url": "https://res.cloudinary.com/dehgir74t/image/upload/v1773587986/ecommerce/products/zamioculcas/zamioculcas-03-zamioculcas.png",
+      "alt": "Zamioculcas imagen 3",
+      "publicId": "ecommerce/products/zamioculcas/zamioculcas-03-zamioculcas",
+      "role": "gallery",
+      "order": 3
+    }
+  ]
+}

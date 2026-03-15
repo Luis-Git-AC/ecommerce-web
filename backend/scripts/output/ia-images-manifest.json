@@ -1,0 +1,299 @@
+{
+  "generatedAt": "2026-03-15T15:19:18.755Z",
+  "assetsRoot": "C:\\Users\\User\\Desktop\\ecommerce-web\\frontend\\src\\assets\\imagenes_ia",
+  "totalProducts": 10,
+  "totalFiles": 33,
+  "products": [
+    {
+      "folder": "aloes_ia",
+      "slug": "aloes",
+      "files": [
+        {
+          "fileName": "Aloe1.png",
+          "relativePath": "aloes_ia/Aloe1.png",
+          "localPath": "C:\\Users\\User\\Desktop\\ecommerce-web\\frontend\\src\\assets\\imagenes_ia\\aloes_ia\\Aloe1.png",
+          "role": "card",
+          "order": 1
+        },
+        {
+          "fileName": "Aloe2.png",
+          "relativePath": "aloes_ia/Aloe2.png",
+          "localPath": "C:\\Users\\User\\Desktop\\ecommerce-web\\frontend\\src\\assets\\imagenes_ia\\aloes_ia\\Aloe2.png",
+          "role": "gallery",
+          "order": 2
+        },
+        {
+          "fileName": "Aloe3.png",
+          "relativePath": "aloes_ia/Aloe3.png",
+          "localPath": "C:\\Users\\User\\Desktop\\ecommerce-web\\frontend\\src\\assets\\imagenes_ia\\aloes_ia\\Aloe3.png",
+          "role": "gallery",
+          "order": 3
+        },
+        {
+          "fileName": "Aloe4.png",
+          "relativePath": "aloes_ia/Aloe4.png",
+          "localPath": "C:\\Users\\User\\Desktop\\ecommerce-web\\frontend\\src\\assets\\imagenes_ia\\aloes_ia\\Aloe4.png",
+          "role": "gallery",
+          "order": 4
+        }
+      ]
+    },
+    {
+      "folder": "crassula_ia",
+      "slug": "crassula",
+      "files": [
+        {
+          "fileName": "crassula1.png",
+          "relativePath": "crassula_ia/crassula1.png",
+          "localPath": "C:\\Users\\User\\Desktop\\ecommerce-web\\frontend\\src\\assets\\imagenes_ia\\crassula_ia\\crassula1.png",
+          "role": "card",
+          "order": 1
+        },
+        {
+          "fileName": "crassula2.png",
+          "relativePath": "crassula_ia/crassula2.png",
+          "localPath": "C:\\Users\\User\\Desktop\\ecommerce-web\\frontend\\src\\assets\\imagenes_ia\\crassula_ia\\crassula2.png",
+          "role": "gallery",
+          "order": 2
+        },
+        {
+          "fileName": "crassula3.png",
+          "relativePath": "crassula_ia/crassula3.png",
+          "localPath": "C:\\Users\\User\\Desktop\\ecommerce-web\\frontend\\src\\assets\\imagenes_ia\\crassula_ia\\crassula3.png",
+          "role": "gallery",
+          "order": 3
+        }
+      ]
+    },
+    {
+      "folder": "curio_ia",
+      "slug": "curio",
+      "files": [
+        {
+          "fileName": "curio1.png",
+          "relativePath": "curio_ia/curio1.png",
+          "localPath": "C:\\Users\\User\\Desktop\\ecommerce-web\\frontend\\src\\assets\\imagenes_ia\\curio_ia\\curio1.png",
+          "role": "card",
+          "order": 1
+        },
+        {
+          "fileName": "curio2.png",
+          "relativePath": "curio_ia/curio2.png",
+          "localPath": "C:\\Users\\User\\Desktop\\ecommerce-web\\frontend\\src\\assets\\imagenes_ia\\curio_ia\\curio2.png",
+          "role": "gallery",
+          "order": 2
+        },
+        {
+          "fileName": "curio3.png",
+          "relativePath": "curio_ia/curio3.png",
+          "localPath": "C:\\Users\\User\\Desktop\\ecommerce-web\\frontend\\src\\assets\\imagenes_ia\\curio_ia\\curio3.png",
+          "role": "gallery",
+          "order": 3
+        }
+      ]
+    },
+    {
+      "folder": "echeveria_ia",
+      "slug": "echeveria",
+      "files": [
+        {
+          "fileName": "echeveria1.png",
+          "relativePath": "echeveria_ia/echeveria1.png",
+          "localPath": "C:\\Users\\User\\Desktop\\ecommerce-web\\frontend\\src\\assets\\imagenes_ia\\echeveria_ia\\echeveria1.png",
+          "role": "card",
+          "order": 1
+        },
+        {
+          "fileName": "echeveria2.png",
+          "relativePath": "echeveria_ia/echeveria2.png",
+          "localPath": "C:\\Users\\User\\Desktop\\ecommerce-web\\frontend\\src\\assets\\imagenes_ia\\echeveria_ia\\echeveria2.png",
+          "role": "gallery",
+          "order": 2
+        },
+        {
+          "fileName": "echeveria3.png",
+          "relativePath": "echeveria_ia/echeveria3.png",
+          "localPath": "C:\\Users\\User\\Desktop\\ecommerce-web\\frontend\\src\\assets\\imagenes_ia\\echeveria_ia\\echeveria3.png",
+          "role": "gallery",
+          "order": 3
+        }
+      ]
+    },
+    {
+      "folder": "epipremnum_ia",
+      "slug": "epipremnum",
+      "files": [
+        {
+          "fileName": "epipremnum1.png",
+          "relativePath": "epipremnum_ia/epipremnum1.png",
+          "localPath": "C:\\Users\\User\\Desktop\\ecommerce-web\\frontend\\src\\assets\\imagenes_ia\\epipremnum_ia\\epipremnum1.png",
+          "role": "card",
+          "order": 1
+        },
+        {
+          "fileName": "epipremnum2.png",
+          "relativePath": "epipremnum_ia/epipremnum2.png",
+          "localPath": "C:\\Users\\User\\Desktop\\ecommerce-web\\frontend\\src\\assets\\imagenes_ia\\epipremnum_ia\\epipremnum2.png",
+          "role": "gallery",
+          "order": 2
+        },
+        {
+          "fileName": "epipremnum3.png",
+          "relativePath": "epipremnum_ia/epipremnum3.png",
+          "localPath": "C:\\Users\\User\\Desktop\\ecommerce-web\\frontend\\src\\assets\\imagenes_ia\\epipremnum_ia\\epipremnum3.png",
+          "role": "gallery",
+          "order": 3
+        }
+      ]
+    },
+    {
+      "folder": "haworthia_ia",
+      "slug": "haworthia",
+      "files": [
+        {
+          "fileName": "haworthia.png",
+          "relativePath": "haworthia_ia/haworthia.png",
+          "localPath": "C:\\Users\\User\\Desktop\\ecommerce-web\\frontend\\src\\assets\\imagenes_ia\\haworthia_ia\\haworthia.png",
+          "role": "card",
+          "order": 1
+        },
+        {
+          "fileName": "haworthia1.png",
+          "relativePath": "haworthia_ia/haworthia1.png",
+          "localPath": "C:\\Users\\User\\Desktop\\ecommerce-web\\frontend\\src\\assets\\imagenes_ia\\haworthia_ia\\haworthia1.png",
+          "role": "gallery",
+          "order": 2
+        },
+        {
+          "fileName": "haworthia2.png",
+          "relativePath": "haworthia_ia/haworthia2.png",
+          "localPath": "C:\\Users\\User\\Desktop\\ecommerce-web\\frontend\\src\\assets\\imagenes_ia\\haworthia_ia\\haworthia2.png",
+          "role": "gallery",
+          "order": 3
+        },
+        {
+          "fileName": "haworthia3.png",
+          "relativePath": "haworthia_ia/haworthia3.png",
+          "localPath": "C:\\Users\\User\\Desktop\\ecommerce-web\\frontend\\src\\assets\\imagenes_ia\\haworthia_ia\\haworthia3.png",
+          "role": "gallery",
+          "order": 4
+        }
+      ]
+    },
+    {
+      "folder": "Kalanchoe",
+      "slug": "kalanchoe",
+      "files": [
+        {
+          "fileName": "Kalanchoe.png",
+          "relativePath": "Kalanchoe/Kalanchoe.png",
+          "localPath": "C:\\Users\\User\\Desktop\\ecommerce-web\\frontend\\src\\assets\\imagenes_ia\\Kalanchoe\\Kalanchoe.png",
+          "role": "card",
+          "order": 1
+        },
+        {
+          "fileName": "Kalanchoe1.png",
+          "relativePath": "Kalanchoe/Kalanchoe1.png",
+          "localPath": "C:\\Users\\User\\Desktop\\ecommerce-web\\frontend\\src\\assets\\imagenes_ia\\Kalanchoe\\Kalanchoe1.png",
+          "role": "gallery",
+          "order": 2
+        },
+        {
+          "fileName": "Kalanchoe2.png",
+          "relativePath": "Kalanchoe/Kalanchoe2.png",
+          "localPath": "C:\\Users\\User\\Desktop\\ecommerce-web\\frontend\\src\\assets\\imagenes_ia\\Kalanchoe\\Kalanchoe2.png",
+          "role": "gallery",
+          "order": 3
+        }
+      ]
+    },
+    {
+      "folder": "lithops",
+      "slug": "lithops",
+      "files": [
+        {
+          "fileName": "Lithops.png",
+          "relativePath": "lithops/Lithops.png",
+          "localPath": "C:\\Users\\User\\Desktop\\ecommerce-web\\frontend\\src\\assets\\imagenes_ia\\lithops\\Lithops.png",
+          "role": "card",
+          "order": 1
+        },
+        {
+          "fileName": "Lithops1.png",
+          "relativePath": "lithops/Lithops1.png",
+          "localPath": "C:\\Users\\User\\Desktop\\ecommerce-web\\frontend\\src\\assets\\imagenes_ia\\lithops\\Lithops1.png",
+          "role": "gallery",
+          "order": 2
+        },
+        {
+          "fileName": "Lithops2.png",
+          "relativePath": "lithops/Lithops2.png",
+          "localPath": "C:\\Users\\User\\Desktop\\ecommerce-web\\frontend\\src\\assets\\imagenes_ia\\lithops\\Lithops2.png",
+          "role": "gallery",
+          "order": 3
+        },
+        {
+          "fileName": "Lithops3.png",
+          "relativePath": "lithops/Lithops3.png",
+          "localPath": "C:\\Users\\User\\Desktop\\ecommerce-web\\frontend\\src\\assets\\imagenes_ia\\lithops\\Lithops3.png",
+          "role": "gallery",
+          "order": 4
+        }
+      ]
+    },
+    {
+      "folder": "monstera",
+      "slug": "monstera",
+      "files": [
+        {
+          "fileName": "monstera.png",
+          "relativePath": "monstera/monstera.png",
+          "localPath": "C:\\Users\\User\\Desktop\\ecommerce-web\\frontend\\src\\assets\\imagenes_ia\\monstera\\monstera.png",
+          "role": "card",
+          "order": 1
+        },
+        {
+          "fileName": "monstera1.png",
+          "relativePath": "monstera/monstera1.png",
+          "localPath": "C:\\Users\\User\\Desktop\\ecommerce-web\\frontend\\src\\assets\\imagenes_ia\\monstera\\monstera1.png",
+          "role": "gallery",
+          "order": 2
+        },
+        {
+          "fileName": "monstera2.png",
+          "relativePath": "monstera/monstera2.png",
+          "localPath": "C:\\Users\\User\\Desktop\\ecommerce-web\\frontend\\src\\assets\\imagenes_ia\\monstera\\monstera2.png",
+          "role": "gallery",
+          "order": 3
+        }
+      ]
+    },
+    {
+      "folder": "Zamioculcas",
+      "slug": "zamioculcas",
+      "files": [
+        {
+          "fileName": "Zamioculcas 1.png",
+          "relativePath": "Zamioculcas/Zamioculcas 1.png",
+          "localPath": "C:\\Users\\User\\Desktop\\ecommerce-web\\frontend\\src\\assets\\imagenes_ia\\Zamioculcas\\Zamioculcas 1.png",
+          "role": "card",
+          "order": 1
+        },
+        {
+          "fileName": "Zamioculcas 2.png",
+          "relativePath": "Zamioculcas/Zamioculcas 2.png",
+          "localPath": "C:\\Users\\User\\Desktop\\ecommerce-web\\frontend\\src\\assets\\imagenes_ia\\Zamioculcas\\Zamioculcas 2.png",
+          "role": "gallery",
+          "order": 2
+        },
+        {
+          "fileName": "Zamioculcas.png",
+          "relativePath": "Zamioculcas/Zamioculcas.png",
+          "localPath": "C:\\Users\\User\\Desktop\\ecommerce-web\\frontend\\src\\assets\\imagenes_ia\\Zamioculcas\\Zamioculcas.png",
+          "role": "gallery",
+          "order": 3
+        }
+      ]
+    }
+  ]
+}

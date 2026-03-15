@@ -10,27 +10,27 @@ const filters = [
   {
     key: 'category',
     title: 'Tipo',
-    options: ['Suculenta', 'Tropical', 'Cactus', 'Trepadora'],
+    options: ['suculentas', 'interior', 'florales', 'colgantes'],
   },
   {
     key: 'careLevel',
     title: 'Nivel de cuidado',
-    options: ['Fácil', 'Moderado', 'Experto'],
+    options: ['easy', 'medium', 'hard'],
   },
   {
     key: 'lightRequired',
     title: 'Necesidad de luz',
-    options: ['Baja', 'Media', 'Alta'],
+    options: ['low', 'medium', 'high'],
   },
   {
     key: 'size',
     title: 'Tamaño',
-    options: ['Pequeña', 'Mediana', 'Grande'],
+    options: ['xs', 's', 'm', 'l', 'xl'],
   },
   {
     key: 'petSafe',
     title: 'Pet-friendly',
-    options: ['Sí', 'No'],
+    options: ['true', 'false'],
   },
 ] as const
 
@@ -62,16 +62,35 @@ const initialFiltersState: FiltersState = {
 
 const parsePrice = (price: string) => Number.parseFloat(price.replace(/[^\d.]/g, '')) || 0
 
+const optionLabelMap: Record<string, string> = {
+  suculentas: 'Suculentas',
+  interior: 'Interior',
+  florales: 'Florales',
+  colgantes: 'Colgantes',
+  easy: 'Fácil',
+  medium: 'Medio',
+  hard: 'Difícil',
+  low: 'Baja',
+  high: 'Alta',
+  xs: 'XS',
+  s: 'S',
+  m: 'M',
+  l: 'L',
+  xl: 'XL',
+  true: 'Sí',
+  false: 'No',
+}
+
 const getProductValue = (product: Product, key: FilterKey) => {
   if (key === 'petSafe') {
-    return product.petSafe ? 'si' : 'no'
+    return product.petSafe ? 'true' : 'false'
   }
 
   return String(product[key])
 }
 
 export default function ShopPage() {
-  const products = useProducts()
+  const { products, loading, error } = useProducts()
   const [activeFilters, setActiveFilters] = useState<FiltersState>(initialFiltersState)
   const [sortBy, setSortBy] = useState<SortOption>('featured')
 
@@ -144,7 +163,7 @@ export default function ShopPage() {
                         checked={activeFilters[group.key].includes(option)}
                         onChange={() => toggleFilter(group.key, option)}
                       />
-                      <span>{option}</span>
+                      <span>{optionLabelMap[option] ?? option}</span>
                     </label>
                   ))}
                 </div>
@@ -165,13 +184,24 @@ export default function ShopPage() {
                 aria-label="Ordenar"
                 value={sortBy}
                 onChange={(event) => setSortBy(event.target.value as SortOption)}
+                disabled={loading}
               >
                 <option value="featured">Destacadas</option>
                 <option value="price-asc">Precio: menor a mayor</option>
                 <option value="price-desc">Precio: mayor a menor</option>
               </select>
             </div>
-            {visibleProducts.length === 0 ? (
+            {loading ? (
+              <div className={styles.emptyState} role="status" aria-live="polite">
+                <h3>Cargando catálogo...</h3>
+                <p className="muted">Estamos trayendo los productos desde el backend.</p>
+              </div>
+            ) : error ? (
+              <div className={styles.emptyState} role="alert" aria-live="assertive">
+                <h3>No pudimos cargar la tienda</h3>
+                <p className="muted">{error}</p>
+              </div>
+            ) : visibleProducts.length === 0 ? (
               <div className={styles.emptyState} role="status" aria-live="polite">
                 <h3>No encontramos plantas con ese criterio</h3>
                 <p className="muted">Ajusta los filtros para descubrir más opciones.</p>
