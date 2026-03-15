@@ -89,7 +89,14 @@
 .leadStatus {
   margin: 0;
   font-size: 0.9rem;
+}
+
+.leadStatusSuccess {
   color: #2e8b57;
+}
+
+.leadStatusError {
+  color: #b5473c;
 }
 
 .stepGrid {

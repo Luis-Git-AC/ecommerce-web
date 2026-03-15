@@ -84,22 +84,26 @@ export default function BlogPage() {
           {loading ? <p className="muted">Cargando artículos...</p> : null}
           {error ? <p className="muted">{error}</p> : null}
           {!loading && !error ? (
-            <div className={styles.grid}>
-              {visiblePosts.map((post) => (
-                <article key={post._id} className={styles.card}>
-                  <img src={post.image} alt={post.title} />
-                  <div className={styles.cardBody}>
-                    <span className={styles.tag}>{post.category}</span>
-                    <h3>{post.title}</h3>
-                    <p className="muted">{post.excerpt}</p>
-                    <div className={styles.cardMeta}>
-                      <span>{new Date(post.publishedAt).toLocaleDateString('es-ES')}</span>
-                      <Link to={`/blog/${post.slug}`}>Leer guía</Link>
+            visiblePosts.length === 0 ? (
+              <p className={styles.emptyState}>No hay artículos para esta categoría. Prueba con otra opción.</p>
+            ) : (
+              <div className={styles.grid}>
+                {visiblePosts.map((post) => (
+                  <article key={post._id} className={styles.card}>
+                    <img src={post.image} alt={post.title} />
+                    <div className={styles.cardBody}>
+                      <span className={styles.tag}>{post.category}</span>
+                      <h3>{post.title}</h3>
+                      <p className="muted">{post.excerpt}</p>
+                      <div className={styles.cardMeta}>
+                        <span>{new Date(post.publishedAt).toLocaleDateString('es-ES')}</span>
+                        <Link to={`/blog/${post.slug}`}>Leer guía</Link>
+                      </div>
                     </div>
-                  </div>
-                </article>
-              ))}
-            </div>
+                  </article>
+                ))}
+              </div>
+            )
           ) : null}
         </section>
       </main>

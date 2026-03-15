@@ -46,6 +46,15 @@
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
 }
 
+.emptyState {
+  margin: 0;
+  padding: 1rem 1.1rem;
+  border-radius: 12px;
+  border: 1px solid #e7e2d8;
+  background: #fffdf7;
+  color: #4a5a50;
+}
+
 .card {
   border-radius: 20px;
   overflow: hidden;

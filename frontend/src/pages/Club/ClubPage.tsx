@@ -65,6 +65,7 @@ export default function ClubPage() {
   const [leadEmail, setLeadEmail] = useState('')
   const [leadPlan, setLeadPlan] = useState<'basic' | 'medio' | 'premium'>('medio')
   const [leadStatus, setLeadStatus] = useState('')
+  const [leadStatusType, setLeadStatusType] = useState<'success' | 'error' | null>(null)
   const [isLeadSubmitting, setIsLeadSubmitting] = useState(false)
 
   useEffect(() => {
@@ -93,12 +94,14 @@ export default function ClubPage() {
 
     if (!name || !isValidEmail) {
       setLeadStatus('Completa nombre y un correo válido para registrarte.')
+      setLeadStatusType('error')
       return
     }
 
     try {
       setIsLeadSubmitting(true)
       setLeadStatus('')
+      setLeadStatusType(null)
 
       await contentRepository.createClubLead({
         name,
@@ -107,11 +110,13 @@ export default function ClubPage() {
       })
 
       setLeadStatus('Listo. Te contactaremos con una propuesta de plan personalizada.')
+      setLeadStatusType('success')
       setLeadName('')
       setLeadEmail('')
     } catch (error) {
       const message = error instanceof Error ? error.message : 'No se pudo registrar tu interés.'
       setLeadStatus(message)
+      setLeadStatusType('error')
     } finally {
       setIsLeadSubmitting(false)
     }
@@ -230,7 +235,15 @@ export default function ClubPage() {
             <button className="btn" type="submit" disabled={isLeadSubmitting}>
               {isLeadSubmitting ? 'Enviando...' : 'Quiero unirme'}
             </button>
-            {leadStatus ? <p className={styles.leadStatus}>{leadStatus}</p> : null}
+            {leadStatus ? (
+              <p
+                className={`${styles.leadStatus} ${leadStatusType === 'error' ? styles.leadStatusError : styles.leadStatusSuccess}`}
+                role={leadStatusType === 'error' ? 'alert' : 'status'}
+                aria-live={leadStatusType === 'error' ? 'assertive' : 'polite'}
+              >
+                {leadStatus}
+              </p>
+            ) : null}
           </form>
         </section>
 

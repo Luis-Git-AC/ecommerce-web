@@ -7,6 +7,7 @@ import styles from './Footer.module.css'
 export default function Footer() {
   const [newsletterEmail, setNewsletterEmail] = useState('')
   const [newsletterMessage, setNewsletterMessage] = useState('')
+  const [newsletterStatusType, setNewsletterStatusType] = useState<'success' | 'error' | null>(null)
   const [isNewsletterSubmitting, setIsNewsletterSubmitting] = useState(false)
 
   const handleNewsletterSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -16,18 +17,22 @@ export default function Footer() {
 
     if (!isValidEmail) {
       setNewsletterMessage('Introduce un correo válido.')
+      setNewsletterStatusType('error')
       return
     }
 
     try {
       setIsNewsletterSubmitting(true)
       setNewsletterMessage('')
+      setNewsletterStatusType(null)
       await contentRepository.subscribeNewsletter({ email })
       setNewsletterMessage('Suscripción registrada. Te avisaremos con las próximas novedades.')
+      setNewsletterStatusType('success')
       setNewsletterEmail('')
     } catch (error) {
       const message = error instanceof Error ? error.message : 'No se pudo registrar la suscripción.'
       setNewsletterMessage(message)
+      setNewsletterStatusType('error')
     } finally {
       setIsNewsletterSubmitting(false)
     }
@@ -163,7 +168,15 @@ export default function Footer() {
                 </button>
               </form>
             </div>
-            {newsletterMessage ? <p className={styles.newsletterStatus}>{newsletterMessage}</p> : null}
+            {newsletterMessage ? (
+              <p
+                className={`${styles.newsletterStatus} ${newsletterStatusType === 'error' ? styles.newsletterStatusError : styles.newsletterStatusSuccess}`}
+                role={newsletterStatusType === 'error' ? 'alert' : 'status'}
+                aria-live={newsletterStatusType === 'error' ? 'assertive' : 'polite'}
+              >
+                {newsletterMessage}
+              </p>
+            ) : null}
           </details>
         </div>
       </div>
@@ -189,7 +202,15 @@ export default function Footer() {
               </form>
             </div>
           </div>
-          {newsletterMessage ? <p className={styles.newsletterStatus}>{newsletterMessage}</p> : null}
+          {newsletterMessage ? (
+            <p
+              className={`${styles.newsletterStatus} ${newsletterStatusType === 'error' ? styles.newsletterStatusError : styles.newsletterStatusSuccess}`}
+              role={newsletterStatusType === 'error' ? 'alert' : 'status'}
+              aria-live={newsletterStatusType === 'error' ? 'assertive' : 'polite'}
+            >
+              {newsletterMessage}
+            </p>
+          ) : null}
           <p className="muted">© 2026 VerdeVivo. Todos los derechos reservados.</p>
           <div className={styles.legalLinks}>
             <Link to="/legal/privacy">Privacidad</Link>

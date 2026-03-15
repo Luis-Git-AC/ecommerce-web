@@ -41,7 +41,14 @@
 .statusMessage {
   margin: 0;
   font-size: 0.9rem;
+}
+
+.statusSuccess {
   color: #2e8b57;
+}
+
+.statusError {
+  color: #b5473c;
 }
 
 .info {

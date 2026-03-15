@@ -54,6 +54,7 @@ export default function BlogPostPage() {
   const date = post ? new Date(post.publishedAt).toLocaleDateString('es-ES') : 'Próximamente'
   const category = post?.category ?? 'Guía'
   const image = post?.image
+  const hasContent = !loading && !error && Boolean(post)
 
   return (
     <div className="page">
@@ -71,13 +72,23 @@ export default function BlogPostPage() {
 
         <section className={`container ${styles.content}`}>
           {loading ? <p className="muted">Cargando artículo...</p> : null}
-          {error ? <p className="muted">{error}</p> : null}
-          {image ? <img className={styles.image} src={image} alt={title} /> : null}
-          <p className="muted">{post?.content ?? 'Este artículo estará disponible pronto.'}</p>
-          <p className="muted">
-            Si quieres una versión personalizada, escribe a nuestro equipo y te enviaremos recursos y consejos.
-          </p>
-          <Link className="btn" to="/contact">Contactar</Link>
+          {error ? (
+            <div className={styles.errorState} role="alert" aria-live="assertive">
+              <p className="muted">{error}</p>
+              <p className="muted">Puedes volver al listado para explorar otras guías disponibles.</p>
+              <Link className="btn" to="/blog">Ver blog</Link>
+            </div>
+          ) : null}
+          {hasContent ? (
+            <>
+              {image ? <img className={styles.image} src={image} alt={title} /> : null}
+              <p className="muted">{post?.content}</p>
+              <p className="muted">
+                Si quieres una versión personalizada, escribe a nuestro equipo y te enviaremos recursos y consejos.
+              </p>
+              <Link className="btn" to="/contact">Contactar</Link>
+            </>
+          ) : null}
         </section>
       </main>
       <Footer />

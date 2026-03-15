@@ -224,7 +224,14 @@
 .newsletterStatus {
   margin: 0.35rem 0 0;
   font-size: 0.85rem;
+}
+
+.newsletterStatusSuccess {
   color: rgba(246, 243, 238, 0.8);
+}
+
+.newsletterStatusError {
+  color: #ffb4ab;
 }
 
 @media (max-width: 768px) {

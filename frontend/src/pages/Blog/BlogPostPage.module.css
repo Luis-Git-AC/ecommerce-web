@@ -28,6 +28,15 @@
   padding-bottom: 2rem;
 }
 
+.errorState {
+  display: grid;
+  gap: 0.75rem;
+  border: 1px solid #e7e2d8;
+  border-radius: 12px;
+  background: #fffdf7;
+  padding: 1rem;
+}
+
 .image {
   width: 100%;
   max-height: 380px;

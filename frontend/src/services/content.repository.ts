@@ -31,10 +31,32 @@ type GenericCreateResponse = {
 
 const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL as string | undefined)?.trim() || 'http://localhost:4000/api'
 
+const friendlyStatusMessage = (status: number) => {
+  if (status === 400) return 'Los datos enviados no son validos. Revisa el formulario e intenta de nuevo.'
+  if (status === 404) return 'No encontramos el recurso solicitado.'
+  if (status === 409) return 'Este registro ya existe.'
+  if (status === 429) return 'Has realizado demasiados intentos. Espera unos minutos y vuelve a intentar.'
+  if (status >= 500) return 'Tuvimos un problema temporal. Intenta nuevamente en unos minutos.'
+  return 'No pudimos completar la solicitud en este momento.'
+}
+
+const parseErrorMessage = async (response: Response) => {
+  try {
+    const body = (await response.json()) as { message?: unknown }
+    if (typeof body.message === 'string' && body.message.trim()) {
+      return body.message.trim()
+    }
+  } catch {
+    // No-op: si la respuesta no es JSON util, usamos un mensaje amigable.
+  }
+
+  return friendlyStatusMessage(response.status)
+}
+
 const getJson = async <T>(path: string): Promise<T> => {
   const response = await fetch(`${API_BASE_URL}${path}`)
   if (!response.ok) {
-    throw new Error(`Request failed: ${response.status} ${response.statusText}`)
+    throw new Error(await parseErrorMessage(response))
   }
 
   return (await response.json()) as T
@@ -50,7 +72,7 @@ const postJson = async <T>(path: string, body: Record<string, unknown>): Promise
   })
 
   if (!response.ok) {
-    throw new Error(`Request failed: ${response.status} ${response.statusText}`)
+    throw new Error(await parseErrorMessage(response))
   }
 
   return (await response.json()) as T

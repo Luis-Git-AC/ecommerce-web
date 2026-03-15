@@ -10,6 +10,7 @@ export default function ContactPage() {
   const [email, setEmail] = useState('')
   const [message, setMessage] = useState('')
   const [statusMessage, setStatusMessage] = useState('')
+  const [statusType, setStatusType] = useState<'success' | 'error' | null>(null)
   const [isSubmitting, setIsSubmitting] = useState(false)
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -21,12 +22,14 @@ export default function ContactPage() {
 
     if (!trimmedName || !trimmedMessage || !isValidEmail) {
       setStatusMessage('Completa todos los campos con un correo válido.')
+      setStatusType('error')
       return
     }
 
     try {
       setIsSubmitting(true)
       setStatusMessage('')
+      setStatusType(null)
 
       await contentRepository.createContactMessage({
         name: trimmedName,
@@ -35,12 +38,14 @@ export default function ContactPage() {
       })
 
       setStatusMessage('Mensaje enviado. Te responderemos dentro de 24 horas hábiles.')
+      setStatusType('success')
       setName('')
       setEmail('')
       setMessage('')
     } catch (error) {
       const messageText = error instanceof Error ? error.message : 'No se pudo enviar el mensaje.'
       setStatusMessage(messageText)
+      setStatusType('error')
     } finally {
       setIsSubmitting(false)
     }
@@ -91,7 +96,15 @@ export default function ContactPage() {
             <button className="btn" type="submit" disabled={isSubmitting}>
               {isSubmitting ? 'Enviando...' : 'Enviar mensaje'}
             </button>
-            {statusMessage ? <p className={styles.statusMessage}>{statusMessage}</p> : null}
+            {statusMessage ? (
+              <p
+                className={`${styles.statusMessage} ${statusType === 'error' ? styles.statusError : styles.statusSuccess}`}
+                role={statusType === 'error' ? 'alert' : 'status'}
+                aria-live={statusType === 'error' ? 'assertive' : 'polite'}
+              >
+                {statusMessage}
+              </p>
+            ) : null}
           </form>
 
           <div className={styles.info}>
