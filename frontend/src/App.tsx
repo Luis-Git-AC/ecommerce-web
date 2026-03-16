@@ -3,6 +3,7 @@ import { Navigate, Route, Routes } from 'react-router-dom'
 import { useLocation } from 'react-router-dom'
 import HomePage from './pages/Home/HomePage'
 import AboutPage from './pages/About/AboutPage'
+import AccountPage from './pages/Account/AccountPage'
 import ClubPage from './pages/Club/ClubPage'
 import BlogPage from './pages/Blog/BlogPage'
 import BlogPostPage from './pages/Blog/BlogPostPage'
@@ -14,6 +15,8 @@ import TermsPage from './pages/Legal/TermsPage'
 import ProductPage from './pages/Product/ProductPage'
 import ShopPage from './pages/Shop/ShopPage'
 import ShippingPage from './pages/Shipping/ShippingPage'
+import CartPage from './pages/Cart/CartPage'
+import OrderDetailPage from './pages/Order/OrderDetailPage'
 
 function App() {
   const { pathname, hash } = useLocation()
@@ -35,6 +38,9 @@ function App() {
     <Routes>
       <Route path="/" element={<HomePage />} />
       <Route path="/shop" element={<ShopPage />} />
+      <Route path="/account" element={<AccountPage />} />
+      <Route path="/account/orders/:id" element={<OrderDetailPage />} />
+      <Route path="/cart" element={<CartPage />} />
       <Route path="/about" element={<AboutPage />} />
       <Route path="/club" element={<ClubPage />} />
       <Route path="/blog" element={<BlogPage />} />

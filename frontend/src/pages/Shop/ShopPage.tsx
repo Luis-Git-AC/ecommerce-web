@@ -194,7 +194,7 @@ export default function ShopPage() {
             {loading ? (
               <div className={styles.emptyState} role="status" aria-live="polite">
                 <h3>Cargando catálogo...</h3>
-                <p className="muted">Estamos trayendo los productos desde el backend.</p>
+                <p className="muted">Estamos trayendo los productos desde el servidor.</p>
               </div>
             ) : error ? (
               <div className={styles.emptyState} role="alert" aria-live="assertive">

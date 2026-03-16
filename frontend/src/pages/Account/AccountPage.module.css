@@ -1,0 +1,99 @@
+.account {
+  padding-bottom: 4rem;
+}
+
+.hero {
+  padding: var(--page-hero-top) 0 var(--page-hero-bottom);
+  display: grid;
+  gap: 0.9rem;
+  max-width: var(--page-max-width);
+}
+
+.authGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.25rem;
+  align-items: start;
+}
+
+.panel {
+  background: #ffffff;
+  border: 1px solid #e8e2d7;
+  border-radius: 18px;
+  padding: 1.3rem;
+  display: grid;
+  gap: 0.9rem;
+}
+
+.panel label {
+  display: grid;
+  gap: 0.35rem;
+  font-weight: 600;
+}
+
+.panel input {
+  min-height: 42px;
+  padding: 0.65rem 0.8rem;
+}
+
+.sessionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.ordersHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.ordersList {
+  display: grid;
+  gap: 0.8rem;
+}
+
+.orderCard {
+  border: 1px solid #ece7dc;
+  border-radius: 14px;
+  padding: 0.9rem;
+  background: #fcfbf8;
+  display: grid;
+  gap: 0.2rem;
+}
+
+.emptyState {
+  display: grid;
+  gap: 0.9rem;
+  justify-items: start;
+}
+
+.successBox,
+.errorBox {
+  grid-column: 1 / -1;
+  border-radius: 12px;
+  padding: 0.75rem 0.9rem;
+  border: 1px solid transparent;
+}
+
+.successBox {
+  background: #eaf7ee;
+  border-color: #b9dfc5;
+  color: #245536;
+}
+
+.errorBox {
+  background: #fff0ef;
+  border-color: #efc5c1;
+  color: #812b26;
+}
+
+@media (max-width: 900px) {
+  .authGrid {
+    grid-template-columns: 1fr;
+  }
+}

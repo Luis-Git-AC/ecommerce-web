@@ -1,0 +1,59 @@
+.orderDetail {
+  padding-bottom: 4rem;
+}
+
+.hero {
+  padding: var(--page-hero-top) 0 var(--page-hero-bottom);
+  display: grid;
+  gap: 0.9rem;
+  max-width: var(--page-max-width);
+}
+
+.content {
+  display: grid;
+  gap: 1rem;
+}
+
+.panel {
+  background: #ffffff;
+  border: 1px solid #e8e2d7;
+  border-radius: 18px;
+  padding: 1.2rem;
+  display: grid;
+  gap: 0.65rem;
+}
+
+.itemsList {
+  display: grid;
+  gap: 0.7rem;
+}
+
+.itemRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  border: 1px solid #ece7dc;
+  border-radius: 14px;
+  padding: 0.8rem;
+  background: #fcfbf8;
+}
+
+.itemTotal {
+  font-weight: 700;
+}
+
+.errorBox {
+  border-radius: 12px;
+  padding: 0.75rem 0.9rem;
+  border: 1px solid #efc5c1;
+  background: #fff0ef;
+  color: #812b26;
+}
+
+@media (max-width: 700px) {
+  .itemRow {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

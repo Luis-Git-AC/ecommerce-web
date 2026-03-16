@@ -1,10 +1,14 @@
 import { useCallback, useEffect, useMemo, useRef, useState, type KeyboardEvent, type TouchEvent } from 'react'
 import { Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { useParams } from 'react-router-dom'
 import Footer from '../../components/layout/Footer'
 import { useProductById, useRelatedProducts } from '../../features/products/useProducts'
 import Header from '../../components/layout/Header'
 import ProductCard from '../../components/ui/ProductCard'
+import { ApiClientError } from '../../services/api.client'
+import { useAuth } from '../../store/AuthContext'
+import { useCart } from '../../store/CartContext'
 import styles from './ProductPage.module.css'
 
 const formatLabel = (value: string) => (value ? value.charAt(0).toUpperCase() + value.slice(1) : value)
@@ -29,8 +33,14 @@ const valueLabelMap: Record<string, string> = {
 const humanizeValue = (value: string) => valueLabelMap[value] ?? formatLabel(value)
 
 export default function ProductPage() {
+  const navigate = useNavigate()
   const { id } = useParams()
   const { product, loading, error } = useProductById(id)
+  const { isAuthenticated } = useAuth()
+  const { addToCart } = useCart()
+  const [cartFeedback, setCartFeedback] = useState<string | null>(null)
+  const [cartError, setCartError] = useState<string | null>(null)
+  const [cartLoading, setCartLoading] = useState(false)
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' })
@@ -210,6 +220,38 @@ export default function ProductPage() {
 
   const { products: related } = useRelatedProducts(product?.id, 3)
 
+  const handleAddToCart = async () => {
+    if (!product) {
+      return
+    }
+
+    setCartFeedback(null)
+    setCartError(null)
+
+    if (!isAuthenticated) {
+      setCartError('Inicia sesión para agregar productos al carrito.')
+      navigate('/account')
+      return
+    }
+
+    setCartLoading(true)
+
+    try {
+      await addToCart(product.id, 1)
+      setCartFeedback('Producto agregado al carrito.')
+    } catch (incomingError) {
+      if (incomingError instanceof ApiClientError) {
+        setCartError(incomingError.message)
+      } else if (incomingError instanceof Error) {
+        setCartError(incomingError.message)
+      } else {
+        setCartError('No pudimos agregar este producto al carrito.')
+      }
+    } finally {
+      setCartLoading(false)
+    }
+  }
+
   if (loading) {
     return (
       <div className="page">
@@ -217,7 +259,7 @@ export default function ProductPage() {
         <main className={styles.product}>
           <div className={`container ${styles.stateCard}`} role="status" aria-live="polite">
             <h1>Cargando producto...</h1>
-            <p className="muted">Estamos trayendo la información desde el backend.</p>
+            <p className="muted">Estamos trayendo la información desde el servidor.</p>
           </div>
         </main>
         <Footer />
@@ -355,7 +397,19 @@ export default function ProductPage() {
               Ideal para espacios con luz {humanizeValue(product.lightRequired)} y cuidado {humanizeValue(product.careLevel)}.
               Tamaño {` ${humanizeValue(product.size)}`} y estilo {humanizeValue(product.category)}.
             </p>
-            <button className="btn">Añadir al carrito</button>
+            <button className="btn" type="button" onClick={() => void handleAddToCart()} disabled={cartLoading}>
+              {cartLoading ? 'Agregando...' : 'Añadir al carrito'}
+            </button>
+            {cartFeedback ? (
+              <p className="muted" role="status" aria-live="polite">
+                {cartFeedback}
+              </p>
+            ) : null}
+            {cartError ? (
+              <p className="muted" role="alert" aria-live="assertive">
+                {cartError}
+              </p>
+            ) : null}
             <div className={styles.care}>
               <h2>Ficha de cuidado</h2>
               <div className={styles.careGrid}>
