@@ -2,6 +2,7 @@ export type SessionUser = {
   id: string
   name: string
   email: string
+  role: 'user' | 'admin'
 }
 
 export type AuthSession = {
@@ -41,9 +42,11 @@ export type OrderItem = {
   lineTotal: number
 }
 
+export type OrderStatus = 'pending' | 'paid' | 'failed' | 'canceled'
+
 export type OrderSummary = {
   id: string
-  status: 'pending' | 'canceled'
+  status: OrderStatus
   currency: string
   total: number
   totalItems: number
@@ -61,11 +64,54 @@ export type OrdersPage = {
 export type OrderDetail = {
   id: string
   userId: string
-  status: 'pending' | 'canceled'
+  status: OrderStatus
   currency: string
   subtotal: number
   total: number
+  paymentIntentId?: string
+  paymentLastError?: string
+  paidAt?: string
   items: OrderItem[]
   createdAt: string
   updatedAt: string
+}
+
+export type AdminUserSummary = {
+  id: string
+  name: string
+  email: string
+  role: 'user' | 'admin'
+  createdAt: string
+  ordersCount: number
+}
+
+export type AdminUsersPage = {
+  items: AdminUserSummary[]
+  page: number
+  limit: number
+  total: number
+  totalPages: number
+}
+
+export type AdminOrderSummary = {
+  id: string
+  status: OrderStatus
+  currency: string
+  total: number
+  totalItems: number
+  createdAt: string
+  user: {
+    id: string
+    name: string
+    email: string
+    role: 'user' | 'admin'
+  }
+}
+
+export type AdminOrdersPage = {
+  items: AdminOrderSummary[]
+  page: number
+  limit: number
+  total: number
+  totalPages: number
 }

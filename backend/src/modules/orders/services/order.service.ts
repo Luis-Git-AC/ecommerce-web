@@ -13,10 +13,8 @@ export class OrderService {
       throw new HttpError(400, 'Cart is empty')
     }
 
-    const currency = cart.items[0]?.currency ?? 'COP'
-
-    const created = await OrderModel.create({
-      userId: objectUserId,
+    const currency = cart.items[0]?.currency ?? 'EUR'
+    const orderPayload = {
       items: cart.items.map((item) => ({
         productId: item.productId,
         slug: item.slug,
@@ -30,13 +28,37 @@ export class OrderService {
       subtotal: cart.subtotal,
       total: cart.total,
       currency,
-      status: 'pending',
-    })
+      status: 'pending' as const,
+      paymentIntentId: undefined,
+      paymentLastError: undefined,
+      paidAt: undefined,
+    }
 
-    cart.items.splice(0, cart.items.length)
-    cart.subtotal = 0
-    cart.total = 0
-    await cart.save()
+    const existingPending = await OrderModel.findOne({
+      userId: objectUserId,
+      status: 'pending',
+    }).sort({ createdAt: -1 })
+
+    if (existingPending) {
+      existingPending.set({
+        items: orderPayload.items,
+        subtotal: orderPayload.subtotal,
+        total: orderPayload.total,
+        currency: orderPayload.currency,
+        status: orderPayload.status,
+        paymentIntentId: undefined,
+        paymentLastError: undefined,
+        paidAt: undefined,
+      })
+      await existingPending.save()
+
+      return this.toOrderDetailResponse(existingPending)
+    }
+
+    const created = await OrderModel.create({
+      userId: objectUserId,
+      ...orderPayload,
+    })
 
     return this.toOrderDetailResponse(created)
   }
@@ -49,15 +71,18 @@ export class OrderService {
       throw new HttpError(400, 'Invalid query params for orders listing')
     }
 
-    const { page, limit } = parsed.data
+    const { page, limit, includePending } = parsed.data
+    const query = includePending
+      ? { userId: objectUserId }
+      : { userId: objectUserId, status: { $ne: 'pending' } }
 
     const [orders, total] = await Promise.all([
-      OrderModel.find({ userId: objectUserId })
+      OrderModel.find(query)
         .sort({ createdAt: -1 })
         .skip((page - 1) * limit)
         .limit(limit)
         .lean(),
-      OrderModel.countDocuments({ userId: objectUserId }),
+      OrderModel.countDocuments(query),
     ])
 
     return {
@@ -106,10 +131,13 @@ export class OrderService {
   private toOrderDetailResponse(order: {
     _id: unknown
     userId: unknown
-    status: 'pending' | 'canceled'
+    status: 'pending' | 'paid' | 'failed' | 'canceled'
     currency: string
     subtotal: number
     total: number
+    paymentIntentId?: string | null
+    paymentLastError?: string | null
+    paidAt?: Date | null
     items: Array<{
       productId: unknown
       slug: string
@@ -130,6 +158,9 @@ export class OrderService {
       currency: order.currency,
       subtotal: order.subtotal,
       total: order.total,
+      paymentIntentId: order.paymentIntentId ?? undefined,
+      paymentLastError: order.paymentLastError ?? undefined,
+      paidAt: order.paidAt ?? undefined,
       items: order.items.map((item) => ({
         productId: String(item.productId),
         slug: item.slug,

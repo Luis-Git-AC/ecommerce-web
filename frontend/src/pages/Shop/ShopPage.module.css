@@ -110,7 +110,8 @@
 .grid {
   display: grid;
   gap: 1.5rem;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(240px, 320px));
+  justify-content: start;
 }
 
 .emptyState {
@@ -154,6 +155,10 @@
 
   .sort {
     width: 100%;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
   }
 }
 

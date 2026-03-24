@@ -1,4 +1,5 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
+import { useSearchParams } from 'react-router-dom'
 import Footer from '../../components/layout/Footer'
 import Header from '../../components/layout/Header'
 import ProductCard from '../../components/ui/ProductCard'
@@ -60,6 +61,23 @@ const initialFiltersState: FiltersState = {
   petSafe: [],
 }
 
+const getFiltersStateFromSearch = (searchParams: URLSearchParams): FiltersState => {
+  const parsed: FiltersState = {
+    category: [],
+    careLevel: [],
+    lightRequired: [],
+    size: [],
+    petSafe: [],
+  }
+
+  for (const group of filters) {
+    const allowed = new Set<string>(group.options)
+    parsed[group.key] = searchParams.getAll(group.key).filter((value) => allowed.has(value))
+  }
+
+  return parsed
+}
+
 const parsePrice = (price: string) => Number.parseFloat(price.replace(/[^\d.]/g, '')) || 0
 
 const optionLabelMap: Record<string, string> = {
@@ -90,9 +108,14 @@ const getProductValue = (product: Product, key: FilterKey) => {
 }
 
 export default function ShopPage() {
+  const [searchParams] = useSearchParams()
   const { products, loading, error } = useProducts()
   const [activeFilters, setActiveFilters] = useState<FiltersState>(initialFiltersState)
   const [sortBy, setSortBy] = useState<SortOption>('featured')
+
+  useEffect(() => {
+    setActiveFilters(getFiltersStateFromSearch(searchParams))
+  }, [searchParams])
 
   const visibleProducts = useMemo(() => {
     const filtered = products.filter((product) =>

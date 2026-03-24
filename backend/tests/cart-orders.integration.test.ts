@@ -78,7 +78,7 @@ describe('Cart and orders integration', () => {
     const createdOrderId = createOrder.body.data.id as string
 
     const listOrders = await request(app)
-      .get('/api/orders?page=1&limit=10')
+      .get('/api/orders?page=1&limit=10&includePending=true')
       .set('Authorization', `Bearer ${accessToken}`)
 
     expect(listOrders.status).toBe(200)
@@ -98,7 +98,14 @@ describe('Cart and orders integration', () => {
       .set('Authorization', `Bearer ${accessToken}`)
 
     expect(cartAfterOrder.status).toBe(200)
-    expect(cartAfterOrder.body.data.items).toHaveLength(0)
+    expect(cartAfterOrder.body.data.items).toHaveLength(1)
+
+    const defaultOrdersList = await request(app)
+      .get('/api/orders?page=1&limit=10')
+      .set('Authorization', `Bearer ${accessToken}`)
+
+    expect(defaultOrdersList.status).toBe(200)
+    expect(defaultOrdersList.body.data.items.some((order: { id: string }) => order.id === createdOrderId)).toBe(false)
 
     const invalidPagination = await request(app)
       .get('/api/orders?page=0&limit=100')

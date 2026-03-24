@@ -29,7 +29,15 @@ export const sessionStorage = {
         return null
       }
 
-      return parsed
+      const role = parsed.user.role === 'admin' ? 'admin' : 'user'
+
+      return {
+        ...parsed,
+        user: {
+          ...parsed.user,
+          role,
+        },
+      }
     } catch {
       return null
     }

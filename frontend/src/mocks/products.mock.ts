@@ -27,7 +27,7 @@ export const productsMock: Product[] = [
   {
     id: 'p1',
     name: 'Monstera Deliciosa',
-    price: '$42',
+    price: '42 EUR',
     category: 'tropical',
     careLevel: 'moderado',
     lightRequired: 'media',
@@ -44,7 +44,7 @@ export const productsMock: Product[] = [
   {
     id: 'p2',
     name: 'Aloe Vera',
-    price: '$22',
+    price: '21 EUR',
     category: 'suculenta',
     careLevel: 'facil',
     lightRequired: 'alta',
@@ -58,7 +58,7 @@ export const productsMock: Product[] = [
   {
     id: 'p3',
     name: 'Crassula Ovata',
-    price: '$20',
+    price: '20 EUR',
     category: 'suculenta',
     careLevel: 'facil',
     lightRequired: 'alta',
@@ -75,7 +75,7 @@ export const productsMock: Product[] = [
   {
     id: 'p4',
     name: 'Curio Rowleyanus',
-    price: '$26',
+    price: '26 EUR',
     category: 'trepadora',
     careLevel: 'moderado',
     lightRequired: 'media',
@@ -93,7 +93,7 @@ export const productsMock: Product[] = [
   {
     id: 'p5',
     name: 'Echeveria Elegans',
-    price: '$18',
+    price: '18 EUR',
     category: 'suculenta',
     careLevel: 'facil',
     lightRequired: 'alta',
@@ -112,7 +112,7 @@ export const productsMock: Product[] = [
   {
     id: 'p6',
     name: 'Epipremnum Aureum',
-    price: '$24',
+    price: '24 EUR',
     category: 'trepadora',
     careLevel: 'facil',
     lightRequired: 'baja',
@@ -129,7 +129,7 @@ export const productsMock: Product[] = [
   {
     id: 'p7',
     name: 'Haworthia Fasciata',
-    price: '$19',
+    price: '17 EUR',
     category: 'suculenta',
     careLevel: 'facil',
     lightRequired: 'media',
@@ -147,7 +147,7 @@ export const productsMock: Product[] = [
   {
     id: 'p8',
     name: 'Kalanchoe Blossfeldiana',
-    price: '$21',
+    price: '19 EUR',
     category: 'suculenta',
     careLevel: 'moderado',
     lightRequired: 'alta',
@@ -164,7 +164,7 @@ export const productsMock: Product[] = [
   {
     id: 'p9',
     name: 'Lithops',
-    price: '$17',
+    price: '16 EUR',
     category: 'cactus',
     careLevel: 'facil',
     lightRequired: 'alta',
@@ -182,7 +182,7 @@ export const productsMock: Product[] = [
   {
     id: 'p10',
     name: 'Zamioculcas Zamiifolia',
-    price: '$36',
+    price: '34 EUR',
     category: 'tropical',
     careLevel: 'facil',
     lightRequired: 'baja',

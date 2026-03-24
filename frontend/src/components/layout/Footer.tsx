@@ -42,7 +42,7 @@ export default function Footer() {
     <footer className={styles.siteFooter}>
       <div className={`container ${styles.footerGrid}`}>
         <div>
-          <div className={`${styles.logo} ${styles.footerLogo}`}>VerdeVivo</div>
+          <div className={`${styles.logo} ${styles.footerLogo}`}>{'{ecommerce}'}</div>
           <p className={`muted ${styles.footerDescription}`}>
             Plantas de interior, kits y suscripciones para espacios vivos.
           </p>
@@ -152,7 +152,7 @@ export default function Footer() {
             <summary>Newsletter</summary>
             <div className={styles.newsletterCard}>
               <div className={styles.newsletterCopy}>
-                <span className={styles.newsletterTitle}>Newsletter VerdeVivo</span>
+                <span className={styles.newsletterTitle}>{'Newsletter {ecommerce}'}</span>
                 <span className={styles.newsletterText}>Consejos breves de cuidado y novedades.</span>
               </div>
               <form className={styles.newsletterForm} onSubmit={handleNewsletterSubmit}>
@@ -185,7 +185,7 @@ export default function Footer() {
           <div className={`${styles.newsletterRow} ${styles.footerNewsletterDesktop}`}>
             <div className={styles.newsletterCard}>
               <div className={styles.newsletterCopy}>
-                <span className={styles.newsletterTitle}>Newsletter VerdeVivo</span>
+                <span className={styles.newsletterTitle}>{'Newsletter {ecommerce}'}</span>
                 <span className={styles.newsletterText}>Consejos breves de cuidado y novedades.</span>
               </div>
               <form className={styles.newsletterForm} onSubmit={handleNewsletterSubmit}>
@@ -211,7 +211,7 @@ export default function Footer() {
               {newsletterMessage}
             </p>
           ) : null}
-          <p className="muted">© 2026 VerdeVivo. Todos los derechos reservados.</p>
+          <p className="muted">{'© 2026 {ecommerce}. Todos los derechos reservados.'}</p>
           <div className={styles.legalLinks}>
             <Link to="/legal/privacy">Privacidad</Link>
             <span>·</span>

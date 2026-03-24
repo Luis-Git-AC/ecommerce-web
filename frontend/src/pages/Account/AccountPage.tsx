@@ -10,13 +10,13 @@ import styles from './AccountPage.module.css'
 
 const formatMoney = (value: number, currency: string) => {
   try {
-    return new Intl.NumberFormat('es-CO', {
+    return new Intl.NumberFormat('es-ES', {
       style: 'currency',
-      currency: currency || 'COP',
+      currency: currency || 'EUR',
       maximumFractionDigits: 0,
     }).format(value)
   } catch {
-    return `$${value}`
+    return `${value} EUR`
   }
 }
 
@@ -158,9 +158,16 @@ export default function AccountPage() {
 
             <div className={styles.ordersHeader}>
               <h3>Mis pedidos</h3>
-              <button type="button" className="btn btn-outline" onClick={() => void loadOrders()} disabled={ordersLoading}>
-                {ordersLoading ? 'Actualizando...' : 'Actualizar lista'}
-              </button>
+              <div>
+                {session.user.role === 'admin' ? (
+                  <Link to="/admin" className="btn btn-outline">
+                    Panel admin
+                  </Link>
+                ) : null}
+                <button type="button" className="btn btn-outline" onClick={() => void loadOrders()} disabled={ordersLoading}>
+                  {ordersLoading ? 'Actualizando...' : 'Actualizar lista'}
+                </button>
+              </div>
             </div>
 
             {ordersError ? <p className={styles.errorBox}>{ordersError}</p> : null}

@@ -17,6 +17,8 @@ import ShopPage from './pages/Shop/ShopPage'
 import ShippingPage from './pages/Shipping/ShippingPage'
 import CartPage from './pages/Cart/CartPage'
 import OrderDetailPage from './pages/Order/OrderDetailPage'
+import CheckoutPage from './pages/Checkout/CheckoutPage'
+import AdminPage from './pages/Admin/AdminPage'
 
 function App() {
   const { pathname, hash } = useLocation()
@@ -40,6 +42,8 @@ function App() {
       <Route path="/shop" element={<ShopPage />} />
       <Route path="/account" element={<AccountPage />} />
       <Route path="/account/orders/:id" element={<OrderDetailPage />} />
+      <Route path="/checkout/:orderId" element={<CheckoutPage />} />
+      <Route path="/admin" element={<AdminPage />} />
       <Route path="/cart" element={<CartPage />} />
       <Route path="/about" element={<AboutPage />} />
       <Route path="/club" element={<ClubPage />} />

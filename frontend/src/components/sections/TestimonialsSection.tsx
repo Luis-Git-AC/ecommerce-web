@@ -36,8 +36,8 @@ export default function TestimonialsSection() {
     <section id="testimonios" className="section">
       <div className={`container ${styles.wrapper}`}>
         <div className={styles.header}>
-          <h2>Testimonios reales</h2>
-          <p className="muted">Experiencias honestas de personas que ya eligieron su planta ideal.</p>
+          <h2>Testimonios</h2>
+          <p className="muted">Opiniones sobre la experiencia de compra y elección de plantas.</p>
         </div>
         <div className={styles.grid}>
           {testimonials.map((testimonial) => (

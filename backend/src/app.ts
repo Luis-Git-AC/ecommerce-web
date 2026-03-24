@@ -2,13 +2,16 @@ import cors from 'cors'
 import express from 'express'
 import helmet from 'helmet'
 import pinoHttp from 'pino-http'
+import type { Request } from 'express'
 import { env } from './config/env'
 import { logger } from './config/logger'
 import { errorHandler, notFoundHandler } from './middlewares/error-handler'
 import { authRouter } from './modules/auth/auth.routes'
+import { adminRouter } from './modules/admin/admin.routes'
 import { cartRouter } from './modules/cart/cart.routes'
 import { contentRouter } from './modules/content/content.routes'
 import { ordersRouter } from './modules/orders/orders.routes'
+import { paymentsRouter } from './modules/payments/payments.routes'
 import { productsRouter } from './modules/products/products.routes'
 import { systemRouter } from './routes/system.routes'
 
@@ -22,7 +25,18 @@ const corsOptions = env.CORS_ORIGIN === '*' ? undefined : { origin: corsOrigins 
 
 app.use(helmet())
 app.use(cors(corsOptions))
-app.use(express.json({ limit: '1mb' }))
+app.use(
+  express.json({
+    limit: '1mb',
+    verify: (req, _res, buf) => {
+      const request = req as Request
+
+      if (request.originalUrl.startsWith(`${env.API_PREFIX}/payments/webhook`)) {
+        request.rawBody = Buffer.from(buf)
+      }
+    },
+  }),
+)
 app.use(pinoHttp({ logger }))
 
 app.get('/', (_req, res) => {
@@ -33,8 +47,10 @@ app.use(env.API_PREFIX, systemRouter)
 app.use(env.API_PREFIX, productsRouter)
 app.use(env.API_PREFIX, contentRouter)
 app.use(env.API_PREFIX, authRouter)
+app.use(env.API_PREFIX, adminRouter)
 app.use(env.API_PREFIX, cartRouter)
 app.use(env.API_PREFIX, ordersRouter)
+app.use(env.API_PREFIX, paymentsRouter)
 
 app.use(notFoundHandler)
 app.use(errorHandler)

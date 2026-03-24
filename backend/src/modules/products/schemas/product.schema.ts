@@ -15,7 +15,7 @@ const productSchema = new Schema(
     name: { type: String, required: true, trim: true },
     description: { type: String, required: true, trim: true },
     price: { type: Number, required: true, min: 0 },
-    currency: { type: String, required: true, default: 'COP', trim: true },
+    currency: { type: String, required: true, default: 'EUR', trim: true },
     category: { type: String, required: true, trim: true, index: true },
     careLevel: { type: String, required: true, trim: true, index: true },
     lightLevel: { type: String, required: true, trim: true, index: true },

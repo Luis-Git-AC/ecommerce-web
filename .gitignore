@@ -20,6 +20,10 @@ dist-ssr
 !.env.example
 !**/.env.example
 
+# Local Stripe CLI files
+.stripe/
+**/.stripe/
+
 # Frontend local assets (source of truth now in Cloudinary)
 frontend/src/assets/shop/
 frontend/src/assets/imagenes_ia/

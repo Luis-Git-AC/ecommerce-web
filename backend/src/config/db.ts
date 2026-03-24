@@ -14,12 +14,14 @@ export async function connectToDatabase() {
     throw new Error('MONGODB_URI is required. Set it in backend/.env')
   }
 
+  const dbName = env.NODE_ENV === 'test' ? `${env.MONGODB_DB_NAME ?? 'ecommerce-web'}-test` : env.MONGODB_DB_NAME
+
   let lastError: unknown
 
   for (let attempt = 1; attempt <= MAX_RETRIES; attempt += 1) {
     try {
       await mongoose.connect(env.MONGODB_URI, {
-        dbName: env.MONGODB_DB_NAME,
+        dbName,
         serverSelectionTimeoutMS: 5000,
       })
 

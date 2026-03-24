@@ -2,7 +2,7 @@ import { createHash } from 'node:crypto'
 import bcrypt from 'bcryptjs'
 import { HttpError } from '../../../common/errors/http-error'
 import { loginSchema, refreshSessionSchema, registerSchema } from '../dto/auth.dto'
-import { UserModel } from '../schemas/user.schema'
+import { UserModel, type UserRole } from '../schemas/user.schema'
 import { TokenService } from './token.service'
 
 const SALT_ROUNDS = 12
@@ -12,6 +12,7 @@ type AuthResponse = {
     id: string
     name: string
     email: string
+    role: UserRole
   }
   accessToken: string
   refreshToken: string
@@ -40,7 +41,8 @@ export class AuthService {
       passwordHash,
     })
 
-    const tokens = this.issueTokens(String(created._id))
+    const role = created.role === 'admin' ? 'admin' : 'user'
+    const tokens = this.issueTokens(String(created._id), role)
     created.refreshTokenHash = this.hashToken(tokens.refreshToken)
     await created.save()
 
@@ -49,6 +51,7 @@ export class AuthService {
         id: String(created._id),
         name: created.name,
         email: created.email,
+        role,
       },
       ...tokens,
     }
@@ -71,7 +74,8 @@ export class AuthService {
       throw new HttpError(401, 'Invalid credentials')
     }
 
-    const tokens = this.issueTokens(String(user._id))
+    const role = user.role === 'admin' ? 'admin' : 'user'
+    const tokens = this.issueTokens(String(user._id), role)
     user.refreshTokenHash = this.hashToken(tokens.refreshToken)
     await user.save()
 
@@ -80,6 +84,7 @@ export class AuthService {
         id: String(user._id),
         name: user.name,
         email: user.email,
+        role,
       },
       ...tokens,
     }
@@ -102,7 +107,8 @@ export class AuthService {
       throw new HttpError(401, 'Session not found')
     }
 
-    const tokens = this.issueTokens(String(user._id))
+    const role = user.role === 'admin' ? 'admin' : 'user'
+    const tokens = this.issueTokens(String(user._id), role)
     user.refreshTokenHash = this.hashToken(tokens.refreshToken)
     await user.save()
 
@@ -133,9 +139,9 @@ export class AuthService {
     return { success: true }
   }
 
-  private issueTokens(userId: string) {
-    const accessToken = this.tokenService.createAccessToken(userId)
-    const refreshToken = this.tokenService.createRefreshToken(userId)
+  private issueTokens(userId: string, role: UserRole) {
+    const accessToken = this.tokenService.createAccessToken(userId, role)
+    const refreshToken = this.tokenService.createRefreshToken(userId, role)
 
     return { accessToken, refreshToken }
   }

@@ -15,7 +15,6 @@ export default function Header() {
     { to: '/club', label: 'Club' },
     { to: '/blog', label: 'Blog' },
     { to: '/account', label: 'Cuenta' },
-    { to: '/cart', label: 'Carrito' },
   ]
 
   const toggleMenu = () => setMenuOpen((prev) => !prev)
@@ -70,8 +69,8 @@ export default function Header() {
                 d="M4 6h16M4 12h16M4 18h16"
                 fill="none"
                 stroke="currentColor"
-                stroke-width="1.8"
-                stroke-linecap="round"
+                strokeWidth="1.8"
+                strokeLinecap="round"
               />
             </svg>
           </button>

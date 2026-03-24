@@ -1,5 +1,6 @@
 /* eslint-disable react-refresh/only-export-components */
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from 'react'
+import { useLocation } from 'react-router-dom'
 import { cartRepository } from '../services/cart.repository'
 import { ApiClientError } from '../services/api.client'
 import type { Cart } from '../types/commerce'
@@ -10,6 +11,7 @@ type CartContextValue = {
   totalItems: number
   loading: boolean
   error: string | null
+  clearCartOptimistic: () => void
   refreshCart: () => Promise<void>
   addToCart: (productId: string, quantity?: number) => Promise<void>
   updateItemQuantity: (productId: string, quantity: number) => Promise<void>
@@ -33,33 +35,87 @@ const toClientError = (error: unknown) => {
 
 export function CartProvider({ children }: { children: ReactNode }) {
   const { accessToken } = useAuth()
+  const { pathname } = useLocation()
   const [cart, setCart] = useState<Cart | null>(null)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
-  const refreshCart = useCallback(async () => {
+  const loadCart = useCallback(async (silent = false) => {
     if (!accessToken) {
       setCart(null)
       setError(null)
       return
     }
 
-    setLoading(true)
-    setError(null)
+    if (!silent) {
+      setLoading(true)
+      setError(null)
+    }
 
     try {
       const nextCart = await cartRepository.getCart(accessToken)
       setCart(nextCart)
+      if (!silent) {
+        setError(null)
+      }
     } catch (incomingError) {
-      setError(toClientError(incomingError))
+      if (!silent) {
+        setError(toClientError(incomingError))
+      }
     } finally {
-      setLoading(false)
+      if (!silent) {
+        setLoading(false)
+      }
     }
   }, [accessToken])
+
+  const refreshCart = useCallback(async () => {
+    await loadCart(false)
+  }, [loadCart])
+
+  const clearCartOptimistic = useCallback(() => {
+    setCart((prev) => {
+      if (!prev) {
+        return prev
+      }
+
+      return {
+        ...prev,
+        items: [],
+        subtotal: 0,
+        total: 0,
+        totalItems: 0,
+      }
+    })
+  }, [])
 
   useEffect(() => {
     void refreshCart()
   }, [refreshCart])
+
+  useEffect(() => {
+    void loadCart(true)
+  }, [loadCart, pathname])
+
+  useEffect(() => {
+    const onFocus = () => {
+      void loadCart(true)
+    }
+
+    const onVisibilityChange = () => {
+      if (document.visibilityState === 'visible') {
+        void loadCart(true)
+      }
+    }
+
+    window.addEventListener('focus', onFocus)
+    document.addEventListener('visibilitychange', onVisibilityChange)
+
+    return () => {
+      window.removeEventListener('focus', onFocus)
+      document.removeEventListener('visibilitychange', onVisibilityChange)
+    }
+  }, [loadCart])
 
   const addToCart = useCallback(async (productId: string, quantity = 1) => {
     if (!accessToken) {
@@ -110,13 +166,14 @@ export function CartProvider({ children }: { children: ReactNode }) {
       totalItems: cart?.totalItems ?? 0,
       loading,
       error,
+      clearCartOptimistic,
       refreshCart,
       addToCart,
       updateItemQuantity,
       removeItem,
       clearCart,
     }),
-    [addToCart, cart, clearCart, error, loading, refreshCart, removeItem, updateItemQuantity],
+    [addToCart, cart, clearCart, clearCartOptimistic, error, loading, refreshCart, removeItem, updateItemQuantity],
   )
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>

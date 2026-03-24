@@ -10,13 +10,13 @@ import styles from './OrderDetailPage.module.css'
 
 const formatMoney = (value: number, currency: string) => {
   try {
-    return new Intl.NumberFormat('es-CO', {
+    return new Intl.NumberFormat('es-ES', {
       style: 'currency',
-      currency: currency || 'COP',
+      currency: currency || 'EUR',
       maximumFractionDigits: 0,
     }).format(value)
   } catch {
-    return `$${value}`
+    return `${value} EUR`
   }
 }
 
@@ -136,6 +136,11 @@ export default function OrderDetailPage() {
               <p>
                 <strong>Total:</strong> {formatMoney(order.total, order.currency)}
               </p>
+              {order.status === 'failed' ? (
+                <Link className="btn" to={`/checkout/${order.id}`}>
+                  Reintentar pago
+                </Link>
+              ) : null}
             </article>
 
             <article className={styles.panel}>

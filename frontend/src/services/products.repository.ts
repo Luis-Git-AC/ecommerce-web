@@ -35,13 +35,13 @@ const toProductImage = (image?: ProductApiImage) => ({
 
 const formatPrice = (value: number, currency: string) => {
   try {
-    return new Intl.NumberFormat('es-CO', {
+    return new Intl.NumberFormat('es-ES', {
       style: 'currency',
-      currency: currency || 'COP',
+      currency: currency || 'EUR',
       maximumFractionDigits: 0,
     }).format(value)
   } catch {
-    return `$${value}`
+    return `${value} EUR`
   }
 }
 

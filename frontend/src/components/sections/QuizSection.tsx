@@ -93,6 +93,43 @@ const getSummary = (answers: string[]) => {
   return 'Te sugerimos una selección equilibrada según tu espacio y ritmo de cuidado.'
 }
 
+const toShopFilterParams = (answers: string[]) => {
+  const [light, care, _experience, style] = answers
+  const query = new URLSearchParams()
+
+  const lightMap: Record<string, string> = {
+    Baja: 'low',
+    Media: 'medium',
+    Alta: 'high',
+  }
+
+  const careMap: Record<string, string> = {
+    '1 vez cada 10–14 días': 'easy',
+    '1 vez por semana': 'medium',
+    '2–3 veces por semana': 'hard',
+  }
+
+  const styleMap: Record<string, { key: string; value: string }> = {
+    Compacta: { key: 'size', value: 's' },
+    Grande: { key: 'size', value: 'l' },
+    Colgante: { key: 'category', value: 'colgantes' },
+  }
+
+  if (light && lightMap[light]) {
+    query.append('lightRequired', lightMap[light])
+  }
+
+  if (care && careMap[care]) {
+    query.append('careLevel', careMap[care])
+  }
+
+  if (style && styleMap[style]) {
+    query.append(styleMap[style].key, styleMap[style].value)
+  }
+
+  return query.toString()
+}
+
 export default function QuizSection() {
   const navigate = useNavigate()
   const [stepIndex, setStepIndex] = useState(0)
@@ -129,7 +166,8 @@ export default function QuizSection() {
 
   const handlePrimaryAction = () => {
     if (isLastStep) {
-      navigate('/shop')
+      const query = toShopFilterParams(answers)
+      navigate(query ? `/shop?${query}` : '/shop')
       return
     }
     if (!answers[stepIndex]) return

@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import Footer from '../../components/layout/Footer'
 import Header from '../../components/layout/Header'
 import { ordersRepository } from '../../services/orders.repository'
@@ -10,27 +10,30 @@ import styles from './CartPage.module.css'
 
 const formatMoney = (value: number, currency: string) => {
   try {
-    return new Intl.NumberFormat('es-CO', {
+    return new Intl.NumberFormat('es-ES', {
       style: 'currency',
-      currency: currency || 'COP',
+      currency: currency || 'EUR',
       maximumFractionDigits: 0,
     }).format(value)
   } catch {
-    return `$${value}`
+    return `${value} EUR`
   }
 }
 
 export default function CartPage() {
+  const navigate = useNavigate()
   const { isAuthenticated, accessToken } = useAuth()
   const { cart, loading, error, updateItemQuantity, removeItem, clearCart, refreshCart } = useCart()
 
   const [actionError, setActionError] = useState<string | null>(null)
   const [actionLoading, setActionLoading] = useState(false)
   const [checkoutMessage, setCheckoutMessage] = useState<string | null>(null)
+  const [checkoutOrderId, setCheckoutOrderId] = useState<string | null>(null)
 
   const handleQuantityChange = async (productId: string, nextQuantity: number) => {
     setActionError(null)
     setCheckoutMessage(null)
+    setCheckoutOrderId(null)
     setActionLoading(true)
 
     try {
@@ -51,6 +54,7 @@ export default function CartPage() {
   const handleRemove = async (productId: string) => {
     setActionError(null)
     setCheckoutMessage(null)
+    setCheckoutOrderId(null)
     setActionLoading(true)
 
     try {
@@ -71,6 +75,7 @@ export default function CartPage() {
   const handleClear = async () => {
     setActionError(null)
     setCheckoutMessage(null)
+    setCheckoutOrderId(null)
     setActionLoading(true)
 
     try {
@@ -96,14 +101,23 @@ export default function CartPage() {
 
     setActionError(null)
     setCheckoutMessage(null)
+    setCheckoutOrderId(null)
     setActionLoading(true)
 
     try {
       const order = await ordersRepository.create(accessToken)
       await refreshCart()
       setCheckoutMessage(`Pedido creado con éxito: ${order.id}`)
+      setCheckoutOrderId(order.id)
+      navigate(`/checkout/${order.id}`)
     } catch (incomingError) {
       if (incomingError instanceof ApiClientError) {
+        if (incomingError.message.toLowerCase().includes('cart is empty')) {
+          await refreshCart()
+          setActionError('Tu carrito ya fue procesado. Actualizamos la vista.')
+          return
+        }
+
         setActionError(incomingError.message)
       } else if (incomingError instanceof Error) {
         setActionError(incomingError.message)
@@ -144,6 +158,11 @@ export default function CartPage() {
               {error ? <p className={styles.errorBox}>{error}</p> : null}
               {actionError ? <p className={styles.errorBox}>{actionError}</p> : null}
               {checkoutMessage ? <p className={styles.successBox}>{checkoutMessage}</p> : null}
+              {checkoutOrderId ? (
+                <Link to={`/checkout/${checkoutOrderId}`} className="btn">
+                  Ir al pago
+                </Link>
+              ) : null}
 
               {!cart || cart.items.length === 0 ? (
                 <div className={styles.panel}>
@@ -200,10 +219,10 @@ export default function CartPage() {
                 <strong>Productos:</strong> {cart?.totalItems ?? 0}
               </p>
               <p>
-                <strong>Subtotal:</strong> {formatMoney(cart?.subtotal ?? 0, cart?.items[0]?.currency ?? 'COP')}
+                <strong>Subtotal:</strong> {formatMoney(cart?.subtotal ?? 0, cart?.items[0]?.currency ?? 'EUR')}
               </p>
               <p className={styles.totalLine}>
-                <strong>Total:</strong> {formatMoney(cart?.total ?? 0, cart?.items[0]?.currency ?? 'COP')}
+                <strong>Total:</strong> {formatMoney(cart?.total ?? 0, cart?.items[0]?.currency ?? 'EUR')}
               </p>
               <div className={styles.actions}>
                 <button

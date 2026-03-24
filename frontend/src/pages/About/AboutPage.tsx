@@ -25,7 +25,7 @@ export default function AboutPage() {
       <main className={styles.about}>
         <section className="container page-hero">
           <p className="page-eyebrow">Sobre nosotros</p>
-          <h1>VerdeVivo nace para ayudarte a elegir con confianza</h1>
+          <h1>{'{ecommerce} nace para ayudarte a elegir con confianza'}</h1>
           <p className="muted">
             No vendemos plantas al azar. Creamos recomendaciones claras para que tu coleccion crezca con sentido y sin
             complicaciones.

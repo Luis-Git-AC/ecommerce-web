@@ -13,7 +13,7 @@ const cartWriteRateLimit = createRateLimitMiddleware({
 	maxRequests: 80,
 })
 
-cartRouter.use(requireAuth)
+cartRouter.use('/cart', requireAuth)
 
 cartRouter.get('/cart', cartController.getCart)
 cartRouter.post('/cart/items', cartWriteRateLimit, cartController.addItem)

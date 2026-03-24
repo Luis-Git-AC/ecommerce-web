@@ -22,8 +22,11 @@ const orderSchema = new Schema(
     items: { type: [orderItemSchema], required: true },
     subtotal: { type: Number, required: true, min: 0 },
     total: { type: Number, required: true, min: 0 },
-    currency: { type: String, required: true, default: 'COP', trim: true },
-    status: { type: String, required: true, enum: ['pending', 'canceled'], default: 'pending', index: true },
+    currency: { type: String, required: true, default: 'EUR', trim: true },
+    status: { type: String, required: true, enum: ['pending', 'paid', 'failed', 'canceled'], default: 'pending', index: true },
+    paymentIntentId: { type: String, required: false, index: true, trim: true },
+    paymentLastError: { type: String, required: false, trim: true },
+    paidAt: { type: Date, required: false },
   },
   {
     timestamps: true,

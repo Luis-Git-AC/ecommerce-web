@@ -50,7 +50,7 @@ export default function BlogPostPage() {
     }
   }, [slug])
 
-  const title = post?.title ?? 'Guía VerdeVivo'
+  const title = post?.title ?? 'Guía {ecommerce}'
   const date = post ? new Date(post.publishedAt).toLocaleDateString('es-ES') : 'Próximamente'
   const category = post?.category ?? 'Guía'
   const image = post?.image
@@ -62,7 +62,7 @@ export default function BlogPostPage() {
       <main className={styles.post}>
         <section className="container page-hero">
           <Link className={styles.backLink} to="/blog">Volver al blog</Link>
-          <p className="page-eyebrow">Guía VerdeVivo</p>
+          <p className="page-eyebrow">{'Guía {ecommerce}'}</p>
           <h1>{title}</h1>
           <div className={styles.meta}>
             <span>{date}</span>

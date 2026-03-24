@@ -5,19 +5,19 @@ const plans = [
   {
     id: 'basic',
     name: 'Básico',
-    price: '$19/mes',
+    price: '14 €/mes',
     description: 'Una planta fácil de cuidar cada mes.',
   },
   {
     id: 'verde',
     name: 'Verde',
-    price: '$39/mes',
+    price: '27 €/mes',
     description: 'Planta + accesorios esenciales.',
   },
   {
     id: 'jungla',
     name: 'Jungla',
-    price: '$59/mes',
+    price: '39 €/mes',
     description: 'Experiencia completa con sorpresas.',
   },
 ]

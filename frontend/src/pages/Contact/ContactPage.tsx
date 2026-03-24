@@ -109,7 +109,7 @@ export default function ContactPage() {
 
           <div className={styles.info}>
             <h2>Datos de contacto</h2>
-            <p className="muted">hola@verdevivo.com</p>
+            <p className="muted">{'hola@{ecommerce}.com'}</p>
             <p className="muted">+34 900 123 456</p>
             <p className="muted">Madrid, ES</p>
           </div>

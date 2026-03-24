@@ -16,6 +16,9 @@ const envSchema = z.object({
   JWT_REFRESH_SECRET: z.string().min(16).default('dev_refresh_secret_change_this'),
   JWT_ACCESS_EXPIRES_IN: z.string().default('15m'),
   JWT_REFRESH_EXPIRES_IN: z.string().default('7d'),
+  STRIPE_SECRET_KEY: z.string().optional(),
+  STRIPE_WEBHOOK_SECRET: z.string().optional(),
+  STRIPE_ACCOUNT_ID: z.string().optional(),
 })
 
 const parsed = envSchema.safeParse(process.env)

@@ -10,7 +10,7 @@ export default function TermsPage() {
         <section className="container page-hero">
           <p className="page-eyebrow">Términos</p>
           <h1>Términos y condiciones</h1>
-          <p className="muted">Resumen de las condiciones de uso y compra en VerdeVivo.</p>
+          <p className="muted">{'Resumen de las condiciones de uso y compra en {ecommerce}.'}</p>
         </section>
 
         <section className={`container ${styles.content}`}>

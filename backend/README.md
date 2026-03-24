@@ -123,6 +123,30 @@ Resultado esperado:
 
 - Demo funcional de checkout realista para portfolio.
 
+Guia operativa Stripe CLI (demo local):
+
+1. Autenticacion de CLI:
+
+- `stripe login`
+
+2. Escucha y forwarding de webhook al backend local:
+
+- `stripe listen --forward-to localhost:4000/api/payments/webhook`
+
+3. Copiar el signing secret mostrado por CLI (`whsec_...`) a `backend/.env`:
+
+- `STRIPE_WEBHOOK_SECRET=whsec_...`
+
+4. Disparar eventos de prueba:
+
+- `stripe trigger payment_intent.succeeded`
+- `stripe trigger payment_intent.payment_failed`
+
+5. Verificacion esperada:
+
+- El backend responde `200` al webhook.
+- El pedido cambia de estado segun evento (`paid` o `failed`).
+
 ---
 
 ## Sprint 5 - Hardening y release

@@ -17,7 +17,20 @@ export function requireAuth(req: Request, _res: Response, next: NextFunction) {
     }
 
     const decoded = tokenService.verifyAccessToken(token)
-    req.auth = { userId: decoded.userId }
+    req.auth = { userId: decoded.userId, role: decoded.role }
+    next()
+  } catch (error) {
+    next(error)
+  }
+}
+
+export function requireAdmin(req: Request, _res: Response, next: NextFunction) {
+  try {
+    const role = req.auth?.role
+    if (role !== 'admin') {
+      throw new HttpError(403, 'Admin access required')
+    }
+
     next()
   } catch (error) {
     next(error)

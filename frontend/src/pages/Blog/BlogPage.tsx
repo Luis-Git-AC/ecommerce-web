@@ -58,7 +58,7 @@ export default function BlogPage() {
       <main className={styles.blog}>
         <section className="container page-hero">
           <div>
-            <p className="page-eyebrow">Blog VerdeVivo</p>
+            <p className="page-eyebrow">{'Blog {ecommerce}'}</p>
             <h1>Guías y consejos para cuidar tus plantas</h1>
             <p className="muted">
               Artículos prácticos para mejorar el cuidado, resolver problemas comunes y crear espacios más verdes.

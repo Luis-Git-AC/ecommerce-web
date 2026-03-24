@@ -9,21 +9,21 @@ const plans = [
   {
     id: 'basic',
     name: 'Básico',
-    price: '$19/mes',
+    price: '14 €/mes',
     description: 'Una planta seleccionada para tu espacio.',
     features: ['1 planta al mes', 'Guía de cuidado', 'Ajustes de preferencias'],
   },
   {
     id: 'medio',
     name: 'Medio',
-    price: '$39/mes',
+    price: '27 €/mes',
     description: 'Más variedad y accesorios esenciales.',
     features: ['2 plantas al mes', 'Kit de cuidado', 'Soporte prioritario'],
   },
   {
     id: 'premium',
     name: 'Premium',
-    price: '$59/mes',
+    price: '39 €/mes',
     description: 'Experiencia completa y personalización total.',
     features: ['3 plantas al mes', 'Accesorios premium', 'Personalización avanzada'],
   },
@@ -128,7 +128,7 @@ export default function ClubPage() {
       <main className={styles.club}>
         <section className={styles.hero}>
           <div className={`container ${styles.heroContent}`}>
-            <p className={styles.eyebrow}>Club VerdeVivo</p>
+            <p className={styles.eyebrow}>{'Club {ecommerce}'}</p>
             <h1>Tu colección crece con recomendaciones mensuales</h1>
             <p className="muted">
               Recibe plantas seleccionadas para tu espacio y aprende a cuidarlas sin perder tiempo en

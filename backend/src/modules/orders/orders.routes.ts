@@ -13,7 +13,7 @@ const createOrderRateLimit = createRateLimitMiddleware({
 	maxRequests: 20,
 })
 
-ordersRouter.use(requireAuth)
+ordersRouter.use('/orders', requireAuth)
 
 ordersRouter.post('/orders', createOrderRateLimit, orderController.createOrder)
 ordersRouter.get('/orders', orderController.listOrders)
