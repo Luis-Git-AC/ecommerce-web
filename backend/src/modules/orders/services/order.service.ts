@@ -1,5 +1,6 @@
 import { Types } from 'mongoose'
 import { HttpError } from '../../../common/errors/http-error'
+import { logger } from '../../../config/logger'
 import { CartModel } from '../../cart/schemas/cart.schema'
 import { listOrdersQuerySchema } from '../dto/orders.dto'
 import { OrderModel } from '../schemas/order.schema'
@@ -10,6 +11,7 @@ export class OrderService {
 
     const cart = await CartModel.findOne({ userId: objectUserId })
     if (!cart || cart.items.length === 0) {
+      logger.warn({ userId }, 'Order create failed: cart is empty')
       throw new HttpError(400, 'Cart is empty')
     }
 
@@ -52,6 +54,17 @@ export class OrderService {
       })
       await existingPending.save()
 
+      logger.info(
+        {
+          userId,
+          orderId: String(existingPending._id),
+          total: existingPending.total,
+          currency: existingPending.currency,
+          itemsCount: existingPending.items.length,
+        },
+        'Order updated existing pending',
+      )
+
       return this.toOrderDetailResponse(existingPending)
     }
 
@@ -59,6 +72,17 @@ export class OrderService {
       userId: objectUserId,
       ...orderPayload,
     })
+
+    logger.info(
+      {
+        userId,
+        orderId: String(created._id),
+        total: created.total,
+        currency: created.currency,
+        itemsCount: created.items.length,
+      },
+      'Order created',
+    )
 
     return this.toOrderDetailResponse(created)
   }

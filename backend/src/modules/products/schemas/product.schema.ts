@@ -40,6 +40,9 @@ const productSchema = new Schema(
 
 productSchema.index({ category: 1, isFeatured: -1, createdAt: -1 })
 productSchema.index({ price: 1, createdAt: -1 })
+productSchema.index({ price: -1, createdAt: -1 })
+productSchema.index({ isFeatured: 1, createdAt: -1 })
+productSchema.index({ category: 1, careLevel: 1, lightLevel: 1, size: 1, petFriendly: 1, createdAt: -1 })
 
 export type ProductDocument = InferSchemaType<typeof productSchema>
 export const ProductModel = model<ProductDocument>('Product', productSchema)

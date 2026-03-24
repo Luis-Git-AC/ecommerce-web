@@ -14,11 +14,14 @@ export class AdminService {
     }
 
     const { page, limit, q } = parsed.data
-    const query = q
+    const trimmedQuery = q?.trim()
+    const normalizedQuery = trimmedQuery?.toLowerCase()
+
+    const query = trimmedQuery
       ? {
           $or: [
-            { email: { $regex: escapeRegex(q), $options: 'i' } },
-            { name: { $regex: escapeRegex(q), $options: 'i' } },
+            { email: { $regex: `^${escapeRegex(normalizedQuery ?? '')}` } },
+            { name: { $regex: escapeRegex(trimmedQuery), $options: 'i' } },
           ],
         }
       : {}
@@ -66,6 +69,8 @@ export class AdminService {
     }
 
     const { page, limit, status, userId, q } = parsed.data
+    const trimmedQuery = q?.trim()
+    const normalizedQuery = trimmedQuery?.toLowerCase()
     const query: Record<string, unknown> = {}
 
     if (status) {
@@ -80,14 +85,15 @@ export class AdminService {
       query.userId = new Types.ObjectId(userId)
     }
 
-    if (q) {
+    if (trimmedQuery) {
       const matchingUsers = await UserModel.find({
         $or: [
-          { email: { $regex: escapeRegex(q), $options: 'i' } },
-          { name: { $regex: escapeRegex(q), $options: 'i' } },
+          { email: { $regex: `^${escapeRegex(normalizedQuery ?? '')}` } },
+          { name: { $regex: escapeRegex(trimmedQuery), $options: 'i' } },
         ],
       })
         .select({ _id: 1 })
+        .limit(1000)
         .lean()
 
       const userIds = matchingUsers.map((user) => user._id)
@@ -106,6 +112,15 @@ export class AdminService {
 
     const [orders, total] = await Promise.all([
       OrderModel.find(query)
+        .select({
+          _id: 1,
+          status: 1,
+          currency: 1,
+          total: 1,
+          items: 1,
+          userId: 1,
+          createdAt: 1,
+        })
         .sort({ createdAt: -1 })
         .skip((page - 1) * limit)
         .limit(limit)

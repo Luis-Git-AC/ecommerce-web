@@ -26,7 +26,12 @@ export function createRateLimitMiddleware(options: RateLimitOptions) {
   const { windowMs, maxRequests, keyPrefix } = options
 
   return function rateLimitMiddleware(req: Request, res: Response, next: NextFunction) {
-    const ip = req.ip || req.socket.remoteAddress || 'unknown'
+    const forwardedFor = req.headers['x-forwarded-for']
+    const forwardedIp = typeof forwardedFor === 'string'
+      ? forwardedFor.split(',')[0]?.trim()
+      : undefined
+
+    const ip = forwardedIp || req.ip || req.socket.remoteAddress || 'unknown'
     const key = `${keyPrefix}:${ip}`
     const now = Date.now()
     const existing = buckets.get(key)

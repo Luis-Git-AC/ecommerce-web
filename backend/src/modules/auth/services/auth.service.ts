@@ -1,6 +1,7 @@
 import { createHash } from 'node:crypto'
 import bcrypt from 'bcryptjs'
 import { HttpError } from '../../../common/errors/http-error'
+import { logger } from '../../../config/logger'
 import { loginSchema, refreshSessionSchema, registerSchema } from '../dto/auth.dto'
 import { UserModel, type UserRole } from '../schemas/user.schema'
 import { TokenService } from './token.service'
@@ -30,6 +31,7 @@ export class AuthService {
     const email = parsed.data.email.toLowerCase()
     const existing = await UserModel.findOne({ email }).select({ _id: 1 }).lean()
     if (existing) {
+      logger.warn({ email }, 'Auth register conflict: email already in use')
       throw new HttpError(409, 'Email is already in use')
     }
 
@@ -45,6 +47,15 @@ export class AuthService {
     const tokens = this.issueTokens(String(created._id), role)
     created.refreshTokenHash = this.hashToken(tokens.refreshToken)
     await created.save()
+
+    logger.info(
+      {
+        userId: String(created._id),
+        email: created.email,
+        role,
+      },
+      'Auth register success',
+    )
 
     return {
       user: {
@@ -66,11 +77,13 @@ export class AuthService {
     const email = parsed.data.email.toLowerCase()
     const user = await UserModel.findOne({ email })
     if (!user) {
+      logger.warn({ email }, 'Auth login failed: user not found')
       throw new HttpError(401, 'Invalid credentials')
     }
 
     const isValidPassword = await bcrypt.compare(parsed.data.password, user.passwordHash)
     if (!isValidPassword) {
+      logger.warn({ email, userId: String(user._id) }, 'Auth login failed: invalid password')
       throw new HttpError(401, 'Invalid credentials')
     }
 
@@ -78,6 +91,15 @@ export class AuthService {
     const tokens = this.issueTokens(String(user._id), role)
     user.refreshTokenHash = this.hashToken(tokens.refreshToken)
     await user.save()
+
+    logger.info(
+      {
+        userId: String(user._id),
+        email: user.email,
+        role,
+      },
+      'Auth login success',
+    )
 
     return {
       user: {
@@ -99,11 +121,13 @@ export class AuthService {
     const decoded = this.tokenService.verifyRefreshToken(parsed.data.refreshToken)
     const user = await UserModel.findById(decoded.userId)
     if (!user || !user.refreshTokenHash) {
+      logger.warn({ userId: decoded.userId }, 'Auth refresh failed: session not found')
       throw new HttpError(401, 'Session not found')
     }
 
     const incomingHash = this.hashToken(parsed.data.refreshToken)
     if (incomingHash !== user.refreshTokenHash) {
+      logger.warn({ userId: decoded.userId }, 'Auth refresh failed: token hash mismatch')
       throw new HttpError(401, 'Session not found')
     }
 
@@ -111,6 +135,8 @@ export class AuthService {
     const tokens = this.issueTokens(String(user._id), role)
     user.refreshTokenHash = this.hashToken(tokens.refreshToken)
     await user.save()
+
+    logger.info({ userId: String(user._id), role }, 'Auth refresh success')
 
     return tokens
   }
@@ -130,10 +156,12 @@ export class AuthService {
         if (incomingHash === user.refreshTokenHash) {
           user.refreshTokenHash = undefined
           await user.save()
+          logger.info({ userId: String(user._id) }, 'Auth logout success')
         }
       }
     } catch {
       // Mantiene logout idempotente para evitar filtrar informacion de sesion.
+      logger.debug('Auth logout ignored invalid session token')
     }
 
     return { success: true }

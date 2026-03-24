@@ -1,6 +1,7 @@
 import Stripe from 'stripe'
 import { Types } from 'mongoose'
 import { HttpError } from '../../../common/errors/http-error'
+import { logger } from '../../../config/logger'
 import { env } from '../../../config/env'
 import { createPaymentIntentSchema } from '../dto/payments.dto'
 import { OrderModel } from '../../orders/schemas/order.schema'
@@ -17,6 +18,7 @@ export class PaymentService {
     const stripe = this.getStripeClient()
     const parsed = createPaymentIntentSchema.safeParse(rawBody)
     if (!parsed.success) {
+      logger.warn({ userId }, 'Payment intent failed: invalid payload')
       throw new HttpError(400, 'Invalid payload for payment intent')
     }
 
@@ -34,14 +36,17 @@ export class PaymentService {
     })
 
     if (!order) {
+      logger.warn({ userId, orderId: parsed.data.orderId }, 'Payment intent failed: order not found')
       throw new HttpError(404, 'Order not found')
     }
 
     if (order.status === 'paid') {
+      logger.info({ userId, orderId: String(order._id) }, 'Payment intent blocked: order already paid')
       throw new HttpError(409, 'Order is already paid')
     }
 
     if (order.status === 'canceled') {
+      logger.info({ userId, orderId: String(order._id) }, 'Payment intent blocked: order canceled')
       throw new HttpError(409, 'Order was canceled and cannot be paid')
     }
 
@@ -53,6 +58,8 @@ export class PaymentService {
       order.paymentLastError = undefined
       await order.save()
       await this.clearUserCart(order.userId)
+
+      logger.info({ userId, orderId: String(order._id), paymentIntentId: order.paymentIntentId }, 'Payment intent resolved: already paid in Stripe')
 
       throw new HttpError(409, 'Order is already paid')
     }
@@ -100,6 +107,15 @@ export class PaymentService {
       )
     } catch (error) {
       if (error instanceof Stripe.errors.StripeError) {
+        logger.warn(
+          {
+            userId,
+            orderId: String(order._id),
+            code: error.code,
+            type: error.type,
+          },
+          'Payment intent creation failed with Stripe error',
+        )
         throw new HttpError(400, error.message || 'Unable to initialize payment flow')
       }
 
@@ -114,6 +130,17 @@ export class PaymentService {
     order.paymentLastError = undefined
     order.status = 'pending'
     await order.save()
+
+    logger.info(
+      {
+        userId,
+        orderId: String(order._id),
+        paymentIntentId: intent.id,
+        amountMinor: amount,
+        currency,
+      },
+      'Payment intent created',
+    )
 
     return {
       orderId: String(order._id),
@@ -137,8 +164,11 @@ export class PaymentService {
     try {
       event = stripe.webhooks.constructEvent(rawBody, signature, env.STRIPE_WEBHOOK_SECRET)
     } catch {
+      logger.warn('Stripe webhook rejected: invalid signature')
       throw new HttpError(400, 'Invalid webhook signature')
     }
+
+    logger.info({ eventType: event.type, eventId: event.id }, 'Stripe webhook received')
 
     switch (event.type) {
       case 'payment_intent.succeeded': {
@@ -209,6 +239,15 @@ export class PaymentService {
     order.paidAt = order.paidAt ?? new Date()
     await order.save()
     await this.clearUserCart(order.userId)
+
+    logger.info(
+      {
+        orderId: String(order._id),
+        userId: String(order.userId),
+        paymentIntentId: intent.id,
+      },
+      'Order marked as paid from webhook',
+    )
   }
 
   private async markOrderAsFailed(intent: Stripe.PaymentIntent) {
@@ -225,6 +264,16 @@ export class PaymentService {
     order.paymentIntentId = intent.id
     order.paymentLastError = intent.last_payment_error?.message ?? 'Payment failed'
     await order.save()
+
+    logger.warn(
+      {
+        orderId: String(order._id),
+        userId: String(order.userId),
+        paymentIntentId: intent.id,
+        lastError: order.paymentLastError,
+      },
+      'Order marked as failed from webhook',
+    )
   }
 
   private async markOrderAsCanceled(intent: Stripe.PaymentIntent) {
@@ -241,6 +290,15 @@ export class PaymentService {
     order.paymentIntentId = intent.id
     order.paymentLastError = 'Payment canceled'
     await order.save()
+
+    logger.warn(
+      {
+        orderId: String(order._id),
+        userId: String(order.userId),
+        paymentIntentId: intent.id,
+      },
+      'Order marked as canceled from webhook',
+    )
   }
 
   private async findOrderByIntent(intent: Stripe.PaymentIntent) {

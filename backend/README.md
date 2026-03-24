@@ -165,6 +165,190 @@ Resultado esperado:
 
 - Backend estable y mantenible para entorno real.
 
+Checklist de despliegue (operativo):
+
+1. Variables de entorno obligatorias
+
+Backend (`backend/.env`):
+
+- `NODE_ENV=production`
+- `PORT`
+- `API_PREFIX`
+- `CORS_ORIGIN` (sin `*` en produccion)
+- `MONGODB_URI`
+- `MONGODB_DB_NAME`
+- `JWT_ACCESS_SECRET`
+- `JWT_REFRESH_SECRET`
+- `JWT_ACCESS_EXPIRES_IN`
+- `JWT_REFRESH_EXPIRES_IN`
+- `STRIPE_SECRET_KEY`
+- `STRIPE_WEBHOOK_SECRET`
+- `CLOUDINARY_CLOUD_NAME`
+- `CLOUDINARY_API_KEY`
+- `CLOUDINARY_API_SECRET`
+- `CLOUDINARY_FOLDER`
+
+Frontend (`frontend/.env`):
+
+- `VITE_API_BASE_URL`
+- `VITE_STRIPE_PUBLISHABLE_KEY`
+
+2. Orden de despliegue sugerido
+
+- Desplegar backend y validar conectividad con MongoDB.
+- Ejecutar seeds requeridos segun entorno:
+  - `npm run seed:products`
+  - `npm run seed:content`
+  - `npm run seed:admin`
+- Desplegar frontend apuntando a backend ya activo.
+- Configurar Stripe webhook al endpoint productivo:
+  - `POST <backend-url>/api/payments/webhook`
+
+3. Verificaciones post-deploy
+
+- Salud de servicio:
+  - `GET /api/health` -> `200`
+  - `GET /api/ready` -> `200`
+- Smoke backend:
+  - `npm run typecheck`
+  - `npm run smoke:all`
+  - `npm run smoke:performance`
+- Flujo funcional minimo:
+  - register/login
+  - add to cart
+  - create order
+  - create payment intent
+  - confirmar pago test (incluyendo 3DS)
+  - verificar webhook `200` y cambio de estado de pedido
+
+4. Criterios de salida de deploy
+
+- No errores `5xx` en health/smoke.
+- Webhook Stripe recibe y procesa eventos con `200`.
+- Pedidos transicionan correctamente (`pending`, `paid`, `failed`, `canceled`).
+- Panel admin accesible solo con rol `admin`.
+
+5. Rollback minimo
+
+- Revertir frontend a ultimo build estable.
+- Revertir backend a ultimo commit/tag estable.
+- Mantener `MONGODB_DB_NAME` estable; no correr seeds destructivos durante rollback.
+- Revalidar:
+  - `GET /api/health`
+  - login
+  - checkout test basico
+  - webhook `200`
+
+Runbook corto de incidencias (operativo):
+
+1. Incidencia: webhook Stripe invalido o no recibido
+
+Sintomas:
+
+- Pedido no cambia de `pending` a `paid`/`failed`.
+- Errores `400 Invalid webhook signature`.
+
+Diagnostico rapido:
+
+- Verificar `STRIPE_WEBHOOK_SECRET` en backend.
+- Confirmar que Stripe envia a `POST /api/payments/webhook`.
+- Revisar logs por `eventType` y `requestId`.
+
+Accion correctiva:
+
+- Regenerar/actualizar signing secret.
+- Reconfigurar forwarding o endpoint productivo en Stripe.
+- Reenviar evento desde Stripe Dashboard/CLI.
+
+Validacion de cierre:
+
+- Webhook responde `200`.
+- Pedido cambia al estado esperado.
+
+2. Incidencia: pedido queda en pending demasiado tiempo
+
+Sintomas:
+
+- Checkout confirma en UI, pero pedido sigue `pending`.
+
+Diagnostico rapido:
+
+- Consultar estado real del `payment_intent` en Stripe.
+- Revisar `paymentIntentId` en pedido.
+- Verificar llegada de eventos de webhook.
+
+Accion correctiva:
+
+- Reintentar pago desde checkout si aplica.
+- Forzar reconciliacion consultando estado de intent y actualizando pedido.
+
+Validacion de cierre:
+
+- Pedido termina en `paid` o `failed`.
+- Carrito queda sincronizado.
+
+3. Incidencia: pago falla de forma recurrente
+
+Sintomas:
+
+- Multiples `payment_intent.payment_failed`.
+- Usuario no puede completar compra.
+
+Diagnostico rapido:
+
+- Revisar `paymentLastError` del pedido.
+- Revisar tipo de tarjeta de prueba usada y escenario Stripe.
+
+Accion correctiva:
+
+- Solicitar nuevo intento con otra tarjeta de prueba.
+- Confirmar que el intento no esta bloqueado por estado `canceled`/`paid`.
+
+Validacion de cierre:
+
+- Se crea/recupera intent valido.
+- Pedido cambia a `paid` en un nuevo intento exitoso.
+
+4. Incidencia: desincronizacion carrito/pedido
+
+Sintomas:
+
+- Pedido ya `paid` y UI aun muestra items en carrito.
+
+Diagnostico rapido:
+
+- Confirmar ejecucion de webhook `payment_intent.succeeded`.
+- Revisar logs de limpieza de carrito.
+
+Accion correctiva:
+
+- Refrescar estado de carrito desde backend.
+- Si persiste, limpiar carrito server-side para el usuario afectado.
+
+Validacion de cierre:
+
+- Carrito en `0` items en backend y frontend.
+
+5. Incidencia: acceso admin denegado
+
+Sintomas:
+
+- `403 Admin access required` en `/api/admin/*`.
+
+Diagnostico rapido:
+
+- Verificar rol `admin` en usuario.
+- Verificar que access token actual contiene rol correcto.
+
+Accion correctiva:
+
+- Actualizar rol del usuario a `admin`.
+- Volver a iniciar sesion para emitir token nuevo con rol actualizado.
+
+Validacion de cierre:
+
+- Endpoints admin responden `200` con el nuevo token.
+
 ---
 
 ## Orden de ejecución acordado

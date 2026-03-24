@@ -3,6 +3,8 @@ import express from 'express'
 import helmet from 'helmet'
 import pinoHttp from 'pino-http'
 import type { Request } from 'express'
+import type { CorsOptions } from 'cors'
+import { randomUUID } from 'node:crypto'
 import { env } from './config/env'
 import { logger } from './config/logger'
 import { errorHandler, notFoundHandler } from './middlewares/error-handler'
@@ -21,7 +23,23 @@ const corsOrigins = env.CORS_ORIGIN.split(',')
   .map((origin) => origin.trim())
   .filter((origin) => origin.length > 0)
 
-const corsOptions = env.CORS_ORIGIN === '*' ? undefined : { origin: corsOrigins }
+const allowAllOrigins = env.CORS_ORIGIN === '*'
+const allowedOriginsSet = new Set(corsOrigins)
+
+const corsOptions: CorsOptions = {
+  origin: (origin, callback) => {
+    if (allowAllOrigins || !origin || allowedOriginsSet.has(origin)) {
+      callback(null, true)
+      return
+    }
+
+    callback(new Error('CORS origin not allowed'))
+  },
+  methods: ['GET', 'POST', 'PATCH', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'Stripe-Signature'],
+  optionsSuccessStatus: 204,
+  maxAge: 60 * 60 * 24,
+}
 
 app.use(helmet())
 app.use(cors(corsOptions))
@@ -37,7 +55,23 @@ app.use(
     },
   }),
 )
-app.use(pinoHttp({ logger }))
+app.use(
+  pinoHttp({
+    logger,
+    genReqId: (req, res) => {
+      const incoming = req.headers['x-request-id']
+      const requestId = typeof incoming === 'string' && incoming.trim().length > 0
+        ? incoming.trim()
+        : randomUUID()
+
+      res.setHeader('x-request-id', requestId)
+      return requestId
+    },
+    customProps: (req) => ({
+      requestId: (req as { id?: string }).id,
+    }),
+  }),
+)
 
 app.get('/', (_req, res) => {
   res.status(200).json({ message: 'Backend is running' })

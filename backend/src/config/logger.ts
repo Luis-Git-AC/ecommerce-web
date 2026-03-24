@@ -14,5 +14,17 @@ const transport =
 
 export const logger = pino({
   level: env.NODE_ENV === 'production' ? 'info' : 'debug',
+  redact: {
+    paths: [
+      'req.headers.authorization',
+      'request.headers.authorization',
+      'headers.authorization',
+      'password',
+      'passwordHash',
+      'refreshToken',
+      'refreshTokenHash',
+    ],
+    censor: '[REDACTED]',
+  },
   transport,
 })
