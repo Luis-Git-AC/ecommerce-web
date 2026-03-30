@@ -1,88 +1,137 @@
-# Ecommerce Web Frontend
+# Ecommerce Web – Frontend (con integración backend y pagos)
 
-Frontend de una tienda de plantas construido con enfoque frontend-first.
+Frontend de tienda de plantas totalmente funcional, integrado con backend real y sistema de pagos Stripe en entorno de pruebas.
 
-La idea de este proyecto es simple: construir primero una experiencia de usuario sólida (navegación, catálogo, detalle, accesibilidad, performance y calidad), y dejar la integración de backend como un paso natural, no como un refactor traumático.
+---
 
-## Enfoque del proyecto
+## Descripción general
 
-- Frontend-first: interfaz y UX completas antes de acoplar API real.
-- Arquitectura preparada para backend: la UI consume hooks/repositorio, no mocks directos.
-- Calidad de ingeniería: TypeScript estricto, lint, unit tests y e2e smoke.
-- Optimización de assets en pipeline local.
+Este frontend implementa toda la experiencia de usuario de la tienda, desde la navegación y el catálogo hasta el checkout y la gestión de pedidos. Está conectado a un backend propio y soporta pagos reales en modo test, permitiendo un flujo de compra completo y seguro.
 
-## Stack
+---
+
+## Funcionalidades principales
+
+- Catálogo de productos dinámico (con filtros y paginación)
+- Vista de producto con galería de imágenes
+- Carrito persistente y gestionable
+- Registro y login de usuarios
+- Creación y consulta de pedidos
+- Checkout completo integrado con Stripe (modo test)
+- Gestión de estados de pedido tras el pago
+- Accesibilidad y diseño responsive
+
+---
+
+## Pagos
+
+Integración con Stripe en modo test utilizando Stripe Checkout y webhooks:
+
+- Creación de sesión de pago desde el backend
+- Redirección a checkout seguro de Stripe
+- Confirmación automática del estado del pedido tras el pago (webhooks Stripe)
+- Gestión de errores y estados de pago
+
+---
+
+## Entornos de ejecución
+
+El frontend puede funcionar en dos modos:
+
+- **Modo mock:** desarrollo frontend-first usando datos simulados (`src/mocks`).
+- **Modo real:** conectado a backend y Stripe en modo test.
+
+El modo se configura mediante variables de entorno.
+
+---
+
+## Arquitectura
+
+- **Frontend:** React 19 + Vite (este repositorio)
+- **Backend:** API REST Node.js + MongoDB + Cloudinary (repositorio hermano)
+- **Pagos:** Stripe Checkout (modo test)
+
+El frontend consume el backend mediante servicios desacoplados (`src/services`). Toda la lógica de negocio y persistencia reside en el backend, manteniendo el frontend limpio y enfocado en la experiencia de usuario.
+
+---
+
+## Stack tecnológico
 
 - React 19 + TypeScript
 - Vite
 - React Router
 - ESLint
 - Vitest + Testing Library
-- Playwright
+- Playwright (e2e)
 - Sharp (optimización de imágenes)
+
+---
 
 ## Scripts principales
 
-- `npm run dev`: arranca entorno local.
-- `npm run build`: compila TypeScript y genera build de producción.
-- `npm run preview`: sirve la build localmente.
+- `npm run dev` – Entorno local de desarrollo
+- `npm run build` – Build de producción
+- `npm run preview` – Servir build localmente
+- `npm run typecheck` – Chequeo de tipos
+- `npm run lint` – Linting estático
+- `npm run test` – Tests unitarios
+- `npm run test:coverage` – Cobertura de tests
+- `npm run test:e2e:install` – Instala navegador para e2e
+- `npm run test:e2e` – Smoke e2e
+- `npm run quality` – Chequeo de calidad global
+- `npm run perf:report` – Reporte de tamaños de assets
+- `npm run perf:budget` – Validación de presupuestos de bundle
+- `npm run release:check` – Validación previa a release
+- `npm run assets:hero` / `npm run assets:shop` – Optimización de imágenes
 
-### Calidad
+---
 
-- `npm run typecheck`: chequeo de tipos.
-- `npm run lint`: reglas estáticas.
-- `npm run test`: tests unitarios.
-- `npm run test:coverage`: cobertura de unit tests.
-- `npm run test:e2e:install`: instala navegador Chromium para Playwright.
-- `npm run test:e2e`: smoke e2e.
-- `npm run quality`: puerta de calidad (`typecheck + lint + test`).
+## Estructura del proyecto
 
-### Performance / Release
+- `src/pages` – Vistas principales (Home, Shop, Product, Cart, Checkout, Blog, Admin, etc.)
+- `src/components` – Layout, secciones y UI reutilizable (`layout`, `sections`, `ui`)
+- `src/features` – Hooks y lógica de dominio
+- `src/services` – Repositorios y adaptadores de datos por dominio (productos, carrito, auth, pedidos, etc.)
+- `src/types` – Contratos tipados de dominio
+- `src/mocks` – Datos mock para desarrollo frontend-first
+- `src/hooks` – Hooks y contextos globales (Auth, Cart)
+- `src/store` – Estado global/contextos
+- `src/utils` – Utilidades y helpers
+- `scripts/` – Automatización de assets y métricas
 
-- `npm run perf:report`: reporte de tamaños en `dist/assets`.
-- `npm run perf:budget`: valida presupuestos de bundle JS/CSS.
-- `npm run release:check`: validación completa previa a release.
+---
 
-### Assets
+## Flujo de trabajo recomendado
 
-- `npm run assets:hero`: optimiza imágenes del hero.
-- `npm run assets:shop`: optimiza imágenes del catálogo shop.
+1. Instalar dependencias: `npm install`
+2. Iniciar entorno local: `npm run dev`
+3. Durante desarrollo: `npm run quality`
+4. Antes de release: `npm run release:check`
 
-## Estructura (resumen)
+---
 
-- `src/pages`: vistas principales.
-- `src/components`: layout, secciones y UI reutilizable.
-- `src/features/products`: hooks de dominio para consumo en UI.
-- `src/services/products.repository.ts`: capa de acceso a datos (adaptable a API).
-- `src/types/product.ts`: contrato tipado de dominio.
-- `src/mocks/products.mock.ts`: fuente mock actual (temporal en frontend-first).
-- `scripts/`: automatización de assets y métricas de build.
+## Objetivos de calidad
+
+- Performance (Lighthouse): ≥ 90
+- Accesibilidad: ≥ 95
+- Best Practices: ≥ 95
+- SEO: ≥ 90
+
+_Nota: Las métricas pueden variar según entorno y contenido._
+
+---
 
 ## Estado actual
 
-- Catálogo y detalle funcionales con galería, swipe móvil y lightbox.
-- Accesibilidad reforzada en navegación de imágenes y modal.
-- Estados UX de carga/error/vacío/no disponible en puntos críticos.
-- Base backend-ready sin romper UI actual.
+- Catálogo y detalle funcionales, con galería y lightbox
+- Carrito y pedidos conectados a backend real
+- Autenticación y gestión de usuarios
+- Checkout y pagos Stripe 100% funcionales (modo test)
+- Accesibilidad y responsive validados
+- Estados UX completos (carga, error, vacío, no disponible)
 
-## Objetivos de calidad (portfolio)
+---
 
-Objetivos recomendados en Lighthouse (entorno de producción):
+## Comentarios
 
-- Performance: >= 90
-- Accessibility: >= 95
-- Best Practices: >= 95
-- SEO: >= 90
-
-Nota: la puntuación puede variar según equipo, red y contenido final.
-
-## Flujo sugerido de trabajo
-
-1. `npm install`
-2. `npm run dev`
-3. Durante desarrollo: `npm run quality`
-4. Antes de cerrar entrega: `npm run release:check`
-
-## Comentario final
-
-Este frontend está pensado para evolucionar con backend real sin rehacer la experiencia ya construida. Si mañana cambia la fuente de datos, el objetivo es tocar repositorio/adaptadores, no volver a abrir cada componente de la UI.
+Este frontend está pensado para evolucionar y escalar fácilmente, manteniendo la experiencia de usuario como prioridad y permitiendo cambios en backend o pasarela de pagos sin rehacer la UI.
