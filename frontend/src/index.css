@@ -239,6 +239,148 @@ select:focus-visible {
   color: #5c6b61;
 }
 
+.brand-page {
+  --home-display-font: 'Fraunces', 'Playfair Display', serif;
+  --home-ui-font: 'Hanken Grotesk', 'Source Sans Pro', system-ui, -apple-system, sans-serif;
+  --home-mono-font: 'IBM Plex Mono', 'SFMono-Regular', Consolas, monospace;
+  --home-ink-strong: #1a261f;
+  --home-ink-muted: #526158;
+  --home-accent: #2e8b57;
+  --home-accent-dark: #236440;
+  --home-surface: #f8f5ee;
+  --home-surface-alt: #f2ede2;
+}
+
+.brand-page h1,
+.brand-page h2 {
+  font-family: var(--home-display-font);
+  letter-spacing: -0.01em;
+}
+
+.brand-page .section-header h2 {
+  font-size: clamp(1.95rem, 2.8vw, 2.45rem);
+  line-height: 1.12;
+  color: var(--home-ink-strong);
+}
+
+.brand-page .muted {
+  color: var(--home-ink-muted);
+  font-family: var(--home-ui-font);
+}
+
+.brand-page .page-eyebrow {
+  letter-spacing: 0.16em;
+  font-size: 0.74rem;
+  font-weight: 700;
+}
+
+.brand-page .btn {
+  font-family: var(--home-ui-font);
+  font-weight: 650;
+  letter-spacing: 0.012em;
+  border-radius: 14px;
+  border-color: rgba(24, 67, 44, 0.32);
+  background: linear-gradient(180deg, #2f9360 0%, #26764b 100%);
+  box-shadow: 0 8px 20px rgba(28, 62, 45, 0.16), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+  transform: translateY(0);
+}
+
+.brand-page .btn:hover {
+  background: linear-gradient(180deg, #37a06a 0%, #2a7f50 100%);
+  box-shadow: 0 11px 24px rgba(28, 62, 45, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.26);
+  transform: translateY(-1px);
+}
+
+.brand-page .btn:active {
+  transform: translateY(1px);
+  box-shadow: 0 4px 14px rgba(28, 62, 45, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.24);
+}
+
+.brand-page .btn:focus-visible {
+  outline: none;
+  box-shadow:
+    0 0 0 3px rgba(46, 139, 87, 0.28),
+    0 8px 20px rgba(28, 62, 45, 0.16),
+    inset 0 1px 0 rgba(255, 255, 255, 0.25);
+}
+
+.brand-page .btn:disabled,
+.brand-page .btn[aria-disabled='true'] {
+  opacity: 0.62;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.brand-page .btn:disabled:hover,
+.brand-page .btn[aria-disabled='true']:hover {
+  transform: none;
+}
+
+.brand-page .btn-outline {
+  background: linear-gradient(180deg, #f9f5ea 0%, #f1ecde 100%);
+  color: var(--home-accent-dark);
+  border-color: rgba(35, 100, 64, 0.42);
+  box-shadow: 0 5px 14px rgba(31, 42, 34, 0.08);
+}
+
+.brand-page .btn-outline:hover {
+  background: linear-gradient(180deg, #fffaf1 0%, #f5efdf 100%);
+  color: #1f5939;
+  border-color: rgba(31, 89, 57, 0.5);
+}
+
+.brand-page .btn-ghost {
+  background: transparent;
+  border-color: rgba(46, 139, 87, 0.38);
+  color: var(--home-accent-dark);
+}
+
+.brand-page .btn-ghost:hover {
+  background: rgba(46, 139, 87, 0.07);
+  border-color: rgba(46, 139, 87, 0.55);
+}
+
+.brand-page .section-alt {
+  background:
+    radial-gradient(circle at 0% 0%, rgba(229, 242, 234, 0.32), transparent 36%),
+    linear-gradient(180deg, #f3eee2 0%, #f0eadf 100%);
+}
+
+.brand-page .state-box {
+  border-radius: 12px;
+  padding: 0.75rem 0.9rem;
+  border: 1px solid transparent;
+}
+
+.brand-page .state-success {
+  background: #edf7f1;
+  border-color: #b7dcc5;
+  color: #1f5c3a;
+}
+
+.brand-page .state-error {
+  background: #fff0ef;
+  border-color: #efc5c1;
+  color: #812b26;
+}
+
+.brand-page .state-loading {
+  background: #f6f2e8;
+  border-color: #e3dccf;
+  color: var(--home-ink-muted);
+}
+
+.brand-page .state-empty {
+  display: grid;
+  gap: 0.9rem;
+  justify-items: start;
+  border-radius: 14px;
+  padding: 1rem;
+  border: 1px solid #e3dccf;
+  background: linear-gradient(180deg, #fffdf8 0%, #f8f3e8 100%);
+}
+
 @media (max-width: 768px) {
   :root {
     --page-hero-top: 2.5rem;
@@ -257,5 +399,25 @@ select:focus-visible {
   .btn {
     width: 100%;
     justify-content: center;
+  }
+
+  .brand-page .section-header {
+    gap: 0.85rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .brand-page .section-header h2 {
+    font-size: clamp(1.58rem, 6vw, 2rem);
+  }
+
+  .brand-page .muted {
+    line-height: 1.58;
+  }
+}
+
+@media (max-width: 480px) {
+  .brand-page .btn {
+    min-height: 46px;
+    border-radius: 12px;
   }
 }

@@ -23,6 +23,10 @@
   transition: border-color 0.2s ease, color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
 }
 
+.filterLabelMobile {
+  display: none;
+}
+
 .filterButton:hover {
   border-color: #2e8b57;
   color: #2e8b57;
@@ -44,15 +48,6 @@
   display: grid;
   gap: 1.5rem;
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-}
-
-.emptyState {
-  margin: 0;
-  padding: 1rem 1.1rem;
-  border-radius: 12px;
-  border: 1px solid #e7e2d8;
-  background: #fffdf7;
-  color: #4a5a50;
 }
 
 .card {
@@ -118,13 +113,18 @@
   }
 
   .filters {
-    overflow-x: auto;
-    flex-wrap: nowrap;
-    padding-bottom: 0.25rem;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.55rem;
   }
 
   .filterButton {
-    white-space: nowrap;
+    min-height: 42px;
+    padding: 0.5rem 0.7rem;
+    font-size: 0.84rem;
+    white-space: normal;
+    text-align: center;
+    justify-content: center;
   }
 
   .grid {
@@ -139,5 +139,13 @@
     flex-direction: column;
     align-items: flex-start;
     gap: 0.35rem;
+  }
+
+  .filterLabelDesktop {
+    display: none;
+  }
+
+  .filterLabelMobile {
+    display: inline;
   }
 }

@@ -52,7 +52,7 @@ export default function ContactPage() {
   }
 
   return (
-    <div className="page">
+    <div className="page brand-page">
       <Header />
       <main className={styles.contact}>
         <section className="container page-hero">

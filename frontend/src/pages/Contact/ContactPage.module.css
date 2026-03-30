@@ -9,10 +9,10 @@
 }
 
 .form {
-  border: 1px solid #e7e2d8;
-  border-radius: 20px;
+  border: 1px solid #e3dccf;
+  border-radius: 18px;
   padding: 2rem;
-  background: #fffdf7;
+  background: linear-gradient(180deg, #fffdf8 0%, #f9f4ea 100%);
   display: grid;
   gap: 1.1rem;
 }
@@ -31,6 +31,9 @@
 .field input,
 .field textarea {
   padding: 0.72rem 0.92rem;
+  border-color: #d9d2c5;
+  border-radius: 12px;
+  background: #fffdf9;
 }
 
 .field textarea {
@@ -52,10 +55,10 @@
 }
 
 .info {
-  border: 1px solid #e7e2d8;
-  border-radius: 20px;
+  border: 1px solid #e3dccf;
+  border-radius: 18px;
   padding: 2rem;
-  background: white;
+  background: linear-gradient(180deg, #fffdf8 0%, #f9f4ea 100%);
   display: grid;
   gap: 0.5rem;
 }

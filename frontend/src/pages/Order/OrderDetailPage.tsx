@@ -83,7 +83,7 @@ export default function OrderDetailPage() {
   }, [accessToken, id, isAuthenticated])
 
   return (
-    <div className="page">
+    <div className="page brand-page">
       <Header />
       <main className={styles.orderDetail}>
         <section className={`container ${styles.hero}`}>
@@ -106,7 +106,7 @@ export default function OrderDetailPage() {
           </section>
         ) : error ? (
           <section className={`container ${styles.panel}`}>
-            <p className={styles.errorBox} role="alert" aria-live="assertive">
+            <p className="state-box state-error" role="alert" aria-live="assertive">
               {error}
             </p>
             <Link className="btn btn-outline" to="/account">

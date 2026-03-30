@@ -7,6 +7,13 @@ import styles from './BlogPage.module.css'
 
 const categories = ['Todos', 'Cuidados', 'Diseño', 'Problemas comunes'] as const
 
+const categoryMobileLabel: Record<(typeof categories)[number], string> = {
+  Todos: 'Todos',
+  Cuidados: 'Cuidados',
+  Diseño: 'Diseño',
+  'Problemas comunes': 'Problemas',
+}
+
 export default function BlogPage() {
   const [posts, setPosts] = useState<BlogPost[]>([])
   const [loading, setLoading] = useState(true)
@@ -53,7 +60,7 @@ export default function BlogPage() {
   )
 
   return (
-    <div className="page">
+    <div className="page brand-page">
       <Header />
       <main className={styles.blog}>
         <section className="container page-hero">
@@ -76,16 +83,19 @@ export default function BlogPage() {
                 onClick={() => setActiveCategory(category)}
                 aria-pressed={activeCategory === category}
               >
-                {category}
+                <span className={styles.filterLabelDesktop}>{category}</span>
+                <span className={styles.filterLabelMobile}>{categoryMobileLabel[category]}</span>
               </button>
             ))}
           </div>
 
-          {loading ? <p className="muted">Cargando artículos...</p> : null}
-          {error ? <p className="muted">{error}</p> : null}
+          {loading ? <p className="state-box state-loading">Cargando artículos...</p> : null}
+          {error ? <p className="state-box state-error">{error}</p> : null}
           {!loading && !error ? (
             visiblePosts.length === 0 ? (
-              <p className={styles.emptyState}>No hay artículos para esta categoría. Prueba con otra opción.</p>
+              <div className="state-empty">
+                <p className="muted">No hay artículos para esta categoría. Prueba con otra opción.</p>
+              </div>
             ) : (
               <div className={styles.grid}>
                 {visiblePosts.map((post) => (

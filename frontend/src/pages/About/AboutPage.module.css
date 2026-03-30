@@ -12,23 +12,22 @@
 .story h2,
 .values h2,
 .cta h2 {
-  font-family: 'Playfair Display', serif;
   font-size: 2rem;
   margin: 0 0 0.75rem;
 }
 
 .highlight {
-  border: 1px solid #e7e2d8;
+  border: 1px solid #e3dccf;
   border-radius: 18px;
   padding: 1.5rem;
-  background: #fffdf7;
+  background: linear-gradient(180deg, #fffdf8 0%, #f9f4ea 100%);
   color: #2a3b2f;
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .highlight:hover {
-  border-color: #ddd6ca;
-  box-shadow: 0 10px 22px rgba(31, 42, 34, 0.07);
+  border-color: #d2c6b1;
+  box-shadow: 0 14px 28px rgba(31, 42, 34, 0.1);
 }
 
 .values {
@@ -44,18 +43,18 @@
 }
 
 .valueCard {
-  border: 1px solid #e7e2d8;
+  border: 1px solid #e3dccf;
   border-radius: 18px;
   padding: 1.5rem;
-  background: white;
+  background: linear-gradient(180deg, #fffdf8 0%, #f9f4ea 100%);
   display: grid;
   gap: 0.75rem;
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .valueCard:hover {
-  border-color: #ddd6ca;
-  box-shadow: 0 10px 22px rgba(31, 42, 34, 0.07);
+  border-color: #d2c6b1;
+  box-shadow: 0 14px 28px rgba(31, 42, 34, 0.1);
 }
 
 .cta {

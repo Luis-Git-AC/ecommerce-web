@@ -8,6 +8,20 @@
   min-height: 100%;
 }
 
+.cardHome {
+  border-radius: 18px;
+  border-color: #e2dbce;
+  background: linear-gradient(180deg, #fffdf8 0%, #f9f5eb 100%);
+  box-shadow: 0 10px 22px rgba(31, 42, 34, 0.09);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.cardHome:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 16px 28px rgba(31, 42, 34, 0.13);
+  border-color: #d3c6af;
+}
+
 .card picture {
   display: block;
   width: 100%;
@@ -16,6 +30,10 @@
 .imageWrap {
   position: relative;
   min-height: 220px;
+}
+
+.imageWrapContainMobile {
+  background: transparent;
 }
 
 .imageSkeleton {
@@ -43,6 +61,10 @@
   object-position: center;
 }
 
+.imageContainMobile {
+  object-position: center 38%;
+}
+
 .imageHidden {
   opacity: 0;
 }
@@ -59,12 +81,189 @@
   gap: 0.75rem;
 }
 
+.priceHome {
+  font-family: var(--home-mono-font, 'IBM Plex Mono', monospace);
+  font-size: 0.94rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  color: #2f5c45;
+}
+
+.linkHome {
+  width: 100%;
+}
+
 @media (max-width: 768px) {
+  .cardHome:hover {
+    transform: none;
+  }
+
   .image {
     height: 200px;
   }
 
+  .imageWrapContainMobile {
+    background: transparent;
+  }
+
+  .imageContainMobile {
+    object-fit: cover;
+    padding: 0;
+  }
+
+  .mobileEditorial {
+    overflow: hidden;
+    border-radius: 16px;
+    box-shadow: 0 10px 24px rgba(31, 42, 34, 0.11);
+  }
+
+  .mobileEditorial .imageWrap,
+  .mobileEditorial .image,
+  .mobileEditorial .imageFallback {
+    min-height: 0;
+    height: auto;
+    aspect-ratio: 4 / 3;
+  }
+
+  .mobileEditorial .imageWrap {
+    border-radius: 16px 16px 0 0;
+    overflow: hidden;
+  }
+
+  .mobileEditorial .image,
+  .mobileEditorial .imageFallback {
+    width: 100%;
+    height: 100%;
+    border-radius: 0;
+  }
+
+  .mobileEditorial .body {
+    margin-top: 0;
+    border-radius: 0;
+    background: linear-gradient(180deg, #fffdf8 0%, #f9f5eb 100%);
+    border: 0;
+    border-top: 1px solid #e3dccf;
+    padding: 0.78rem 0.9rem 0.86rem;
+    gap: 0.28rem;
+  }
+
+  .mobileEditorial h3 {
+    font-size: 1rem;
+    line-height: 1.2;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .mobileEditorial .priceHome {
+    font-size: 0.88rem;
+    letter-spacing: 0.015em;
+  }
+
+  .mobileEditorial .linkHome {
+    width: auto;
+    justify-self: start;
+    min-height: 34px;
+    padding: 0.45rem 0.85rem;
+    border-radius: 12px;
+  }
+
+  .mobileEditorial .imageContainMobile {
+    object-fit: cover;
+    object-position: center 56%;
+  }
+
   .body {
     padding: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .image,
+  .imageFallback {
+    height: 188px;
+  }
+
+  .imageContainMobile {
+    object-position: center 34%;
+  }
+
+  .mobileEditorial .body {
+    padding: 0.72rem 0.82rem 0.8rem;
+    gap: 0.24rem;
+  }
+
+  .mobileEditorial .linkHome {
+    min-height: 33px;
+    padding: 0.42rem 0.78rem;
+    border-radius: 11px;
+  }
+
+  .mobileEditorial .imageContainMobile {
+    object-position: center 58%;
+  }
+
+  .body {
+    gap: 0.6rem;
+    padding: 0.95rem;
+  }
+
+  .priceHome {
+    font-size: 0.88rem;
+  }
+}
+
+@media (max-width: 390px) {
+  .image,
+  .imageFallback {
+    height: 176px;
+  }
+
+  .mobileEditorial .imageContainMobile {
+    object-position: center 60%;
+  }
+}
+
+@media (max-width: 900px) and (orientation: landscape) and (max-height: 500px) {
+  .cardHome {
+    border-radius: 14px;
+  }
+
+  .mobileEditorial {
+    border-radius: 14px;
+    box-shadow: 0 8px 18px rgba(31, 42, 34, 0.1);
+  }
+
+  .mobileEditorial .imageWrap,
+  .mobileEditorial .image,
+  .mobileEditorial .imageFallback {
+    aspect-ratio: 16 / 9;
+  }
+
+  .mobileEditorial .imageWrap {
+    border-radius: 14px 14px 0 0;
+  }
+
+  .mobileEditorial .body {
+    padding: 0.62rem 0.72rem 0.7rem;
+    gap: 0.18rem;
+  }
+
+  .mobileEditorial h3 {
+    font-size: 0.92rem;
+    line-height: 1.16;
+  }
+
+  .mobileEditorial .priceHome {
+    font-size: 0.82rem;
+    letter-spacing: 0.01em;
+  }
+
+  .mobileEditorial .linkHome {
+    min-height: 30px;
+    padding: 0.34rem 0.64rem;
+    border-radius: 9px;
+    font-size: 0.86rem;
   }
 }

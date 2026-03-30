@@ -135,7 +135,7 @@ export default function AccountPage() {
   }
 
   return (
-    <div className="page">
+    <div className="page brand-page">
       <Header />
       <main className={styles.account}>
         <section className={`container ${styles.hero}`}>
@@ -170,14 +170,14 @@ export default function AccountPage() {
               </div>
             </div>
 
-            {ordersError ? <p className={styles.errorBox}>{ordersError}</p> : null}
+            {ordersError ? <p className={`${styles.feedbackFull} state-box state-error`}>{ordersError}</p> : null}
 
             {ordersLoading ? (
-              <p className="muted" role="status" aria-live="polite">
+              <p className={`${styles.feedbackFull} state-box state-loading`} role="status" aria-live="polite">
                 Cargando pedidos...
               </p>
             ) : orders.length === 0 ? (
-              <div className={styles.emptyState}>
+              <div className="state-empty">
                 <p className="muted">Aún no tienes pedidos.</p>
                 <Link to="/shop" className="btn">
                   Ir a tienda
@@ -277,13 +277,13 @@ export default function AccountPage() {
             </form>
 
             {authMessage ? (
-              <p className={styles.successBox} role="status" aria-live="polite">
+              <p className={`${styles.feedbackFull} state-box state-success`} role="status" aria-live="polite">
                 {authMessage}
               </p>
             ) : null}
 
             {authError ? (
-              <p className={styles.errorBox} role="alert" aria-live="assertive">
+              <p className={`${styles.feedbackFull} state-box state-error`} role="alert" aria-live="assertive">
                 {authError}
               </p>
             ) : null}

@@ -22,6 +22,8 @@ export default function ProductGridSection() {
                 name={product.name}
                 price={product.price}
                 image={product.images.card}
+                mobileLayout="editorial"
+                variant="home"
               />
             ))}
           </div>

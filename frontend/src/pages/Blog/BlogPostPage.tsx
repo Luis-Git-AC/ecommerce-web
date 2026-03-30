@@ -57,7 +57,7 @@ export default function BlogPostPage() {
   const hasContent = !loading && !error && Boolean(post)
 
   return (
-    <div className="page">
+    <div className="page brand-page">
       <Header />
       <main className={styles.post}>
         <section className="container page-hero">
@@ -73,7 +73,7 @@ export default function BlogPostPage() {
         <section className={`container ${styles.content}`}>
           {loading ? <p className="muted">Cargando artículo...</p> : null}
           {error ? (
-            <div className={styles.errorState} role="alert" aria-live="assertive">
+            <div className="state-empty" role="alert" aria-live="assertive">
               <p className="muted">{error}</p>
               <p className="muted">Puedes volver al listado para explorar otras guías disponibles.</p>
               <Link className="btn" to="/blog">Ver blog</Link>

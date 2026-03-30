@@ -13,6 +13,7 @@ const plans = [
     name: 'Verde',
     price: '27 €/mes',
     description: 'Planta + accesorios esenciales.',
+    featured: true,
   },
   {
     id: 'jungla',
@@ -32,8 +33,12 @@ export default function SubscriptionPlansSection() {
         </div>
         <div className={`grid ${styles.plansGrid}`}>
           {plans.map((plan) => (
-            <article key={plan.id} className={`card ${styles.planCard}`}>
+            <article
+              key={plan.id}
+              className={`card ${styles.planCard} ${plan.featured ? styles.planCardFeatured : ''}`}
+            >
               <div>
+                {plan.featured ? <p className={styles.badge}>Mas elegido</p> : null}
                 <h3>{plan.name}</h3>
                 <p className={styles.price}>{plan.price}</p>
                 <p className="muted">{plan.description}</p>

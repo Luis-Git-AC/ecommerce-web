@@ -20,7 +20,7 @@ const values = [
 
 export default function AboutPage() {
   return (
-    <div className="page">
+    <div className="page brand-page">
       <Header />
       <main className={styles.about}>
         <section className="container page-hero">

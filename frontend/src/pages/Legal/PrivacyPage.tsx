@@ -4,7 +4,7 @@ import styles from './LegalPage.module.css'
 
 export default function PrivacyPage() {
   return (
-    <div className="page">
+    <div className="page brand-page">
       <Header />
       <main className={styles.legal}>
         <section className="container page-hero">

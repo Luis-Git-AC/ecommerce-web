@@ -5,12 +5,52 @@
 .planCard {
   padding: 2rem;
   justify-content: space-between;
+  position: relative;
+  border-radius: 18px;
+  border-color: #dfd5c2;
+  background: linear-gradient(180deg, #fffdf8 0%, #f9f3e6 100%);
+  box-shadow: 0 9px 20px rgba(31, 42, 34, 0.08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.planCard:hover {
+  transform: translateY(-2px);
+  border-color: #cfbea2;
+  box-shadow: 0 15px 28px rgba(31, 42, 34, 0.12);
+}
+
+.planCardFeatured {
+  border-color: #2e8b57;
+  box-shadow: 0 16px 30px rgba(33, 81, 54, 0.16);
 }
 
 .price {
-  font-size: 1.5rem;
+  font-size: 1.6rem;
+  line-height: 1.2;
+  font-weight: 600;
+  font-family: var(--home-mono-font, 'IBM Plex Mono', monospace);
+  letter-spacing: 0.01em;
+  color: #1f6a44;
+  margin: 0.45rem 0 0.55rem;
+}
+
+.badge {
+  width: fit-content;
+  margin: 0;
+  padding: 0.35rem 0.7rem;
+  border-radius: 999px;
+  font-family: var(--home-ui-font, 'Hanken Grotesk', sans-serif);
+  font-size: 0.74rem;
   font-weight: 700;
-  color: #2e8b57;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #1f613f;
+  background: #dbeddf;
+  border: 1px solid #bcddc6;
+  position: absolute;
+  top: 0.9rem;
+  right: 0.9rem;
+  z-index: 1;
 }
 
 @media (max-width: 768px) {
@@ -20,5 +60,24 @@
 
   .planCard {
     padding: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .planCard {
+    padding: 1.2rem;
+    gap: 1rem;
+  }
+
+  .price {
+    font-size: 1.38rem;
+    margin: 0.35rem 0 0.42rem;
+  }
+
+  .badge {
+    font-size: 0.69rem;
+    padding: 0.3rem 0.58rem;
+    top: 0.72rem;
+    right: 0.72rem;
   }
 }

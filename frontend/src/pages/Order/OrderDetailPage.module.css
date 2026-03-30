@@ -15,8 +15,8 @@
 }
 
 .panel {
-  background: #ffffff;
-  border: 1px solid #e8e2d7;
+  background: linear-gradient(180deg, #fffdf8 0%, #f9f4ea 100%);
+  border: 1px solid #e3dccf;
   border-radius: 18px;
   padding: 1.2rem;
   display: grid;
@@ -33,7 +33,7 @@
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
-  border: 1px solid #ece7dc;
+  border: 1px solid #e3dccf;
   border-radius: 14px;
   padding: 0.8rem;
   background: #fcfbf8;
@@ -41,14 +41,6 @@
 
 .itemTotal {
   font-weight: 700;
-}
-
-.errorBox {
-  border-radius: 12px;
-  padding: 0.75rem 0.9rem;
-  border: 1px solid #efc5c1;
-  background: #fff0ef;
-  color: #812b26;
 }
 
 @media (max-width: 700px) {

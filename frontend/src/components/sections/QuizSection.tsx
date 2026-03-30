@@ -94,7 +94,7 @@ const getSummary = (answers: string[]) => {
 }
 
 const toShopFilterParams = (answers: string[]) => {
-  const [light, care, _experience, style] = answers
+  const [light, care, , style] = answers
   const query = new URLSearchParams()
 
   const lightMap: Record<string, string> = {

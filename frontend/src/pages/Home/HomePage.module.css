@@ -1,0 +1,36 @@
+.home {
+  display: block;
+}
+
+.home :global(.section) {
+  padding: 4.5rem 0;
+}
+
+.home :global(main) {
+  background:
+    radial-gradient(circle at 12% -6%, rgba(219, 236, 223, 0.36), transparent 46%),
+    radial-gradient(circle at 90% 8%, rgba(224, 215, 193, 0.2), transparent 42%),
+    var(--home-surface);
+}
+
+@media (max-width: 768px) {
+  .home :global(.section) {
+    padding: 3.35rem 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .home :global(.section) {
+    padding: 2.75rem 0;
+  }
+}
+
+@media (max-width: 390px) {
+  .home :global(.section) {
+    padding: 2.45rem 0;
+  }
+
+  .home :global(.section-header h2) {
+    font-size: clamp(1.45rem, 7vw, 1.75rem);
+  }
+}

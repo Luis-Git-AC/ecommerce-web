@@ -91,7 +91,7 @@ export default function AdminPage() {
 
   if (!isAuthenticated) {
     return (
-      <div className="page">
+      <div className="page brand-page">
         <Header />
         <main className={styles.admin}>
           <section className={`container ${styles.panel}`}>
@@ -107,7 +107,7 @@ export default function AdminPage() {
 
   if (session?.user.role !== 'admin') {
     return (
-      <div className="page">
+      <div className="page brand-page">
         <Header />
         <main className={styles.admin}>
           <section className={`container ${styles.panel}`}>
@@ -122,7 +122,7 @@ export default function AdminPage() {
   }
 
   return (
-    <div className="page">
+    <div className="page brand-page">
       <Header />
       <main className={styles.admin}>
         <section className={`container ${styles.hero}`}>

@@ -6,10 +6,11 @@ import ProductGridSection from '../../components/sections/ProductGridSection'
 import QuizSection from '../../components/sections/QuizSection'
 import SubscriptionPlansSection from '../../components/sections/SubscriptionPlansSection'
 import TestimonialsSection from '../../components/sections/TestimonialsSection'
+import styles from './HomePage.module.css'
 
 export default function HomePage() {
   return (
-    <div className="page">
+    <div className={`page brand-page ${styles.home}`}>
       <Header />
       <main>
         <HeroSection />

@@ -17,8 +17,8 @@
 }
 
 .panel {
-  background: #ffffff;
-  border: 1px solid #e8e2d7;
+  background: linear-gradient(180deg, #fffdf8 0%, #f9f4ea 100%);
+  border: 1px solid #e3dccf;
   border-radius: 18px;
   padding: 1.3rem;
   display: grid;
@@ -34,6 +34,19 @@
 .panel input {
   min-height: 42px;
   padding: 0.65rem 0.8rem;
+  border: 1px solid #d9d2c5;
+  border-radius: 12px;
+  background: #fffdf9;
+  font-family: var(--home-ui-font, inherit);
+  font-size: 0.95rem;
+  color: var(--home-ink-strong, #1a261f);
+  transition: border-color 0.18s;
+}
+
+.panel input:focus {
+  outline: none;
+  border-color: var(--home-accent, #2e8b57);
+  background: #ffffff;
 }
 
 .sessionHeader {
@@ -58,7 +71,7 @@
 }
 
 .orderCard {
-  border: 1px solid #ece7dc;
+  border: 1px solid #e3dccf;
   border-radius: 14px;
   padding: 0.9rem;
   background: #fcfbf8;
@@ -66,30 +79,8 @@
   gap: 0.2rem;
 }
 
-.emptyState {
-  display: grid;
-  gap: 0.9rem;
-  justify-items: start;
-}
-
-.successBox,
-.errorBox {
+.feedbackFull {
   grid-column: 1 / -1;
-  border-radius: 12px;
-  padding: 0.75rem 0.9rem;
-  border: 1px solid transparent;
-}
-
-.successBox {
-  background: #eaf7ee;
-  border-color: #b9dfc5;
-  color: #245536;
-}
-
-.errorBox {
-  background: #fff0ef;
-  border-color: #efc5c1;
-  color: #812b26;
 }
 
 @media (max-width: 900px) {

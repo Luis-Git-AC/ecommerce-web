@@ -254,7 +254,7 @@ export default function ProductPage() {
 
   if (loading) {
     return (
-      <div className="page">
+      <div className="page brand-page">
         <Header />
         <main className={styles.product}>
           <div className={`container ${styles.stateCard}`} role="status" aria-live="polite">
@@ -269,7 +269,7 @@ export default function ProductPage() {
 
   if (error) {
     return (
-      <div className="page">
+      <div className="page brand-page">
         <Header />
         <main className={styles.product}>
           <div className={`container ${styles.stateCard}`} role="alert" aria-live="assertive">
@@ -287,7 +287,7 @@ export default function ProductPage() {
 
   if (!product) {
     return (
-      <div className="page">
+      <div className="page brand-page">
         <Header />
         <main className={styles.product}>
           <div className={`container ${styles.stateCard}`} role="status" aria-live="polite">
@@ -304,7 +304,7 @@ export default function ProductPage() {
   }
 
   return (
-    <div className="page">
+    <div className="page brand-page">
       <Header />
       <main className={styles.product}>
         <div className={`container ${styles.layout}`}>
@@ -436,6 +436,7 @@ export default function ProductPage() {
                 name={item.name}
                 price={item.price}
                 image={item.images.card}
+                variant="home"
               />
             ))}
           </div>

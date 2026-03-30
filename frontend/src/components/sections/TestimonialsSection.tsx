@@ -42,12 +42,12 @@ export default function TestimonialsSection() {
         <div className={styles.grid}>
           {testimonials.map((testimonial) => (
             <article key={testimonial.name} className={styles.card}>
-              <p className={styles.quote}>"{testimonial.quote}"</p>
+              <p className={styles.quote}>{testimonial.quote}</p>
               <div className={styles.person}>
                 <div className={styles.avatar}>{testimonial.initial}</div>
                 <div>
                   <p className={styles.name}>{testimonial.name}</p>
-                  <p className="muted">{testimonial.location}</p>
+                  <p className={styles.location}>{testimonial.location}</p>
                 </div>
               </div>
             </article>

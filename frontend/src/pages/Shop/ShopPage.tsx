@@ -112,10 +112,27 @@ export default function ShopPage() {
   const { products, loading, error } = useProducts()
   const [activeFilters, setActiveFilters] = useState<FiltersState>(initialFiltersState)
   const [sortBy, setSortBy] = useState<SortOption>('featured')
+  const [isFiltersOpen, setIsFiltersOpen] = useState(false)
 
   useEffect(() => {
     setActiveFilters(getFiltersStateFromSearch(searchParams))
   }, [searchParams])
+
+  useEffect(() => {
+    if (!isFiltersOpen) {
+      document.body.style.overflow = ''
+      document.documentElement.style.overflow = ''
+      return
+    }
+
+    document.body.style.overflow = 'hidden'
+    document.documentElement.style.overflow = 'hidden'
+
+    return () => {
+      document.body.style.overflow = ''
+      document.documentElement.style.overflow = ''
+    }
+  }, [isFiltersOpen])
 
   const visibleProducts = useMemo(() => {
     const filtered = products.filter((product) =>
@@ -160,14 +177,30 @@ export default function ShopPage() {
   }
 
   return (
-    <div className="page">
+    <div className="page brand-page">
       <Header />
       <main className={styles.shop}>
         <div className={`container ${styles.layout}`}>
-          <aside className={styles.filters}>
+          <button
+            type="button"
+            className={styles.filtersOverlay}
+            aria-label="Cerrar filtros"
+            aria-hidden={!isFiltersOpen}
+            onClick={() => setIsFiltersOpen(false)}
+          />
+          <aside className={`${styles.filters} ${isFiltersOpen ? styles.filtersOpen : ''}`}>
             <div className={styles.filtersHeader}>
+              <div>
               <h2>Tienda</h2>
               <p className="muted">Filtra para encontrar tu planta ideal.</p>
+              </div>
+              <button
+                type="button"
+                className={styles.filtersClose}
+                onClick={() => setIsFiltersOpen(false)}
+              >
+                Cerrar
+              </button>
               {hasActiveFilters ? (
                 <button type="button" className={styles.resetButton} onClick={clearFilters}>
                   Limpiar filtros
@@ -202,30 +235,39 @@ export default function ShopPage() {
                   {visibleProducts.length} productos
                 </p>
               </div>
-              <select
-                className={styles.sort}
-                aria-label="Ordenar"
-                value={sortBy}
-                onChange={(event) => setSortBy(event.target.value as SortOption)}
-                disabled={loading}
-              >
-                <option value="featured">Destacadas</option>
-                <option value="price-asc">Precio: menor a mayor</option>
-                <option value="price-desc">Precio: mayor a menor</option>
-              </select>
+              <div className={styles.mobileControls}>
+                <button
+                  type="button"
+                  className={`btn btn-outline ${styles.filtersToggle}`}
+                  onClick={() => setIsFiltersOpen(true)}
+                >
+                  Filtros
+                </button>
+                <select
+                  className={styles.sort}
+                  aria-label="Ordenar"
+                  value={sortBy}
+                  onChange={(event) => setSortBy(event.target.value as SortOption)}
+                  disabled={loading}
+                >
+                  <option value="featured">Destacadas</option>
+                  <option value="price-asc">Precio: menor a mayor</option>
+                  <option value="price-desc">Precio: mayor a menor</option>
+                </select>
+              </div>
             </div>
             {loading ? (
-              <div className={styles.emptyState} role="status" aria-live="polite">
+              <div className="state-empty" role="status" aria-live="polite">
                 <h3>Cargando catálogo...</h3>
                 <p className="muted">Estamos trayendo los productos desde el servidor.</p>
               </div>
             ) : error ? (
-              <div className={styles.emptyState} role="alert" aria-live="assertive">
+              <div className="state-empty" role="alert" aria-live="assertive">
                 <h3>No pudimos cargar la tienda</h3>
                 <p className="muted">{error}</p>
               </div>
             ) : visibleProducts.length === 0 ? (
-              <div className={styles.emptyState} role="status" aria-live="polite">
+              <div className="state-empty" role="status" aria-live="polite">
                 <h3>No encontramos plantas con ese criterio</h3>
                 <p className="muted">Ajusta los filtros para descubrir más opciones.</p>
               </div>
@@ -238,6 +280,8 @@ export default function ShopPage() {
                     name={product.name}
                     price={product.price}
                     image={product.images.card}
+                    mobileLayout="editorial"
+                    variant="home"
                   />
                 ))}
               </div>

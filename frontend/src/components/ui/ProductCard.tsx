@@ -8,17 +8,41 @@ type ProductCardProps = {
   name: string
   price: string
   image: ProductImage
+  imageMode?: 'cover' | 'contain-mobile'
+  mobileLayout?: 'default' | 'editorial'
   to?: string
+  variant?: 'default' | 'home'
 }
 
-export default function ProductCard({ id, name, price, image, to }: ProductCardProps) {
+export default function ProductCard({
+  id,
+  name,
+  price,
+  image,
+  imageMode = 'cover',
+  mobileLayout = 'default',
+  to,
+  variant = 'default',
+}: ProductCardProps) {
   const target = to ?? `/product/${id}`
   const [isImageLoading, setIsImageLoading] = useState(Boolean(image.src))
   const [hasImageError, setHasImageError] = useState(!image.src)
+  const isHomeVariant = variant === 'home'
+  const cardClassName = [
+    styles.card,
+    isHomeVariant ? styles.cardHome : '',
+    mobileLayout === 'editorial' ? styles.mobileEditorial : '',
+  ].filter(Boolean).join(' ')
+  const imageWrapClassName = imageMode === 'contain-mobile' ? `${styles.imageWrap} ${styles.imageWrapContainMobile}` : styles.imageWrap
+  const imageClassName = imageMode === 'contain-mobile'
+    ? `${styles.image} ${styles.imageContainMobile} ${isImageLoading ? styles.imageHidden : ''}`
+    : `${styles.image} ${isImageLoading ? styles.imageHidden : ''}`
+  const priceClassName = isHomeVariant ? `muted ${styles.priceHome}` : 'muted'
+  const linkClassName = isHomeVariant ? `btn btn-outline ${styles.linkHome}` : 'btn btn-outline'
 
   return (
-    <article className={styles.card}>
-      <div className={styles.imageWrap}>
+    <article className={cardClassName}>
+      <div className={imageWrapClassName}>
         {isImageLoading && !hasImageError ? <div className={styles.imageSkeleton} aria-hidden="true" /> : null}
         {hasImageError ? (
           <div className={styles.imageFallback} role="status" aria-live="polite">
@@ -31,7 +55,7 @@ export default function ProductCard({ id, name, price, image, to }: ProductCardP
             <img
               src={image.src}
               alt={name}
-              className={`${styles.image} ${isImageLoading ? styles.imageHidden : ''}`}
+              className={imageClassName}
               loading="lazy"
               onLoad={() => setIsImageLoading(false)}
               onError={() => {
@@ -44,8 +68,8 @@ export default function ProductCard({ id, name, price, image, to }: ProductCardP
       </div>
       <div className={styles.body}>
         <h3>{name}</h3>
-        <p className="muted">{price}</p>
-        <Link className="btn btn-outline" to={target}>
+        <p className={priceClassName}>{price}</p>
+        <Link className={linkClassName} to={target}>
           Ver detalle
         </Link>
       </div>

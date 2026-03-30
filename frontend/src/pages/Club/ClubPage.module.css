@@ -2,51 +2,14 @@
   padding: 0 0 var(--page-bottom-desktop);
 }
 
-.hero {
-  background: #f4f0e8;
-  padding: 4rem 0;
-}
-
-.heroContent {
-  display: grid;
-  gap: 1rem;
-  max-width: 620px;
-}
-
-.heroContent h1 {
-  font-family: 'Playfair Display', serif;
-  font-size: clamp(2.4rem, 4vw, 3.2rem);
-  margin: 0;
-}
-
-.eyebrow {
-  text-transform: uppercase;
-  letter-spacing: 0.2em;
-  font-size: 0.8rem;
-  color: #5c6b61;
-}
-
-.heroActions {
-  display: flex;
-  gap: 1rem;
-  flex-wrap: wrap;
-}
-
-.trust {
-  font-size: 0.9rem;
-  color: #5c6b61;
-}
-
 .sectionHeader h2 {
-  font-family: 'Playfair Display', serif;
   font-size: 2rem;
   margin: 0 0 0.5rem;
 }
 
 .steps,
 .plans,
-.preview,
-.faq {
+.preview {
   margin-top: var(--content-block-gap-desktop);
   display: grid;
   gap: 2rem;
@@ -55,13 +18,47 @@
 .leadSection {
   margin-top: var(--content-block-gap-desktop);
   display: grid;
-  gap: 1.25rem;
+  gap: 2rem;
+}
+
+.leadFaqWrapper {
+  display: grid;
+  gap: 2rem;
+  grid-template-columns: 1fr 1.2fr;
+}
+
+.formColumn {
+  display: grid;
+  gap: 1rem;
+}
+
+.formColumn h3 {
+  margin: 0;
+  font-size: 1.3rem;
+}
+
+.formColumn > p {
+  margin: 0;
+}
+
+.faqColumn {
+  display: grid;
+  gap: 1rem;
+}
+
+.faqColumn h3 {
+  margin: 0;
+  font-size: 1.3rem;
+}
+
+.faqColumn > p {
+  margin: 0;
 }
 
 .leadForm {
-  border: 1px solid #e7e2d8;
+  border: 1px solid #e3dccf;
   border-radius: 20px;
-  background: #fffdf7;
+  background: linear-gradient(180deg, #fffdf8 0%, #f9f4ea 100%);
   padding: 1.5rem;
   display: grid;
   gap: 1rem;
@@ -81,9 +78,9 @@
 .leadField input,
 .leadField select {
   padding: 0.72rem 0.92rem;
-  border: 1px solid #d7d2c8;
-  border-radius: 10px;
-  background: #fff;
+  border: 1px solid #d9d2c5;
+  border-radius: 12px;
+  background: #fffdf9;
 }
 
 .leadStatus {
@@ -106,10 +103,10 @@
 }
 
 .stepCard {
-  border: 1px solid #e7e2d8;
-  border-radius: 20px;
+  border: 1px solid #e3dccf;
+  border-radius: 18px;
   padding: 1.5rem;
-  background: #fffdf7;
+  background: linear-gradient(180deg, #fffdf8 0%, #f9f4ea 100%);
   display: grid;
   gap: 0.75rem;
 }
@@ -118,12 +115,13 @@
   width: 34px;
   height: 34px;
   border-radius: 999px;
-  background: #e7f3ec;
-  color: #2e8b57;
+  background: linear-gradient(180deg, #e6f2e8 0%, #d9e9dc 100%);
+  color: #2b6c49;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-weight: 700;
+  font-family: var(--home-mono-font, 'IBM Plex Mono', monospace);
+  font-weight: 600;
 }
 
 .planGrid {
@@ -133,12 +131,18 @@
 }
 
 .planCard {
-  border: 1px solid #e7e2d8;
-  border-radius: 20px;
+  border: 1px solid #e3dccf;
+  border-radius: 18px;
   padding: 2rem;
-  background: white;
+  background: linear-gradient(180deg, #fffdf8 0%, #f9f4ea 100%);
   display: grid;
+  grid-template-rows: 1fr auto;
+  align-content: start;
   gap: 1.5rem;
+}
+
+.planCard :global(.btn) {
+  width: 100%;
 }
 
 .price {
@@ -158,15 +162,50 @@
 }
 
 .previewCard {
-  border: 1px solid #e7e2d8;
-  border-radius: 20px;
+  border: 1px solid #e3dccf;
+  border-radius: 18px;
   padding: 1.5rem;
-  background: #fffdf7;
-  display: flex;
+  background: linear-gradient(180deg, #fffdf8 0%, #f9f4ea 100%);
+  display: grid;
+  grid-template-columns: auto 1fr;
   align-items: center;
-  justify-content: space-between;
-  gap: 1.5rem;
-  flex-wrap: wrap;
+  gap: 1rem;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.previewCardImage {
+  width: 380px;
+  height: auto;
+  border-radius: 14px;
+  object-fit: cover;
+}
+
+.previewCardContent {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.previewCardContent h3 {
+  margin: 0;
+  font-size: 1.2rem;
+}
+
+.previewList {
+  list-style: none;
+  padding-left: 0;
+  margin: 0.5rem 0 0;
+  display: grid;
+  gap: 0.4rem;
+  color: #2a3b2f;
+  font-size: 0.95rem;
+}
+
+.previewList li::before {
+  content: '✓ ';
+  color: #2e8b57;
+  font-weight: 700;
+  margin-right: 0.4rem;
 }
 
 .faqGrid {
@@ -176,49 +215,40 @@
 }
 
 .faqCard {
-  border: 1px solid #e7e2d8;
-  border-radius: 20px;
+  border: 1px solid #e3dccf;
+  border-radius: 18px;
   padding: 1.5rem;
-  background: white;
+  background: linear-gradient(180deg, #fffdf8 0%, #f9f4ea 100%);
   display: grid;
   gap: 0.75rem;
 }
 
 .previewModal {
-  position: fixed;
-  inset: 0;
-  z-index: 60;
-  display: grid;
-  place-items: center;
-  padding: 1.25rem;
+  display: none;
 }
 
 .previewBackdrop {
-  position: absolute;
-  inset: 0;
-  border: 0;
-  padding: 0;
-  background: rgba(15, 26, 20, 0.5);
+  display: none;
 }
 
 .previewPanel {
-  position: relative;
-  z-index: 1;
-  width: min(520px, 100%);
-  border: 1px solid #e7e2d8;
-  border-radius: 20px;
-  background: #fffdf7;
-  padding: 1.5rem;
-  display: grid;
-  gap: 1rem;
+  display: none;
 }
 
-.previewList {
-  margin: 0;
-  padding-left: 1.2rem;
-  display: grid;
-  gap: 0.4rem;
-  color: #2a3b2f;
+.previewModalHeader {
+  display: none;
+}
+
+.previewModalImage {
+  display: none;
+}
+
+.previewModalContent {
+  display: none;
+}
+
+.previewDetailList {
+  display: none;
 }
 
 @media (max-width: 768px) {
@@ -226,23 +256,9 @@
     padding: 0 0 var(--page-bottom-mobile);
   }
 
-  .hero {
-    padding: 3rem 0;
-  }
-
-  .heroContent h1 {
-    font-size: clamp(2rem, 7vw, 2.6rem);
-  }
-
-  .heroActions {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
   .steps,
   .plans,
   .preview,
-  .faq,
   .leadSection {
     margin-top: var(--content-block-gap-mobile);
   }
@@ -260,7 +276,50 @@
   }
 
   .previewCard {
-    flex-direction: column;
-    align-items: flex-start;
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+    padding: 1.25rem;
+    align-items: stretch;
+  }
+
+  .previewCardImage {
+    width: 100%;
+    border-radius: 12px;
+  }
+
+  .previewCardContent {
+    gap: 0.5rem;
+  }
+
+  .previewCardContent h3 {
+    font-size: 1.1rem;
+  }
+
+  .previewCard button {
+    justify-self: start;
+  }
+
+  .leadFaqWrapper {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+
+  .formColumn,
+  .faqColumn {
+    gap: 1rem;
+  }
+
+  .formColumn h3,
+  .faqColumn h3 {
+    font-size: 1.1rem;
+  }
+
+  .previewPanel {
+    padding: 1.5rem;
+    width: min(100%, 360px);
+  }
+
+  .previewModalHeader h3 {
+    font-size: 1.25rem;
   }
 }

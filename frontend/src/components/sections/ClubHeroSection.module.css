@@ -1,0 +1,218 @@
+.clubHero {
+  position: relative;
+  min-height: 72vh;
+  display: flex;
+  align-items: center;
+  color: white;
+  isolation: isolate;
+  overflow: hidden;
+}
+
+.clubHeroBackgrounds {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.clubHeroStaticImage {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+  transform: scale(1.03);
+}
+
+.clubHeroOverlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(94deg, rgba(8, 21, 15, 0.76) 0%, rgba(10, 24, 18, 0.58) 48%, rgba(12, 28, 20, 0.32) 100%),
+    radial-gradient(circle at 26% 42%, rgba(0, 0, 0, 0.08), rgba(0, 0, 0, 0.22));
+  z-index: 1;
+}
+
+.clubHeroContent {
+  position: relative;
+  z-index: 2;
+  padding: 5.2rem 0;
+  max-width: 620px;
+}
+
+.clubHeroContent > * {
+  opacity: 0;
+  transform: translateY(10px);
+  animation: clubHeroReveal 0.52s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.clubHeroContent > *:nth-child(1) {
+  animation-delay: 0.07s;
+}
+
+.clubHeroContent > *:nth-child(2) {
+  animation-delay: 0.14s;
+}
+
+.clubHeroContent > *:nth-child(3) {
+  animation-delay: 0.2s;
+}
+
+.clubHeroContent > *:nth-child(4) {
+  animation-delay: 0.26s;
+}
+
+.clubHeroContent > *:nth-child(5) {
+  animation-delay: 0.33s;
+}
+
+@keyframes clubHeroReveal {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.title {
+  font-family: var(--home-display-font, 'Fraunces', 'Playfair Display', serif);
+  font-size: clamp(2.2rem, 3.4vw, 3rem);
+  line-height: 1.1;
+  letter-spacing: -0.012em;
+  margin: 0.75rem 0 1.2rem;
+  color: #ffffff;
+  text-shadow: 0 2px 20px rgba(0, 0, 0, 0.48);
+}
+
+.lead {
+  font-size: 1.05rem;
+  max-width: 50ch;
+  margin-bottom: 1.25rem;
+  color: rgba(255, 255, 255, 0.98);
+  text-shadow: 0 1px 16px rgba(0, 0, 0, 0.58);
+  line-height: 1.4;
+}
+
+.trust {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  font-size: 0.8rem;
+  font-family: var(--home-ui-font, 'Hanken Grotesk', 'Source Sans Pro', sans-serif);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  line-height: 1.35;
+  text-align: center;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.92);
+  margin: 0 0 2rem;
+  padding: 0.55rem 0.9rem;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.32);
+  background: rgba(12, 25, 19, 0.25);
+  text-shadow: 0 1px 10px rgba(0, 0, 0, 0.38);
+}
+
+.clubHeroActions {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.eyebrow {
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.88);
+  font-weight: 600;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.35);
+}
+
+.clubHeroGhostBtn {
+  border-color: rgba(255, 255, 255, 0.4) !important;
+  color: rgba(255, 255, 255, 0.98) !important;
+}
+
+.clubHeroGhostBtn:hover {
+  background: rgba(255, 255, 255, 0.1) !important;
+}
+
+@media (max-width: 768px) {
+  .clubHero {
+    min-height: 65vh;
+  }
+
+  .clubHeroContent {
+    padding: 4rem 0;
+    max-width: 100%;
+  }
+
+  .title {
+    font-size: clamp(1.8rem, 5vw, 2.4rem);
+    margin: 0.5rem 0 1rem;
+  }
+
+  .lead {
+    font-size: 0.98rem;
+    margin-bottom: 1rem;
+  }
+
+  .trust {
+    font-size: 0.75rem;
+    letter-spacing: 0.06em;
+    padding: 0.48rem 0.78rem;
+    max-width: 100%;
+  }
+
+  .clubHeroActions {
+    gap: 0.75rem;
+  }
+
+  .clubHeroActions :global(.btn) {
+    font-size: 0.95rem;
+    padding: 0.65rem 1.2rem;
+  }
+}
+
+@media (max-width: 520px) {
+  .clubHero {
+    min-height: 60vh;
+  }
+
+  .clubHeroContent {
+    padding: 3rem 0;
+  }
+
+  .title {
+    font-size: clamp(1.6rem, 5.5vw, 2.2rem);
+    margin: 0.4rem 0 0.9rem;
+  }
+
+  .lead {
+    font-size: 0.9rem;
+  }
+
+  .trust {
+    font-size: 0.72rem;
+    letter-spacing: 0.05em;
+    padding: 0.4rem 0.68rem;
+    margin-bottom: 1.2rem;
+  }
+
+  .clubHeroActions {
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+
+  .clubHeroActions :global(.btn) {
+    width: 100%;
+  }
+
+  .eyebrow {
+    font-size: 0.7rem;
+  }
+}

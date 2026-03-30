@@ -1,8 +1,10 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import Footer from '../../components/layout/Footer'
 import Header from '../../components/layout/Header'
+import ClubHeroSection from '../../components/sections/ClubHeroSection'
 import { contentRepository } from '../../services/content.repository'
+import boxMedioPreview from '../../assets/club/box-medio-preview.png'
 import styles from './ClubPage.module.css'
 
 const plans = [
@@ -60,30 +62,12 @@ const faqs = [
 ]
 
 export default function ClubPage() {
-  const [previewOpen, setPreviewOpen] = useState(false)
   const [leadName, setLeadName] = useState('')
   const [leadEmail, setLeadEmail] = useState('')
   const [leadPlan, setLeadPlan] = useState<'basic' | 'medio' | 'premium'>('medio')
   const [leadStatus, setLeadStatus] = useState('')
   const [leadStatusType, setLeadStatusType] = useState<'success' | 'error' | null>(null)
   const [isLeadSubmitting, setIsLeadSubmitting] = useState(false)
-
-  useEffect(() => {
-    if (!previewOpen) {
-      return
-    }
-
-    const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') {
-        setPreviewOpen(false)
-      }
-    }
-
-    document.addEventListener('keydown', onKeyDown)
-    return () => {
-      document.removeEventListener('keydown', onKeyDown)
-    }
-  }, [previewOpen])
 
   const handleLeadSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -123,24 +107,10 @@ export default function ClubPage() {
   }
 
   return (
-    <div className="page">
+    <div className="page brand-page">
       <Header />
       <main className={styles.club}>
-        <section className={styles.hero}>
-          <div className={`container ${styles.heroContent}`}>
-            <p className={styles.eyebrow}>{'Club {ecommerce}'}</p>
-            <h1>Tu colección crece con recomendaciones mensuales</h1>
-            <p className="muted">
-              Recibe plantas seleccionadas para tu espacio y aprende a cuidarlas sin perder tiempo en
-              cada elección.
-            </p>
-            <div className={styles.heroActions}>
-              <a className="btn" href="#planes">Elegir plan</a>
-              <a className="btn btn-ghost" href="#como-funciona">Ver cómo funciona</a>
-            </div>
-            <p className={styles.trust}>Sin permanencia · Cancela cuando quieras · Garantía de devolución</p>
-          </div>
-        </section>
+        <ClubHeroSection />
 
         <section id="como-funciona" className={`container ${styles.steps}`}>
           <div className={styles.sectionHeader}>
@@ -188,102 +158,89 @@ export default function ClubPage() {
             <p className="muted">Incluye planta, guía de cuidado y detalles que facilitan el mantenimiento.</p>
           </div>
           <div className={styles.previewCard}>
-            <div>
-              <h3>Contenido del mes</h3>
-              <p className="muted">Planta principal + accesorio sorpresa + guía práctica.</p>
+            <img src={boxMedioPreview} alt="Caja Medio del Club" className={styles.previewCardImage} />
+            <div className={styles.previewCardContent}>
+              <h3>Plan Medio - Contenido del mes</h3>
+              <p className="muted">Selección personalizada adaptada a tu espacio y experiencia.</p>
+              <ul className={styles.previewList}>
+                <li>2 plantas variadas mensualmente</li>
+                <li>Kit de cuidado (herramientas + nutrientes)</li>
+                <li>Guía práctica por niveles (PDF)</li>
+                <li>Soporte prioritario en cambios</li>
+              </ul>
             </div>
-            <button className="btn btn-outline" type="button" onClick={() => setPreviewOpen(true)}>
-              Ver ejemplo
-            </button>
           </div>
         </section>
 
         <section className={`container ${styles.leadSection}`}>
           <div className={styles.sectionHeader}>
-            <h2>Únete a la lista prioritaria</h2>
-            <p className="muted">Déjanos tus datos y te contactamos para activar tu plan.</p>
+            <h2>Únete a nuestro club</h2>
+            <p className="muted">Crea tu perfil y comienza a recibir plantas seleccionadas mensualmente.</p>
           </div>
-          <form className={styles.leadForm} onSubmit={handleLeadSubmit}>
-            <div className={styles.leadField}>
-              <label htmlFor="club-name">Nombre</label>
-              <input
-                id="club-name"
-                type="text"
-                placeholder="Tu nombre"
-                value={leadName}
-                onChange={(event) => setLeadName(event.target.value)}
-              />
+
+          <div className={styles.leadFaqWrapper}>
+            <div className={styles.formColumn}>
+              <h3>Únete a la lista prioritaria</h3>
+              <p className="muted">Déjanos tus datos y te contactamos para activar tu plan.</p>
+              <form className={styles.leadForm} onSubmit={handleLeadSubmit}>
+                <div className={styles.leadField}>
+                  <label htmlFor="club-name">Nombre</label>
+                  <input
+                    id="club-name"
+                    type="text"
+                    placeholder="Tu nombre"
+                    value={leadName}
+                    onChange={(event) => setLeadName(event.target.value)}
+                  />
+                </div>
+                <div className={styles.leadField}>
+                  <label htmlFor="club-email">Email</label>
+                  <input
+                    id="club-email"
+                    type="email"
+                    placeholder="tu@email.com"
+                    value={leadEmail}
+                    onChange={(event) => setLeadEmail(event.target.value)}
+                  />
+                </div>
+                <div className={styles.leadField}>
+                  <label htmlFor="club-plan">Plan de interés</label>
+                  <select id="club-plan" value={leadPlan} onChange={(event) => setLeadPlan(event.target.value as 'basic' | 'medio' | 'premium')}>
+                    <option value="basic">Básico</option>
+                    <option value="medio">Medio</option>
+                    <option value="premium">Premium</option>
+                  </select>
+                </div>
+                <button className="btn" type="submit" disabled={isLeadSubmitting}>
+                  {isLeadSubmitting ? 'Enviando...' : 'Quiero unirme'}
+                </button>
+                {leadStatus ? (
+                  <p
+                    className={`${styles.leadStatus} ${leadStatusType === 'error' ? styles.leadStatusError : styles.leadStatusSuccess}`}
+                    role={leadStatusType === 'error' ? 'alert' : 'status'}
+                    aria-live={leadStatusType === 'error' ? 'assertive' : 'polite'}
+                  >
+                    {leadStatus}
+                  </p>
+                ) : null}
+              </form>
             </div>
-            <div className={styles.leadField}>
-              <label htmlFor="club-email">Email</label>
-              <input
-                id="club-email"
-                type="email"
-                placeholder="tu@email.com"
-                value={leadEmail}
-                onChange={(event) => setLeadEmail(event.target.value)}
-              />
+
+            <div className={styles.faqColumn}>
+              <h3>Preguntas frecuentes</h3>
+              <p className="muted">Resolvemos las dudas más comunes antes de suscribirte.</p>
+              <div className={styles.faqGrid}>
+                {faqs.map((item) => (
+                  <article key={item.question} className={styles.faqCard}>
+                    <h4>{item.question}</h4>
+                    <p className="muted">{item.answer}</p>
+                  </article>
+                ))}
+              </div>
             </div>
-            <div className={styles.leadField}>
-              <label htmlFor="club-plan">Plan de interés</label>
-              <select id="club-plan" value={leadPlan} onChange={(event) => setLeadPlan(event.target.value as 'basic' | 'medio' | 'premium')}>
-                <option value="basic">Básico</option>
-                <option value="medio">Medio</option>
-                <option value="premium">Premium</option>
-              </select>
-            </div>
-            <button className="btn" type="submit" disabled={isLeadSubmitting}>
-              {isLeadSubmitting ? 'Enviando...' : 'Quiero unirme'}
-            </button>
-            {leadStatus ? (
-              <p
-                className={`${styles.leadStatus} ${leadStatusType === 'error' ? styles.leadStatusError : styles.leadStatusSuccess}`}
-                role={leadStatusType === 'error' ? 'alert' : 'status'}
-                aria-live={leadStatusType === 'error' ? 'assertive' : 'polite'}
-              >
-                {leadStatus}
-              </p>
-            ) : null}
-          </form>
+          </div>
         </section>
 
-        <section className={`container ${styles.faq}`}>
-          <div className={styles.sectionHeader}>
-            <h2>Preguntas frecuentes</h2>
-            <p className="muted">Resolvemos las dudas más comunes antes de suscribirte.</p>
-          </div>
-          <div className={styles.faqGrid}>
-            {faqs.map((item) => (
-              <article key={item.question} className={styles.faqCard}>
-                <h3>{item.question}</h3>
-                <p className="muted">{item.answer}</p>
-              </article>
-            ))}
-          </div>
-        </section>
-
-        {previewOpen ? (
-          <div className={styles.previewModal} role="dialog" aria-modal="true" aria-labelledby="club-preview-title">
-            <button
-              type="button"
-              className={styles.previewBackdrop}
-              aria-label="Cerrar ejemplo"
-              onClick={() => setPreviewOpen(false)}
-            />
-            <div className={styles.previewPanel}>
-              <h3 id="club-preview-title">Ejemplo de caja del mes</h3>
-              <p className="muted">Edición primavera con selección equilibrada para interior.</p>
-              <ul className={styles.previewList}>
-                <li>Poto en maceta de 14 cm</li>
-                <li>Nutriente orgánico para 4 semanas</li>
-                <li>Tarjeta de cuidados por niveles</li>
-              </ul>
-              <button className="btn" type="button" onClick={() => setPreviewOpen(false)}>
-                Cerrar
-              </button>
-            </div>
-          </div>
-        ) : null}
       </main>
       <Footer />
     </div>

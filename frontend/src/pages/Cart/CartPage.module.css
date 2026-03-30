@@ -19,8 +19,8 @@
 .panel,
 .summary,
 .itemCard {
-  background: #ffffff;
-  border: 1px solid #e8e2d7;
+  background: linear-gradient(180deg, #fffdf8 0%, #f9f4ea 100%);
+  border: 1px solid #e3dccf;
   border-radius: 18px;
 }
 
@@ -36,26 +36,221 @@
   gap: 0.8rem;
 }
 
+.desktopTableHead {
+  display: none;
+}
+
+.itemSwipeShell {
+  position: relative;
+  border-radius: 18px;
+  overflow: hidden;
+}
+
+.swipeAction {
+  display: none;
+}
+
 .itemCard {
-  padding: 1rem;
-  display: flex;
-  justify-content: space-between;
-  gap: 1rem;
+  padding: 0.95rem 1rem;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 0.8rem 1.1rem;
   align-items: center;
-  flex-wrap: wrap;
+  transition: transform 0.2s ease;
+}
+
+.itemCardDragging {
+  transition: none;
+}
+
+.itemMain {
+  display: grid;
+  grid-template-columns: auto 70px minmax(0, 1fr);
+  gap: 0.8rem;
+  align-items: center;
+}
+
+.desktopRemoveButton {
+  width: 1.7rem;
+  height: 1.7rem;
+  border: 1px solid #d8cfbf;
+  border-radius: 999px;
+  background: #fffdf8;
+  color: #7b8a7e;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  font-size: 1.22rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.desktopRemoveGlyph {
+  display: block;
+  line-height: 1;
+  font-size: 1.25rem;
+  font-weight: 500;
+  transform: translateY(-1px);
+}
+
+.desktopRemoveButton:hover:not(:disabled) {
+  border-color: #c8bfad;
+  color: #5f6d62;
+}
+
+.desktopRemoveButton:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.itemThumb {
+  width: 70px;
+  height: 70px;
+  border-radius: 10px;
+  object-fit: cover;
+  object-position: center;
+  border: 1px solid #ddd4c3;
+  background: #f6f1e7;
+}
+
+.itemInfo {
+  display: grid;
+  gap: 0;
+}
+
+.itemInfo h3 {
+  margin: 0;
+  font-size: 1.03rem;
+  line-height: 1.18;
+}
+
+.lineTotalInline {
+  display: none;
+  margin: 0;
+}
+
+.unitPrice,
+.subtotalPrice {
+  margin: 0;
+  text-align: center;
+  font-size: 1.06rem;
+  font-weight: 650;
+  color: var(--home-ink-strong, #1a261f);
+}
+
+.itemSide {
+  display: grid;
+  justify-items: center;
+  gap: 0;
+}
+
+.itemTopRow {
+  display: none;
 }
 
 .itemControls {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 0.5rem;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
 }
 
-.itemControls > span {
-  min-width: 2ch;
+.itemControlsSwipeShell {
+  position: relative;
+}
+
+.itemControlsTrack {
+  position: relative;
+  z-index: 1;
+  transition: transform 0.2s ease;
+}
+
+.itemControlsTrackDragging {
+  transition: none;
+}
+
+.quantityStepper {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid #d8cfbf;
+  border-radius: 999px;
+  background: #fffdf8;
+  overflow: hidden;
+}
+
+.itemQuantity {
+  min-width: 1.9rem;
+  min-height: 1.95rem;
+  padding: 0 0.2rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   text-align: center;
+  font-weight: 600;
+  font-size: 0.92rem;
+  background: rgba(46, 139, 87, 0.06);
+  color: #1f5939;
+}
+
+.quantityButton {
+  min-height: 1.95rem;
+  min-width: 1.95rem;
+  width: 1.95rem;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #1f5939;
+  font-size: 0.98rem;
   font-weight: 700;
+  line-height: 1;
+  flex: 0 0 1.95rem;
+  cursor: pointer;
+}
+
+.quantityButton:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.quantityButton:hover:not(:disabled) {
+  background: rgba(46, 139, 87, 0.09);
+}
+
+.removeButton {
+  min-height: 1.95rem;
+  padding: 0.22rem 0.45rem;
+  border: 0;
+  background: transparent;
+  color: #1f5939;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.28rem;
+  flex: 0 0 auto;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.removeButton:hover:not(:disabled) {
+  background: rgba(46, 139, 87, 0.08);
+}
+
+.removeButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.removeIcon {
+  width: 14px;
+  height: 14px;
+}
+
+.removeLabel {
+  line-height: 1;
+  font-weight: 600;
+  font-size: 0.9rem;
 }
 
 .summary {
@@ -74,31 +269,106 @@
 
 .totalLine {
   padding-top: 0.5rem;
-  border-top: 1px solid #ece7dc;
+  border-top: 1px solid #e3dccf;
 }
 
 .lineTotal {
-  margin-top: 0.2rem;
+  margin: 0;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--home-ink-strong, #1a261f);
+}
+
+.confirmOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 70;
+  background: rgba(18, 32, 24, 0.42);
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+}
+
+.confirmDialog {
+  width: min(100%, 430px);
+  background: linear-gradient(180deg, #fffdf8 0%, #f9f4ea 100%);
+  border: 1px solid #e3dccf;
+  border-radius: 18px;
+  padding: 1.1rem;
+  display: grid;
+  gap: 0.7rem;
+  box-shadow: 0 22px 40px rgba(14, 23, 17, 0.22);
+}
+
+.confirmEyebrow {
+  margin: 0;
+  font-size: 0.73rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--home-ink-muted, #4d6053);
   font-weight: 700;
 }
 
-.successBox,
-.errorBox {
-  border-radius: 12px;
-  padding: 0.75rem 0.9rem;
-  border: 1px solid transparent;
+.confirmDialog h3 {
+  margin: 0;
+  font-size: 1.45rem;
 }
 
-.successBox {
-  background: #eaf7ee;
-  border-color: #b9dfc5;
-  color: #245536;
+.confirmDialog p {
+  margin: 0;
 }
 
-.errorBox {
-  background: #fff0ef;
-  border-color: #efc5c1;
-  color: #812b26;
+.confirmActions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.55rem;
+  margin-top: 0.35rem;
+}
+
+@media (min-width: 521px) {
+  .desktopTableHead {
+    display: grid;
+    grid-template-columns: minmax(0, 1.9fr) 0.9fr 1fr 0.9fr;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0 1.1rem;
+    color: var(--home-ink-muted, #4d6053);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: 0.74rem;
+    font-weight: 700;
+  }
+
+  .desktopTableHead span:first-child {
+    text-align: left;
+  }
+
+  .desktopTableHead span {
+    text-align: center;
+  }
+
+  .itemCard {
+    grid-template-columns: minmax(0, 1.9fr) 0.9fr 1fr 0.9fr;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.95rem 1.1rem;
+  }
+
+  .itemControlsSwipeShell {
+    width: auto;
+    overflow: visible;
+    border-radius: 0;
+    padding-left: 0;
+  }
+
+  .itemControlsTrack {
+    transform: none !important;
+    transition: none;
+    width: auto;
+    height: auto;
+    margin-left: 0;
+    display: block;
+  }
 }
 
 @media (max-width: 900px) {
@@ -108,5 +378,223 @@
 
   .summary {
     position: static;
+  }
+
+  .itemCard {
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 0.66rem;
+    align-items: center;
+  }
+
+  .itemMain {
+    grid-template-columns: auto 60px minmax(0, 1fr);
+    gap: 0.66rem;
+  }
+
+  .itemThumb {
+    width: 60px;
+    height: 60px;
+  }
+
+  .itemSide {
+    justify-items: center;
+  }
+
+  .itemTopRow {
+    justify-content: center;
+  }
+
+  .itemControls {
+    justify-content: center;
+  }
+
+  .removeLabel {
+    display: none;
+  }
+}
+
+@media (max-width: 520px) {
+  .desktopTableHead {
+    display: none;
+  }
+
+  .items {
+    gap: 0.35rem;
+  }
+
+  .itemSwipeShell {
+    border-radius: 0;
+    overflow: visible;
+  }
+
+  .swipeAction {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border-radius: 0;
+    z-index: 0;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.16s ease;
+  }
+
+  .swipeActionVisible {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .swipeDeleteButton {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    border-radius: 16px;
+    background: linear-gradient(180deg, #ff8a84 0%, #f36a64 100%);
+    color: #ffffff;
+    box-shadow: 0 8px 16px rgba(166, 44, 37, 0.22);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+
+  .swipeDeleteButton:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+  }
+
+  .swipeDeleteIcon {
+    width: 22px;
+    height: 22px;
+  }
+
+  .itemCard {
+    padding: 0.55rem 0;
+    gap: 0.4rem;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: start;
+    background: linear-gradient(180deg, #fffdf8 0%, #f9f4ea 100%);
+    border: 0;
+    border-radius: 0;
+    border-bottom: 1px solid #ddd4c3;
+    touch-action: pan-y;
+    position: relative;
+    z-index: 1;
+  }
+
+  .itemMain {
+    grid-template-columns: 66px minmax(0, 1fr);
+    gap: 0.65rem;
+    align-items: start;
+  }
+
+  .desktopRemoveButton {
+    display: none;
+  }
+
+  .itemThumb {
+    width: 66px;
+    height: 66px;
+    border-radius: 12px;
+  }
+
+  .itemInfo h3 {
+    font-size: 0.98rem;
+    line-height: 1.2;
+    margin-top: 0.2rem;
+  }
+
+  .lineTotalInline {
+    display: block;
+    margin-top: 0.48rem;
+    font-size: 1.08rem;
+    font-weight: 700;
+    color: var(--home-ink-strong, #1a261f);
+  }
+
+  .itemSide {
+    gap: 0;
+    justify-items: end;
+    margin-top: 0;
+    align-self: stretch;
+  }
+
+  .itemTopRow {
+    display: none;
+  }
+
+  .itemTopRow .lineTotal {
+    display: none;
+  }
+
+  .itemControls {
+    justify-content: flex-end;
+    gap: 0;
+    height: 100%;
+  }
+
+  .itemControlsSwipeShell {
+    width: 96px;
+    min-height: 66px;
+    height: 100%;
+    overflow: hidden;
+    border-radius: 16px;
+    padding-left: 0;
+  }
+
+  .itemControlsTrack {
+    touch-action: pan-y;
+    width: 96px;
+    height: 100%;
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+  }
+
+  .quantityStepper {
+    margin-left: auto;
+  }
+
+  .itemQuantity {
+    min-width: 1.72rem;
+    min-height: 1.7rem;
+    font-size: 0.82rem;
+    padding: 0;
+  }
+
+  .quantityButton {
+    min-width: 1.72rem;
+    min-height: 1.7rem;
+    width: 1.72rem;
+    flex-basis: 1.72rem;
+    font-size: 0.84rem;
+  }
+
+  .removeButton {
+    display: none;
+  }
+
+  .lineTotal {
+    font-size: 1.01rem;
+  }
+
+  .unitPrice,
+  .subtotalPrice {
+    display: none;
+  }
+
+  .confirmDialog {
+    width: min(100%, 360px);
+    padding: 1rem;
+  }
+
+  .confirmDialog h3 {
+    font-size: 1.3rem;
   }
 }

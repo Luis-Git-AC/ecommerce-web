@@ -44,7 +44,7 @@ export default function HeroSection() {
         <p className={styles.trust}>Sin permanencia · Cancela cuando quieras · Garantía de devolución</p>
         <div className={styles.heroActions}>
           <Link className="btn" to="/#quiz">Encontrar mi planta ideal</Link>
-          <Link className="btn btn-ghost" to="/shop">Ver catálogo completo</Link>
+          <Link className={`btn btn-ghost ${styles.heroGhostBtn}`} to="/shop">Ver catálogo completo</Link>
         </div>
       </div>
       <div className={styles.heroOverlay} />

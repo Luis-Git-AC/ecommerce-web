@@ -14,8 +14,8 @@
 }
 
 .panel {
-  background: #ffffff;
-  border: 1px solid #e8e2d7;
+  background: linear-gradient(180deg, #fffdf8 0%, #f9f4ea 100%);
+  border: 1px solid #e3dccf;
   border-radius: 18px;
   padding: 1.2rem;
   display: grid;
@@ -31,16 +31,23 @@
   display: flex;
   justify-content: space-between;
   gap: 1rem;
-  border: 1px solid #efe8dd;
+  border: 1px solid #e3dccf;
   border-radius: 12px;
   padding: 0.75rem;
+  background: #fcfbf8;
+  transition: border-color 0.18s, background-color 0.18s;
+}
+
+.row:hover {
+  border-color: #d8cfbf;
+  background: var(--home-surface-alt, #f2ede2);
 }
 
 .meta {
   display: grid;
   gap: 0.3rem;
   text-align: right;
-  color: #6e6558;
+  color: var(--home-ink-muted, #526158);
 }
 
 .errorBox {

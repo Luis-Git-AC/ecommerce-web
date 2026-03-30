@@ -88,17 +88,17 @@ function CheckoutForm({
       <p className="muted">Total a pagar: {formatMoney(order.total, order.currency)}</p>
       <form onSubmit={handleSubmit} className={styles.paymentForm}>
         <PaymentElement />
-        <button type="submit" className="btn" disabled={submitting || !stripe || !elements}>
+        <button type="submit" className={`btn ${styles.payButton}`} disabled={submitting || !stripe || !elements}>
           {submitting ? 'Procesando pago...' : 'Pagar ahora'}
         </button>
       </form>
       {success ? (
-        <p className={styles.successBox} role="status" aria-live="polite">
+        <p className="state-box state-success" role="status" aria-live="polite">
           {success}
         </p>
       ) : null}
       {error ? (
-        <p className={styles.errorBox} role="alert" aria-live="assertive">
+        <p className="state-box state-error" role="alert" aria-live="assertive">
           {error}
         </p>
       ) : null}
@@ -237,7 +237,7 @@ export default function CheckoutPage() {
   }, [accessToken, isAuthenticated, loadCheckoutData, orderId])
 
   return (
-    <div className="page">
+    <div className="page brand-page">
       <Header />
       <main className={styles.checkout}>
         <section className={`container ${styles.hero}`}>
@@ -247,7 +247,7 @@ export default function CheckoutPage() {
         </section>
 
         {!isAuthenticated ? (
-          <section className={`container ${styles.panel}`}>
+          <section className={`container ${styles.panel} ${styles.statePanel}`}>
             <h2>Necesitas iniciar sesión</h2>
             <p className="muted">Debes autenticarte para pagar este pedido.</p>
             <Link to="/account" className="btn">
@@ -255,12 +255,12 @@ export default function CheckoutPage() {
             </Link>
           </section>
         ) : loading ? (
-          <section className={`container ${styles.panel}`} role="status" aria-live="polite">
+          <section className={`container ${styles.panel} ${styles.statePanel}`} role="status" aria-live="polite">
             <h2>Preparando pago...</h2>
           </section>
         ) : error ? (
-          <section className={`container ${styles.panel}`}>
-            <p className={styles.errorBox} role="alert" aria-live="assertive">
+          <section className={`container ${styles.panel} ${styles.statePanel}`}>
+            <p className="state-box state-error" role="alert" aria-live="assertive">
               {error}
             </p>
             <Link to="/cart" className="btn btn-outline">
@@ -268,7 +268,7 @@ export default function CheckoutPage() {
             </Link>
           </section>
         ) : !order ? (
-          <section className={`container ${styles.panel}`}>
+          <section className={`container ${styles.panel} ${styles.statePanel}`}>
             <h2>Pedido no encontrado</h2>
             <Link to="/account" className="btn btn-outline">
               Ver mi cuenta

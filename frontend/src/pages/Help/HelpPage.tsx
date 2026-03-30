@@ -20,7 +20,7 @@ const faqs = [
 
 export default function HelpPage() {
   return (
-    <div className="page">
+    <div className="page brand-page">
       <Header />
       <main className={styles.help}>
         <section className="container page-hero">
