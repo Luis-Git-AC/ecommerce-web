@@ -164,4 +164,57 @@ describe('Payments webhook integration', () => {
     expect(response.status).toBe(400)
     expect(response.body.message).toBe('Invalid webhook signature')
   })
+
+  it('marks order as canceled on payment_intent.canceled', async () => {
+    const userId = new Types.ObjectId()
+    const paymentIntentId = `pi_test_canceled_${new Types.ObjectId().toHexString()}`
+
+    const order = await OrderModel.create({
+      userId,
+      items: [
+        {
+          productId: new Types.ObjectId(),
+          slug: `webhook-canceled-${Date.now()}`,
+          name: 'Webhook Canceled Product',
+          image: 'https://example.com/item.jpg',
+          quantity: 1,
+          unitPrice: 47000,
+          currency: 'COP',
+          lineTotal: 47000,
+        },
+      ],
+      subtotal: 47000,
+      total: 47000,
+      currency: 'COP',
+      status: 'pending',
+      paymentIntentId,
+    })
+
+    stripeMocks.constructEvent.mockReturnValueOnce({
+      id: 'evt_test_canceled_001',
+      type: 'payment_intent.canceled',
+      data: {
+        object: {
+          id: paymentIntentId,
+          metadata: {
+            orderId: String(order._id),
+          },
+        },
+      },
+    })
+
+    const response = await request(app)
+      .post('/api/payments/webhook')
+      .set('stripe-signature', 't=123,v1=fake')
+      .set('Content-Type', 'application/json')
+      .send({ id: 'evt_test_canceled_001' })
+
+    expect(response.status).toBe(200)
+    expect(response.body.data.eventType).toBe('payment_intent.canceled')
+
+    const updatedOrder = await OrderModel.findById(order._id).lean()
+    expect(updatedOrder?.status).toBe('canceled')
+    expect(updatedOrder?.paymentIntentId).toBe(paymentIntentId)
+    expect(updatedOrder?.paymentLastError).toBe('Payment canceled')
+  })
 })

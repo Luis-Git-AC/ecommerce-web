@@ -6,7 +6,23 @@
     "concurrently": "^9.2.1"
   },
   "scripts": {
-    "dev": "concurrently \"npm run dev --prefix backend\" \"npm run dev --prefix frontend\""
+    "backend:dev": "npm run dev --prefix backend",
+    "frontend:dev": "npm run dev --prefix frontend",
+    "backend:typecheck": "npm run typecheck --prefix backend",
+    "frontend:typecheck": "npm run typecheck --prefix frontend",
+    "backend:lint": "npm run lint --prefix backend",
+    "frontend:lint": "npm run lint --prefix frontend",
+    "backend:test": "npm run test --prefix backend",
+    "frontend:test": "npm run test --prefix frontend",
+    "backend:build": "npm run build --prefix backend",
+    "frontend:build": "npm run build --prefix frontend",
+    "dev": "concurrently \"npm run backend:dev\" \"npm run frontend:dev\"",
+    "typecheck": "npm run backend:typecheck && npm run frontend:typecheck",
+    "lint": "npm run backend:lint && npm run frontend:lint",
+    "test": "npm run backend:test && npm run frontend:test",
+    "build": "npm run backend:build && npm run frontend:build",
+    "quality": "npm run typecheck && npm run lint && npm run test",
+    "deploy:check": "npm run quality && npm run build"
   },
   "type": "commonjs"
 }

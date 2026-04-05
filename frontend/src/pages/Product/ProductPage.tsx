@@ -9,6 +9,7 @@ import ProductCard from '../../components/ui/ProductCard'
 import { ApiClientError } from '../../services/api.client'
 import { useAuth } from '../../store/AuthContext'
 import { useCart } from '../../store/CartContext'
+import { applySeo } from '../../utils/seo'
 import styles from './ProductPage.module.css'
 
 const formatLabel = (value: string) => (value ? value.charAt(0).toUpperCase() + value.slice(1) : value)
@@ -45,6 +46,19 @@ export default function ProductPage() {
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }, [id])
+
+  useEffect(() => {
+    if (!product) {
+      return
+    }
+
+    applySeo({
+      title: `${product.name} | Ecommerce Web`,
+      description: `Compra ${product.name}. Categoría ${humanizeValue(product.category)}, dificultad ${humanizeValue(product.careLevel)} y nivel de luz ${humanizeValue(product.lightRequired)}.`,
+      path: `/product/${product.id}`,
+      image: product.images.card.src,
+    })
+  }, [product])
 
   const gallery = useMemo(() => {
     if (!product) {

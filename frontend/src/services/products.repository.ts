@@ -1,3 +1,4 @@
+import { appEnv } from '../config/env'
 import type { Product } from '../types/product'
 
 type ProductApiImage = {
@@ -27,7 +28,7 @@ type ProductListResponse = {
   totalPages: number
 }
 
-const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL as string | undefined)?.trim() || 'http://localhost:4000/api'
+const API_BASE_URL = appEnv.apiBaseUrl
 
 const toProductImage = (image?: ProductApiImage) => ({
   src: image?.url ?? '',

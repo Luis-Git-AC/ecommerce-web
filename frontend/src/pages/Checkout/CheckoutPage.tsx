@@ -4,6 +4,7 @@ import { Elements, PaymentElement, useElements, useStripe } from '@stripe/react-
 import { loadStripe } from '@stripe/stripe-js'
 import Footer from '../../components/layout/Footer'
 import Header from '../../components/layout/Header'
+import { appEnv } from '../../config/env'
 import { ApiClientError } from '../../services/api.client'
 import { ordersRepository } from '../../services/orders.repository'
 import { paymentsRepository } from '../../services/payments.repository'
@@ -12,7 +13,7 @@ import { useCart } from '../../store/CartContext'
 import type { OrderDetail } from '../../types/commerce'
 import styles from './CheckoutPage.module.css'
 
-const stripePublishableKey = (import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY as string | undefined)?.trim() ?? ''
+const stripePublishableKey = appEnv.stripePublishableKey
 const stripePromise = stripePublishableKey ? loadStripe(stripePublishableKey) : null
 
 const formatMoney = (value: number, currency: string) => {
@@ -28,6 +29,14 @@ const formatMoney = (value: number, currency: string) => {
 }
 
 const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
+
+const getCheckoutReturnUrl = (orderId: string) => {
+  const url = new URL(window.location.origin)
+  url.pathname = `/checkout/${orderId}`
+  url.search = ''
+  url.hash = ''
+  return url.toString()
+}
 
 function CheckoutForm({
   order,
@@ -58,7 +67,7 @@ function CheckoutForm({
       const result = await stripe.confirmPayment({
         elements,
         confirmParams: {
-          return_url: window.location.href,
+          return_url: getCheckoutReturnUrl(order.id),
         },
         redirect: 'if_required',
       })

@@ -1,3 +1,5 @@
+import { appEnv } from '../config/env'
+
 export type BlogPost = {
   _id: string
   slug: string
@@ -29,7 +31,7 @@ type GenericCreateResponse = {
   }
 }
 
-const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL as string | undefined)?.trim() || 'http://localhost:4000/api'
+const API_BASE_URL = appEnv.apiBaseUrl
 
 const friendlyStatusMessage = (status: number) => {
   if (status === 400) return 'Los datos enviados no son validos. Revisa el formulario e intenta de nuevo.'

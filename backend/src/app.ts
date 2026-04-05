@@ -19,6 +19,10 @@ import { systemRouter } from './routes/system.routes'
 
 export const app = express()
 
+if (env.NODE_ENV === 'production') {
+  app.set('trust proxy', 1)
+}
+
 const corsOrigins = env.CORS_ORIGIN.split(',')
   .map((origin) => origin.trim())
   .filter((origin) => origin.length > 0)

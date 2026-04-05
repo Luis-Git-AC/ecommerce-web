@@ -1,4 +1,6 @@
-const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL as string | undefined)?.trim() || 'http://localhost:4000/api'
+import { appEnv } from '../config/env'
+
+const API_BASE_URL = appEnv.apiBaseUrl
 
 export class ApiClientError extends Error {
   status: number

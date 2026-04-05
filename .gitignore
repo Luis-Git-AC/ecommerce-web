@@ -19,6 +19,9 @@ dist-ssr
 **/.env.*
 !.env.example
 !**/.env.example
+!**/.env.preview.example
+!**/.env.production.example
+
 
 # Local Stripe CLI files
 .stripe/

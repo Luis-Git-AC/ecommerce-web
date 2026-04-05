@@ -3,6 +3,7 @@ import { Link, useParams } from 'react-router-dom'
 import Footer from '../../components/layout/Footer'
 import Header from '../../components/layout/Header'
 import { contentRepository, type BlogPost } from '../../services/content.repository'
+import { applySeo } from '../../utils/seo'
 import styles from './BlogPostPage.module.css'
 
 export default function BlogPostPage() {
@@ -49,6 +50,20 @@ export default function BlogPostPage() {
       isMounted = false
     }
   }, [slug])
+
+  useEffect(() => {
+    if (!post) {
+      return
+    }
+
+    applySeo({
+      title: `${post.title} | Blog Ecommerce Web`,
+      description: post.excerpt,
+      path: `/blog/${post.slug}`,
+      image: post.image,
+      type: 'article',
+    })
+  }, [post])
 
   const title = post?.title ?? 'Guía {ecommerce}'
   const date = post ? new Date(post.publishedAt).toLocaleDateString('es-ES') : 'Próximamente'
