@@ -1,8 +1,10 @@
 import pino from 'pino'
 import { env } from './env'
 
+const shouldUsePrettyLogs = env.NODE_ENV === 'development' && !process.env.VERCEL && Boolean(process.stdout.isTTY)
+
 const transport =
-  env.NODE_ENV === 'development'
+  shouldUsePrettyLogs
     ? {
         target: 'pino-pretty',
         options: {
