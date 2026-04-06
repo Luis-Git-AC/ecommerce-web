@@ -5,6 +5,7 @@ import pinoHttp from 'pino-http'
 import type { Request } from 'express'
 import type { CorsOptions } from 'cors'
 import { randomUUID } from 'node:crypto'
+import { connectToDatabase } from './config/db'
 import { env } from './config/env'
 import { logger } from './config/logger'
 import { errorHandler, notFoundHandler } from './middlewares/error-handler'
@@ -81,6 +82,20 @@ app.get('/', (_req, res) => {
   res.status(200).json({ message: 'Backend is running' })
 })
 
+app.use(env.API_PREFIX, async (req, _res, next) => {
+  if (req.path === '/health' || req.path === '/ready') {
+    next()
+    return
+  }
+
+  try {
+    await connectToDatabase()
+    next()
+  } catch (error) {
+    next(error)
+  }
+})
+
 app.use(env.API_PREFIX, systemRouter)
 app.use(env.API_PREFIX, productsRouter)
 app.use(env.API_PREFIX, contentRouter)
@@ -92,3 +107,5 @@ app.use(env.API_PREFIX, paymentsRouter)
 
 app.use(notFoundHandler)
 app.use(errorHandler)
+
+export default app
