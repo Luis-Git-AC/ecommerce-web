@@ -8,10 +8,15 @@ async function runSmokeTest() {
   await connectToDatabase()
 
   try {
-    const listResponse = await request(app).get('/api/products').query({ page: 1, limit: 5, sort: 'featured' })
+    const listResponse = await request(app)
+      .get('/api/products')
+      .query({ page: 1, limit: 5, sort: 'featured' })
     assert.equal(listResponse.status, 200, 'GET /api/products should return 200')
     assert.ok(Array.isArray(listResponse.body.items), 'GET /api/products should return items array')
-    assert.ok(listResponse.body.items.length > 0, 'GET /api/products should return at least one product')
+    assert.ok(
+      listResponse.body.items.length > 0,
+      'GET /api/products should return at least one product',
+    )
 
     const firstProductId = listResponse.body.items[0]?._id
     assert.ok(firstProductId, 'Seeded products must include _id')
@@ -21,11 +26,17 @@ async function runSmokeTest() {
 
     const featuredResponse = await request(app).get('/api/products/featured')
     assert.equal(featuredResponse.status, 200, 'GET /api/products/featured should return 200')
-    assert.ok(Array.isArray(featuredResponse.body), 'GET /api/products/featured should return array')
+    assert.ok(
+      Array.isArray(featuredResponse.body),
+      'GET /api/products/featured should return array',
+    )
 
     const relatedResponse = await request(app).get(`/api/products/related/${firstProductId}`)
     assert.equal(relatedResponse.status, 200, 'GET /api/products/related/:id should return 200')
-    assert.ok(Array.isArray(relatedResponse.body), 'GET /api/products/related/:id should return array')
+    assert.ok(
+      Array.isArray(relatedResponse.body),
+      'GET /api/products/related/:id should return array',
+    )
 
     logger.info(
       {

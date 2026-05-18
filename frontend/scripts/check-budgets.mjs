@@ -59,19 +59,25 @@ const totalJsKb = jsFiles.reduce((sum, row) => sum + row.sizeKb, 0)
 const failures = []
 
 if (mainJs && mainJs.sizeKb > budgets.maxMainJsKb) {
-  failures.push(`Main JS supera presupuesto: ${mainJs.sizeKb.toFixed(2)} KB > ${budgets.maxMainJsKb} KB (${mainJs.file})`)
+  failures.push(
+    `Main JS supera presupuesto: ${mainJs.sizeKb.toFixed(2)} KB > ${budgets.maxMainJsKb} KB (${mainJs.file})`,
+  )
 }
 
 if (mainCss && mainCss.sizeKb > budgets.maxMainCssKb) {
-  failures.push(`Main CSS supera presupuesto: ${mainCss.sizeKb.toFixed(2)} KB > ${budgets.maxMainCssKb} KB (${mainCss.file})`)
+  failures.push(
+    `Main CSS supera presupuesto: ${mainCss.sizeKb.toFixed(2)} KB > ${budgets.maxMainCssKb} KB (${mainCss.file})`,
+  )
 }
 
 if (totalJsKb > budgets.maxTotalJsKb) {
-  failures.push(`JS total supera presupuesto: ${totalJsKb.toFixed(2)} KB > ${budgets.maxTotalJsKb} KB`)
+  failures.push(
+    `JS total supera presupuesto: ${totalJsKb.toFixed(2)} KB > ${budgets.maxTotalJsKb} KB`,
+  )
 }
 
 console.log('--- Budget Check ---')
-console.log(`Main JS: ${(mainJs?.sizeKb ?? 0).toFixed(2)} KB`) 
+console.log(`Main JS: ${(mainJs?.sizeKb ?? 0).toFixed(2)} KB`)
 console.log(`Main CSS: ${(mainCss?.sizeKb ?? 0).toFixed(2)} KB`)
 console.log(`JS total: ${totalJsKb.toFixed(2)} KB`)
 

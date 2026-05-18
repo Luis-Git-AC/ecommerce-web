@@ -24,49 +24,49 @@ import loop6MobileJpg from './optimized/loop_6_mobile.jpg'
 import loop6MobileWebp from './optimized/loop_6_mobile.webp'
 
 export type HeroFrame = {
-	desktopJpg: string
-	desktopWebp: string
-	mobileJpg: string
-	mobileWebp: string
+  desktopJpg: string
+  desktopWebp: string
+  mobileJpg: string
+  mobileWebp: string
 }
 
 const frameMap: Record<number, HeroFrame> = {
   1: {
-		desktopJpg: loop1DesktopJpg,
-		desktopWebp: loop1DesktopWebp,
-		mobileJpg: loop1MobileJpg,
-		mobileWebp: loop1MobileWebp,
-	},
+    desktopJpg: loop1DesktopJpg,
+    desktopWebp: loop1DesktopWebp,
+    mobileJpg: loop1MobileJpg,
+    mobileWebp: loop1MobileWebp,
+  },
   2: {
-		desktopJpg: loop2DesktopJpg,
-		desktopWebp: loop2DesktopWebp,
-		mobileJpg: loop2MobileJpg,
-		mobileWebp: loop2MobileWebp,
-	},
+    desktopJpg: loop2DesktopJpg,
+    desktopWebp: loop2DesktopWebp,
+    mobileJpg: loop2MobileJpg,
+    mobileWebp: loop2MobileWebp,
+  },
   3: {
-		desktopJpg: loop3DesktopJpg,
-		desktopWebp: loop3DesktopWebp,
-		mobileJpg: loop3MobileJpg,
-		mobileWebp: loop3MobileWebp,
-	},
+    desktopJpg: loop3DesktopJpg,
+    desktopWebp: loop3DesktopWebp,
+    mobileJpg: loop3MobileJpg,
+    mobileWebp: loop3MobileWebp,
+  },
   4: {
-		desktopJpg: loop4DesktopJpg,
-		desktopWebp: loop4DesktopWebp,
-		mobileJpg: loop4MobileJpg,
-		mobileWebp: loop4MobileWebp,
-	},
+    desktopJpg: loop4DesktopJpg,
+    desktopWebp: loop4DesktopWebp,
+    mobileJpg: loop4MobileJpg,
+    mobileWebp: loop4MobileWebp,
+  },
   5: {
-		desktopJpg: loop5DesktopJpg,
-		desktopWebp: loop5DesktopWebp,
-		mobileJpg: loop5MobileJpg,
-		mobileWebp: loop5MobileWebp,
-	},
+    desktopJpg: loop5DesktopJpg,
+    desktopWebp: loop5DesktopWebp,
+    mobileJpg: loop5MobileJpg,
+    mobileWebp: loop5MobileWebp,
+  },
   6: {
-		desktopJpg: loop6DesktopJpg,
-		desktopWebp: loop6DesktopWebp,
-		mobileJpg: loop6MobileJpg,
-		mobileWebp: loop6MobileWebp,
-	},
+    desktopJpg: loop6DesktopJpg,
+    desktopWebp: loop6DesktopWebp,
+    mobileJpg: loop6MobileJpg,
+    mobileWebp: loop6MobileWebp,
+  },
 }
 
 const loopOrder = [3, 1, 5, 2, 6, 4] as const

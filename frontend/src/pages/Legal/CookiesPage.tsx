@@ -10,7 +10,9 @@ export default function CookiesPage() {
         <section className="container page-hero">
           <p className="page-eyebrow">Cookies</p>
           <h1>Política de cookies</h1>
-          <p className="muted">Usamos cookies para mejorar navegación, seguridad y medición básica.</p>
+          <p className="muted">
+            Usamos cookies para mejorar navegación, seguridad y medición básica.
+          </p>
         </section>
 
         <section className={`container ${styles.content}`}>

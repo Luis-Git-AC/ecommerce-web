@@ -51,7 +51,10 @@ export function createMemoryRateLimitStore(): RateLimitStore {
   }
 }
 
-export function createUpstashRateLimitStore(config: { url: string; token: string }): RateLimitStore {
+export function createUpstashRateLimitStore(config: {
+  url: string
+  token: string
+}): RateLimitStore {
   const redis = new Redis({
     url: config.url,
     token: config.token,

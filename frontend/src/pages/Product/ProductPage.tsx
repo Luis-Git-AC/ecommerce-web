@@ -1,4 +1,12 @@
-import { useCallback, useEffect, useMemo, useRef, useState, type KeyboardEvent, type TouchEvent } from 'react'
+import {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  type KeyboardEvent,
+  type TouchEvent,
+} from 'react'
 import { Link } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
 import { useParams } from 'react-router-dom'
@@ -12,7 +20,8 @@ import { useCart } from '../../store/CartContext'
 import { applySeo } from '../../utils/seo'
 import styles from './ProductPage.module.css'
 
-const formatLabel = (value: string) => (value ? value.charAt(0).toUpperCase() + value.slice(1) : value)
+const formatLabel = (value: string) =>
+  value ? value.charAt(0).toUpperCase() + value.slice(1) : value
 
 const valueLabelMap: Record<string, string> = {
   low: 'Baja',
@@ -66,7 +75,9 @@ export default function ProductPage() {
     }
 
     const images = [product.images.card, ...product.images.gallery]
-    return images.filter((image, index) => image.src && images.findIndex((item) => item.src === image.src) === index)
+    return images.filter(
+      (image, index) => image.src && images.findIndex((item) => item.src === image.src) === index,
+    )
   }, [product])
 
   const [selectedImageSrc, setSelectedImageSrc] = useState<string | null>(null)
@@ -166,7 +177,8 @@ export default function ProductPage() {
     }
 
     const previousOverflow = document.body.style.overflow
-    previousFocusRef.current = document.activeElement instanceof HTMLElement ? document.activeElement : null
+    previousFocusRef.current =
+      document.activeElement instanceof HTMLElement ? document.activeElement : null
     document.body.style.overflow = 'hidden'
     lightboxRef.current?.focus()
 
@@ -225,7 +237,10 @@ export default function ProductPage() {
   const careInfo = useMemo(
     () => [
       { label: 'Luz', value: humanizeValue(product?.lightRequired ?? '') },
-      { label: 'Riego', value: product?.careLevel === 'hard' ? '2-3 veces por semana' : '1 vez por semana' },
+      {
+        label: 'Riego',
+        value: product?.careLevel === 'hard' ? '2-3 veces por semana' : '1 vez por semana',
+      },
       { label: 'Dificultad', value: humanizeValue(product?.careLevel ?? '') },
       { label: 'Pet-friendly', value: product?.petSafe ? 'Sí' : 'No' },
     ],
@@ -408,10 +423,16 @@ export default function ProductPage() {
             <h1>{product.name}</h1>
             <p className={styles.price}>{product.price}</p>
             <p className="muted">
-              Ideal para espacios con luz {humanizeValue(product.lightRequired)} y cuidado {humanizeValue(product.careLevel)}.
-              Tamaño {` ${humanizeValue(product.size)}`} y estilo {humanizeValue(product.category)}.
+              Ideal para espacios con luz {humanizeValue(product.lightRequired)} y cuidado{' '}
+              {humanizeValue(product.careLevel)}. Tamaño {` ${humanizeValue(product.size)}`} y
+              estilo {humanizeValue(product.category)}.
             </p>
-            <button className="btn" type="button" onClick={() => void handleAddToCart()} disabled={cartLoading}>
+            <button
+              className="btn"
+              type="button"
+              onClick={() => void handleAddToCart()}
+              disabled={cartLoading}
+            >
               {cartLoading ? 'Agregando...' : 'Añadir al carrito'}
             </button>
             {cartFeedback ? (
@@ -457,7 +478,11 @@ export default function ProductPage() {
         </section>
       </main>
       {isLightboxOpen ? (
-        <div className={styles.lightboxOverlay} role="presentation" onClick={() => setLightboxProductId(null)}>
+        <div
+          className={styles.lightboxOverlay}
+          role="presentation"
+          onClick={() => setLightboxProductId(null)}
+        >
           <div
             className={styles.lightboxDialog}
             role="dialog"

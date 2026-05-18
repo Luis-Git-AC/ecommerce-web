@@ -1,5 +1,13 @@
 /* eslint-disable react-refresh/only-export-components */
-import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from 'react'
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+  type ReactNode,
+} from 'react'
 import { useLocation } from 'react-router-dom'
 import { cartRepository } from '../services/cart.repository'
 import { ApiClientError } from '../services/api.client'
@@ -40,34 +48,37 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
-  const loadCart = useCallback(async (silent = false) => {
-    if (!accessToken) {
-      setCart(null)
-      setError(null)
-      return
-    }
+  const loadCart = useCallback(
+    async (silent = false) => {
+      if (!accessToken) {
+        setCart(null)
+        setError(null)
+        return
+      }
 
-    if (!silent) {
-      setLoading(true)
-      setError(null)
-    }
-
-    try {
-      const nextCart = await cartRepository.getCart(accessToken)
-      setCart(nextCart)
       if (!silent) {
+        setLoading(true)
         setError(null)
       }
-    } catch (incomingError) {
-      if (!silent) {
-        setError(toClientError(incomingError))
+
+      try {
+        const nextCart = await cartRepository.getCart(accessToken)
+        setCart(nextCart)
+        if (!silent) {
+          setError(null)
+        }
+      } catch (incomingError) {
+        if (!silent) {
+          setError(toClientError(incomingError))
+        }
+      } finally {
+        if (!silent) {
+          setLoading(false)
+        }
       }
-    } finally {
-      if (!silent) {
-        setLoading(false)
-      }
-    }
-  }, [accessToken])
+    },
+    [accessToken],
+  )
 
   const refreshCart = useCallback(async () => {
     await loadCart(false)
@@ -117,39 +128,48 @@ export function CartProvider({ children }: { children: ReactNode }) {
     }
   }, [loadCart])
 
-  const addToCart = useCallback(async (productId: string, quantity = 1) => {
-    if (!accessToken) {
-      throw new Error('Debes iniciar sesión para usar el carrito.')
-    }
+  const addToCart = useCallback(
+    async (productId: string, quantity = 1) => {
+      if (!accessToken) {
+        throw new Error('Debes iniciar sesión para usar el carrito.')
+      }
 
-    setError(null)
-    const nextCart = await cartRepository.addItem(accessToken, { productId, quantity })
-    setCart(nextCart)
-  }, [accessToken])
+      setError(null)
+      const nextCart = await cartRepository.addItem(accessToken, { productId, quantity })
+      setCart(nextCart)
+    },
+    [accessToken],
+  )
 
-  const updateItemQuantity = useCallback(async (productId: string, quantity: number) => {
-    if (!accessToken) {
-      throw new Error('Debes iniciar sesión para usar el carrito.')
-    }
+  const updateItemQuantity = useCallback(
+    async (productId: string, quantity: number) => {
+      if (!accessToken) {
+        throw new Error('Debes iniciar sesión para usar el carrito.')
+      }
 
-    if (quantity <= 0) {
+      if (quantity <= 0) {
+        const nextCart = await cartRepository.removeItem(accessToken, productId)
+        setCart(nextCart)
+        return
+      }
+
+      const nextCart = await cartRepository.updateItem(accessToken, productId, quantity)
+      setCart(nextCart)
+    },
+    [accessToken],
+  )
+
+  const removeItem = useCallback(
+    async (productId: string) => {
+      if (!accessToken) {
+        throw new Error('Debes iniciar sesión para usar el carrito.')
+      }
+
       const nextCart = await cartRepository.removeItem(accessToken, productId)
       setCart(nextCart)
-      return
-    }
-
-    const nextCart = await cartRepository.updateItem(accessToken, productId, quantity)
-    setCart(nextCart)
-  }, [accessToken])
-
-  const removeItem = useCallback(async (productId: string) => {
-    if (!accessToken) {
-      throw new Error('Debes iniciar sesión para usar el carrito.')
-    }
-
-    const nextCart = await cartRepository.removeItem(accessToken, productId)
-    setCart(nextCart)
-  }, [accessToken])
+    },
+    [accessToken],
+  )
 
   const clearCart = useCallback(async () => {
     if (!accessToken) {
@@ -173,7 +193,17 @@ export function CartProvider({ children }: { children: ReactNode }) {
       removeItem,
       clearCart,
     }),
-    [addToCart, cart, clearCart, clearCartOptimistic, error, loading, refreshCart, removeItem, updateItemQuantity],
+    [
+      addToCart,
+      cart,
+      clearCart,
+      clearCartOptimistic,
+      error,
+      loading,
+      refreshCart,
+      removeItem,
+      updateItemQuantity,
+    ],
   )
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>

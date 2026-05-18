@@ -131,7 +131,12 @@ export class AdminService {
 
     return {
       items: orders.map((order) => {
-        const user = order.userId as unknown as { _id: Types.ObjectId; name?: string; email?: string; role?: string }
+        const user = order.userId as unknown as {
+          _id: Types.ObjectId
+          name?: string
+          email?: string
+          role?: string
+        }
 
         return {
           id: String(order._id),

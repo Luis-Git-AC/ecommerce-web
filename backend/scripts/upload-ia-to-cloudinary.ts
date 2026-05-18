@@ -67,7 +67,9 @@ async function readManifest(): Promise<AssetsManifest> {
 
 async function run() {
   if (!isCloudinaryConfigured) {
-    throw new Error('Cloudinary is not configured. Define CLOUDINARY_* in backend/.env before upload.')
+    throw new Error(
+      'Cloudinary is not configured. Define CLOUDINARY_* in backend/.env before upload.',
+    )
   }
 
   const manifest = await readManifest()
@@ -77,7 +79,10 @@ async function run() {
 
   for (const product of manifest.products) {
     const cloudinaryFolder = `${env.CLOUDINARY_FOLDER}/products/${product.slug}`
-    logger.info({ slug: product.slug, totalFiles: product.files.length }, 'Uploading product images to Cloudinary')
+    logger.info(
+      { slug: product.slug, totalFiles: product.files.length },
+      'Uploading product images to Cloudinary',
+    )
 
     for (const file of product.files) {
       const publicId = `${product.slug}-${String(file.order).padStart(2, '0')}-${sanitizeName(file.fileName)}`
@@ -106,7 +111,10 @@ async function run() {
     }
   }
 
-  const byProduct: Record<string, Array<{ url: string; alt: string; publicId: string; role: 'card' | 'gallery'; order: number }>> = {}
+  const byProduct: Record<
+    string,
+    Array<{ url: string; alt: string; publicId: string; role: 'card' | 'gallery'; order: number }>
+  > = {}
 
   for (const item of uploadedItems) {
     const current = byProduct[item.slug] ?? []

@@ -43,7 +43,9 @@ export default function SubscriptionPlansSection() {
                 <p className={styles.price}>{plan.price}</p>
                 <p className="muted">{plan.description}</p>
               </div>
-              <Link className="btn" to="/club#planes">Empezar</Link>
+              <Link className="btn" to="/club#planes">
+                Empezar
+              </Link>
             </article>
           ))}
         </div>

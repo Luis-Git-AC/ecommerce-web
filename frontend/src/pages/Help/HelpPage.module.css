@@ -14,7 +14,9 @@
   background: #fffdf7;
   display: grid;
   gap: 1.5rem;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .card:hover {
@@ -41,7 +43,9 @@
   justify-content: space-between;
   gap: 1.5rem;
   flex-wrap: wrap;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .cta:hover {

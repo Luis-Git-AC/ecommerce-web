@@ -38,7 +38,11 @@ async function runSmokeOrders() {
       .set('Authorization', `Bearer ${accessToken}`)
 
     assert.equal(createOrder.status, 201, 'POST /api/orders should return 201')
-    assert.equal(createOrder.body.data.status, 'pending', 'created order should start in pending state')
+    assert.equal(
+      createOrder.body.data.status,
+      'pending',
+      'created order should start in pending state',
+    )
     assert.ok(Array.isArray(createOrder.body.data.items), 'order should include items array')
     assert.ok(createOrder.body.data.items.length > 0, 'order should include at least one item')
 
@@ -50,21 +54,32 @@ async function runSmokeOrders() {
 
     assert.equal(listOrders.status, 200, 'GET /api/orders should return 200')
     assert.ok(Array.isArray(listOrders.body.data.items), 'orders list should include items array')
-    assert.ok(listOrders.body.data.items.some((item: { id: string }) => item.id === createdOrderId), 'orders list should include created order')
+    assert.ok(
+      listOrders.body.data.items.some((item: { id: string }) => item.id === createdOrderId),
+      'orders list should include created order',
+    )
 
     const getOrderById = await request(app)
       .get(`/api/orders/${createdOrderId}`)
       .set('Authorization', `Bearer ${accessToken}`)
 
     assert.equal(getOrderById.status, 200, 'GET /api/orders/:id should return 200')
-    assert.equal(getOrderById.body.data.id, createdOrderId, 'order detail should match created order')
+    assert.equal(
+      getOrderById.body.data.id,
+      createdOrderId,
+      'order detail should match created order',
+    )
 
     const cartAfterOrder = await request(app)
       .get('/api/cart')
       .set('Authorization', `Bearer ${accessToken}`)
 
     assert.equal(cartAfterOrder.status, 200, 'GET /api/cart after order should return 200')
-    assert.equal(cartAfterOrder.body.data.items.length, 0, 'cart should be empty after creating order')
+    assert.equal(
+      cartAfterOrder.body.data.items.length,
+      0,
+      'cart should be empty after creating order',
+    )
 
     logger.info(
       {

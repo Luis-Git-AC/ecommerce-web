@@ -45,7 +45,11 @@ export class CartController {
 
   updateItem = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const data = await this.cartService.updateItem(this.getAuthUserId(req), this.getProductIdParam(req), req.body)
+      const data = await this.cartService.updateItem(
+        this.getAuthUserId(req),
+        this.getProductIdParam(req),
+        req.body,
+      )
       res.status(200).json({ data })
     } catch (error) {
       next(error)
@@ -54,7 +58,10 @@ export class CartController {
 
   removeItem = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const data = await this.cartService.removeItem(this.getAuthUserId(req), this.getProductIdParam(req))
+      const data = await this.cartService.removeItem(
+        this.getAuthUserId(req),
+        this.getProductIdParam(req),
+      )
       res.status(200).json({ data })
     } catch (error) {
       next(error)

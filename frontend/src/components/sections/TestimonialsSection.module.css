@@ -25,7 +25,10 @@
   background: linear-gradient(180deg, #fffdf8 0%, #f8f3e9 100%);
   display: grid;
   gap: 1.25rem;
-  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    border-color 0.2s ease;
 }
 
 .card:hover {

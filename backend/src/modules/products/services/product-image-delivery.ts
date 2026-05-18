@@ -39,7 +39,10 @@ function toOptimizedUrl(image: ProductImage, index: number, context: DeliveryCon
   })
 }
 
-export function optimizeProductImages(images: ProductImage[], context: DeliveryContext): ProductImage[] {
+export function optimizeProductImages(
+  images: ProductImage[],
+  context: DeliveryContext,
+): ProductImage[] {
   return images.map((image, index) => ({
     ...image,
     url: toOptimizedUrl(image, index, context),

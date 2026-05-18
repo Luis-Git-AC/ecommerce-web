@@ -33,7 +33,8 @@ export default function BlogPage() {
         }
       } catch (requestError) {
         if (isMounted) {
-          const message = requestError instanceof Error ? requestError.message : 'No se pudo cargar el blog.'
+          const message =
+            requestError instanceof Error ? requestError.message : 'No se pudo cargar el blog.'
           setError(message)
           setPosts([])
         }
@@ -53,9 +54,7 @@ export default function BlogPage() {
 
   const visiblePosts = useMemo(
     () =>
-      activeCategory === 'Todos'
-        ? posts
-        : posts.filter((post) => post.category === activeCategory),
+      activeCategory === 'Todos' ? posts : posts.filter((post) => post.category === activeCategory),
     [activeCategory, posts],
   )
 
@@ -68,7 +67,8 @@ export default function BlogPage() {
             <p className="page-eyebrow">{'Blog {ecommerce}'}</p>
             <h1>Guías y consejos para cuidar tus plantas</h1>
             <p className="muted">
-              Artículos prácticos para mejorar el cuidado, resolver problemas comunes y crear espacios más verdes.
+              Artículos prácticos para mejorar el cuidado, resolver problemas comunes y crear
+              espacios más verdes.
             </p>
           </div>
         </section>
@@ -94,7 +94,9 @@ export default function BlogPage() {
           {!loading && !error ? (
             visiblePosts.length === 0 ? (
               <div className="state-empty">
-                <p className="muted">No hay artículos para esta categoría. Prueba con otra opción.</p>
+                <p className="muted">
+                  No hay artículos para esta categoría. Prueba con otra opción.
+                </p>
               </div>
             ) : (
               <div className={styles.grid}>

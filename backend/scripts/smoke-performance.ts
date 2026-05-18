@@ -22,9 +22,15 @@ async function runSmokePerformance() {
 
   try {
     const probes = await Promise.all([
-      timedRequest('products.list', () => request(app).get('/api/products').query({ page: 1, limit: 20, sort: 'featured' })),
+      timedRequest('products.list', () =>
+        request(app).get('/api/products').query({ page: 1, limit: 20, sort: 'featured' }),
+      ),
       timedRequest('products.featured', () => request(app).get('/api/products/featured')),
-      timedRequest('products.filtered', () => request(app).get('/api/products').query({ page: 1, limit: 20, category: 'suculentas', sort: 'price_desc' })),
+      timedRequest('products.filtered', () =>
+        request(app)
+          .get('/api/products')
+          .query({ page: 1, limit: 20, category: 'suculentas', sort: 'price_desc' }),
+      ),
     ])
 
     for (const probe of probes) {

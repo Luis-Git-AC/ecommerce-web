@@ -30,7 +30,12 @@ type CloudinaryProductImage = {
 
 type CloudinaryImagesMap = Record<string, CloudinaryProductImage[]>
 
-const CLOUDINARY_IMAGES_FILE = path.resolve(process.cwd(), 'scripts', 'output', 'ia-images-product-images.json')
+const CLOUDINARY_IMAGES_FILE = path.resolve(
+  process.cwd(),
+  'scripts',
+  'output',
+  'ia-images-product-images.json',
+)
 
 const seedSlugToIaSlug: Record<string, string> = {
   'aloe-vera': 'aloes',
@@ -59,7 +64,10 @@ const seededProducts: SeedProduct[] = [
     petFriendly: false,
     isFeatured: true,
     images: [
-      { url: 'https://images.unsplash.com/photo-1459156212016-c812468e2115?auto=format&fit=crop&w=1200&q=80', alt: 'Aloe vera en maceta blanca' },
+      {
+        url: 'https://images.unsplash.com/photo-1459156212016-c812468e2115?auto=format&fit=crop&w=1200&q=80',
+        alt: 'Aloe vera en maceta blanca',
+      },
     ],
     tags: ['interior', 'suculenta', 'bajo-riego'],
   },
@@ -76,7 +84,10 @@ const seededProducts: SeedProduct[] = [
     petFriendly: false,
     isFeatured: true,
     images: [
-      { url: 'https://images.unsplash.com/photo-1463320726281-696a485928c7?auto=format&fit=crop&w=1200&q=80', alt: 'Zamioculcas en espacio interior moderno' },
+      {
+        url: 'https://images.unsplash.com/photo-1463320726281-696a485928c7?auto=format&fit=crop&w=1200&q=80',
+        alt: 'Zamioculcas en espacio interior moderno',
+      },
     ],
     tags: ['interior', 'hoja-verde', 'bajo-mantenimiento'],
   },
@@ -93,7 +104,10 @@ const seededProducts: SeedProduct[] = [
     petFriendly: false,
     isFeatured: true,
     images: [
-      { url: 'https://images.unsplash.com/photo-1512428813834-c702c7702b78?auto=format&fit=crop&w=1200&q=80', alt: 'Monstera deliciosa con hojas grandes' },
+      {
+        url: 'https://images.unsplash.com/photo-1512428813834-c702c7702b78?auto=format&fit=crop&w=1200&q=80',
+        alt: 'Monstera deliciosa con hojas grandes',
+      },
     ],
     tags: ['tropical', 'interior', 'decorativa'],
   },
@@ -110,7 +124,10 @@ const seededProducts: SeedProduct[] = [
     petFriendly: false,
     isFeatured: false,
     images: [
-      { url: 'https://images.unsplash.com/photo-1485955900006-10f4d324d411?auto=format&fit=crop&w=1200&q=80', alt: 'Kalanchoe florecida en maceta' },
+      {
+        url: 'https://images.unsplash.com/photo-1485955900006-10f4d324d411?auto=format&fit=crop&w=1200&q=80',
+        alt: 'Kalanchoe florecida en maceta',
+      },
     ],
     tags: ['suculenta', 'flor', 'balcon'],
   },
@@ -127,7 +144,10 @@ const seededProducts: SeedProduct[] = [
     petFriendly: false,
     isFeatured: true,
     images: [
-      { url: 'https://images.unsplash.com/photo-1485955900006-10f4d324d411?auto=format&fit=crop&w=1200&q=80', alt: 'Epipremnum en maceta colgante' },
+      {
+        url: 'https://images.unsplash.com/photo-1485955900006-10f4d324d411?auto=format&fit=crop&w=1200&q=80',
+        alt: 'Epipremnum en maceta colgante',
+      },
     ],
     tags: ['enredadera', 'interior', 'colgante'],
   },
@@ -144,7 +164,10 @@ const seededProducts: SeedProduct[] = [
     petFriendly: true,
     isFeatured: false,
     images: [
-      { url: 'https://images.unsplash.com/photo-1459156212016-c812468e2115?auto=format&fit=crop&w=1200&q=80', alt: 'Haworthia en maceta de barro' },
+      {
+        url: 'https://images.unsplash.com/photo-1459156212016-c812468e2115?auto=format&fit=crop&w=1200&q=80',
+        alt: 'Haworthia en maceta de barro',
+      },
     ],
     tags: ['suculenta', 'compacta', 'escritorio'],
   },
@@ -161,7 +184,10 @@ const seededProducts: SeedProduct[] = [
     petFriendly: true,
     isFeatured: false,
     images: [
-      { url: 'https://images.unsplash.com/photo-1493666438817-866a91353ca9?auto=format&fit=crop&w=1200&q=80', alt: 'Echeveria en primer plano' },
+      {
+        url: 'https://images.unsplash.com/photo-1493666438817-866a91353ca9?auto=format&fit=crop&w=1200&q=80',
+        alt: 'Echeveria en primer plano',
+      },
     ],
     tags: ['suculenta', 'roseta', 'decoracion'],
   },
@@ -178,7 +204,10 @@ const seededProducts: SeedProduct[] = [
     petFriendly: false,
     isFeatured: false,
     images: [
-      { url: 'https://images.unsplash.com/photo-1501004318641-b39e6451bec6?auto=format&fit=crop&w=1200&q=80', alt: 'Crassula ovata en maceta minimalista' },
+      {
+        url: 'https://images.unsplash.com/photo-1501004318641-b39e6451bec6?auto=format&fit=crop&w=1200&q=80',
+        alt: 'Crassula ovata en maceta minimalista',
+      },
     ],
     tags: ['jade', 'suculenta', 'interior'],
   },
@@ -195,7 +224,10 @@ const seededProducts: SeedProduct[] = [
     petFriendly: false,
     isFeatured: false,
     images: [
-      { url: 'https://images.unsplash.com/photo-1493666438817-866a91353ca9?auto=format&fit=crop&w=1200&q=80', alt: 'Curio rowleyanus colgante' },
+      {
+        url: 'https://images.unsplash.com/photo-1493666438817-866a91353ca9?auto=format&fit=crop&w=1200&q=80',
+        alt: 'Curio rowleyanus colgante',
+      },
     ],
     tags: ['colgante', 'suculenta', 'decorativa'],
   },
@@ -212,7 +244,10 @@ const seededProducts: SeedProduct[] = [
     petFriendly: true,
     isFeatured: false,
     images: [
-      { url: 'https://images.unsplash.com/photo-1459156212016-c812468e2115?auto=format&fit=crop&w=1200&q=80', alt: 'Lithops en maceta pequena' },
+      {
+        url: 'https://images.unsplash.com/photo-1459156212016-c812468e2115?auto=format&fit=crop&w=1200&q=80',
+        alt: 'Lithops en maceta pequena',
+      },
     ],
     tags: ['piedra-viva', 'coleccion', 'suculenta'],
   },
@@ -234,7 +269,10 @@ async function readCloudinaryImagesMap(): Promise<CloudinaryImagesMap | null> {
   }
 }
 
-function applyCloudinaryImages(products: SeedProduct[], cloudinaryMap: CloudinaryImagesMap | null): SeedProduct[] {
+function applyCloudinaryImages(
+  products: SeedProduct[],
+  cloudinaryMap: CloudinaryImagesMap | null,
+): SeedProduct[] {
   if (!cloudinaryMap) {
     return products
   }
@@ -279,13 +317,16 @@ async function runSeed() {
     const result = await ProductModel.bulkWrite(operations, { ordered: false })
 
     const totalProducts = await ProductModel.countDocuments({})
-    logger.info({
-      upserted: result.upsertedCount,
-      modified: result.modifiedCount,
-      matched: result.matchedCount,
-      totalProducts,
-      cloudinaryMapLoaded: Boolean(cloudinaryMap),
-    }, 'Products seed completed')
+    logger.info(
+      {
+        upserted: result.upsertedCount,
+        modified: result.modifiedCount,
+        matched: result.matchedCount,
+        totalProducts,
+        cloudinaryMapLoaded: Boolean(cloudinaryMap),
+      },
+      'Products seed completed',
+    )
   } finally {
     await disconnectDatabase()
   }

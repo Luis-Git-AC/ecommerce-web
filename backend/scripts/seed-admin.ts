@@ -6,7 +6,8 @@ import { UserModel } from '../src/modules/auth/schemas/user.schema'
 const SALT_ROUNDS = 12
 
 const adminName = (process.env.ADMIN_NAME as string | undefined)?.trim() || 'Admin Ecommerce'
-const adminEmail = ((process.env.ADMIN_EMAIL as string | undefined)?.trim().toLowerCase()) || 'admin@ecommerce.local'
+const adminEmail =
+  (process.env.ADMIN_EMAIL as string | undefined)?.trim().toLowerCase() || 'admin@ecommerce.local'
 const adminPassword = (process.env.ADMIN_PASSWORD as string | undefined)?.trim() || 'Admin12345!'
 
 async function runSeedAdmin() {

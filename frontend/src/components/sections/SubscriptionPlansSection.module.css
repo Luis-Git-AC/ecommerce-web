@@ -10,7 +10,10 @@
   border-color: #dfd5c2;
   background: linear-gradient(180deg, #fffdf8 0%, #f9f3e6 100%);
   box-shadow: 0 9px 20px rgba(31, 42, 34, 0.08);
-  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    border-color 0.2s ease;
 }
 
 .planCard:hover {

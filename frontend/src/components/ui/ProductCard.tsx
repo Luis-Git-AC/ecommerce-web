@@ -32,18 +32,26 @@ export default function ProductCard({
     styles.card,
     isHomeVariant ? styles.cardHome : '',
     mobileLayout === 'editorial' ? styles.mobileEditorial : '',
-  ].filter(Boolean).join(' ')
-  const imageWrapClassName = imageMode === 'contain-mobile' ? `${styles.imageWrap} ${styles.imageWrapContainMobile}` : styles.imageWrap
-  const imageClassName = imageMode === 'contain-mobile'
-    ? `${styles.image} ${styles.imageContainMobile} ${isImageLoading ? styles.imageHidden : ''}`
-    : `${styles.image} ${isImageLoading ? styles.imageHidden : ''}`
+  ]
+    .filter(Boolean)
+    .join(' ')
+  const imageWrapClassName =
+    imageMode === 'contain-mobile'
+      ? `${styles.imageWrap} ${styles.imageWrapContainMobile}`
+      : styles.imageWrap
+  const imageClassName =
+    imageMode === 'contain-mobile'
+      ? `${styles.image} ${styles.imageContainMobile} ${isImageLoading ? styles.imageHidden : ''}`
+      : `${styles.image} ${isImageLoading ? styles.imageHidden : ''}`
   const priceClassName = isHomeVariant ? `muted ${styles.priceHome}` : 'muted'
   const linkClassName = isHomeVariant ? `btn btn-outline ${styles.linkHome}` : 'btn btn-outline'
 
   return (
     <article className={cardClassName}>
       <div className={imageWrapClassName}>
-        {isImageLoading && !hasImageError ? <div className={styles.imageSkeleton} aria-hidden="true" /> : null}
+        {isImageLoading && !hasImageError ? (
+          <div className={styles.imageSkeleton} aria-hidden="true" />
+        ) : null}
         {hasImageError ? (
           <div className={styles.imageFallback} role="status" aria-live="polite">
             Imagen no disponible

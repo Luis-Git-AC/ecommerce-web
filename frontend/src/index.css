@@ -1,5 +1,9 @@
 :root {
-  font-family: 'Source Sans Pro', system-ui, -apple-system, sans-serif;
+  font-family:
+    'Source Sans Pro',
+    system-ui,
+    -apple-system,
+    sans-serif;
   line-height: 1.5;
   font-weight: 400;
   color: #1f2a22;
@@ -87,7 +91,10 @@ select {
   border: 1px solid #d7d2c8;
   border-radius: 12px;
   background: #ffffff;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    background-color 0.2s ease;
 }
 
 input::placeholder,
@@ -128,7 +135,11 @@ select:focus-visible {
   gap: 0.4rem;
   min-height: 44px;
   line-height: 1;
-  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease,
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease,
+    box-shadow 0.2s ease,
     transform 0.15s ease;
 }
 
@@ -281,19 +292,25 @@ select:focus-visible {
   border-radius: 14px;
   border-color: rgba(24, 67, 44, 0.32);
   background: linear-gradient(180deg, #2f9360 0%, #26764b 100%);
-  box-shadow: 0 8px 20px rgba(28, 62, 45, 0.16), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+  box-shadow:
+    0 8px 20px rgba(28, 62, 45, 0.16),
+    inset 0 1px 0 rgba(255, 255, 255, 0.25);
   transform: translateY(0);
 }
 
 .brand-page .btn:hover {
   background: linear-gradient(180deg, #37a06a 0%, #2a7f50 100%);
-  box-shadow: 0 11px 24px rgba(28, 62, 45, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.26);
+  box-shadow:
+    0 11px 24px rgba(28, 62, 45, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.26);
   transform: translateY(-1px);
 }
 
 .brand-page .btn:active {
   transform: translateY(1px);
-  box-shadow: 0 4px 14px rgba(28, 62, 45, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.24);
+  box-shadow:
+    0 4px 14px rgba(28, 62, 45, 0.22),
+    inset 0 1px 0 rgba(255, 255, 255, 0.24);
 }
 
 .brand-page .btn:focus-visible {

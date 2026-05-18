@@ -40,7 +40,11 @@ export class TokenService {
     return this.verifyToken(token, this.refreshSecret, 'refresh')
   }
 
-  private verifyToken(token: string, secret: string, expectedType: TokenType): { userId: string; role: UserRole } {
+  private verifyToken(
+    token: string,
+    secret: string,
+    expectedType: TokenType,
+  ): { userId: string; role: UserRole } {
     try {
       const payload = jwt.verify(token, secret) as jwt.JwtPayload & AuthTokenPayload
       if (payload.type !== expectedType || typeof payload.sub !== 'string') {

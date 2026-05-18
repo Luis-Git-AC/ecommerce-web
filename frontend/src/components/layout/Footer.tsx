@@ -30,7 +30,8 @@ export default function Footer() {
       setNewsletterStatusType('success')
       setNewsletterEmail('')
     } catch (error) {
-      const message = error instanceof Error ? error.message : 'No se pudo registrar la suscripción.'
+      const message =
+        error instanceof Error ? error.message : 'No se pudo registrar la suscripción.'
       setNewsletterMessage(message)
       setNewsletterStatusType('error')
     } finally {
@@ -51,24 +52,40 @@ export default function Footer() {
           <div>
             <h4>Explora</h4>
             <ul>
-              <li><Link to="/shop">Tienda</Link></li>
-              <li><Link to="/#quiz">Quiz de planta ideal</Link></li>
-              <li><Link to="/club">Planes</Link></li>
+              <li>
+                <Link to="/shop">Tienda</Link>
+              </li>
+              <li>
+                <Link to="/#quiz">Quiz de planta ideal</Link>
+              </li>
+              <li>
+                <Link to="/club">Planes</Link>
+              </li>
             </ul>
           </div>
           <div>
             <h4>Compañía</h4>
             <ul>
-              <li><Link to="/about">Sobre nosotros</Link></li>
-              <li><Link to="/blog">Blog</Link></li>
+              <li>
+                <Link to="/about">Sobre nosotros</Link>
+              </li>
+              <li>
+                <Link to="/blog">Blog</Link>
+              </li>
             </ul>
           </div>
           <div>
             <h4>Soporte</h4>
             <ul>
-              <li><Link to="/help">Ayuda</Link></li>
-              <li><Link to="/shipping">Envíos</Link></li>
-              <li><Link to="/contact">Contacto</Link></li>
+              <li>
+                <Link to="/help">Ayuda</Link>
+              </li>
+              <li>
+                <Link to="/shipping">Envíos</Link>
+              </li>
+              <li>
+                <Link to="/contact">Contacto</Link>
+              </li>
             </ul>
           </div>
         </div>
@@ -102,19 +119,34 @@ export default function Footer() {
           <details className={styles.footerDetails}>
             <summary>Explora</summary>
             <ul>
-              <li><Link to="/shop">Tienda</Link></li>
-              <li><Link to="/#quiz">Quiz de planta ideal</Link></li>
-              <li><Link to="/club">Planes</Link></li>
+              <li>
+                <Link to="/shop">Tienda</Link>
+              </li>
+              <li>
+                <Link to="/#quiz">Quiz de planta ideal</Link>
+              </li>
+              <li>
+                <Link to="/club">Planes</Link>
+              </li>
             </ul>
           </details>
           <details className={styles.footerDetails}>
             <summary>Compañía</summary>
             <ul>
-              <li><Link to="/about">Sobre nosotros</Link></li>
-              <li><Link to="/blog">Blog</Link></li>
+              <li>
+                <Link to="/about">Sobre nosotros</Link>
+              </li>
+              <li>
+                <Link to="/blog">Blog</Link>
+              </li>
             </ul>
             <div className={styles.socials}>
-              <a href="https://instagram.com" target="_blank" rel="noreferrer" aria-label="Instagram">
+              <a
+                href="https://instagram.com"
+                target="_blank"
+                rel="noreferrer"
+                aria-label="Instagram"
+              >
                 <svg viewBox="0 0 24 24" role="img" focusable="false">
                   <path
                     d="M8 3h8a5 5 0 0 1 5 5v8a5 5 0 0 1-5 5H8a5 5 0 0 1-5-5V8a5 5 0 0 1 5-5Zm8 2H8a3 3 0 0 0-3 3v8a3 3 0 0 0 3 3h8a3 3 0 0 0 3-3V8a3 3 0 0 0-3-3Zm-4 3.5a4.5 4.5 0 1 1-4.5 4.5A4.5 4.5 0 0 1 12 8.5Zm0 2a2.5 2.5 0 1 0 2.5 2.5A2.5 2.5 0 0 0 12 10.5Zm5.2-2.9a1 1 0 1 1-1 1 1 1 0 0 1 1-1Z"
@@ -143,9 +175,15 @@ export default function Footer() {
           <details className={styles.footerDetails}>
             <summary>Soporte</summary>
             <ul>
-              <li><Link to="/help">Ayuda</Link></li>
-              <li><Link to="/shipping">Envíos</Link></li>
-              <li><Link to="/contact">Contacto</Link></li>
+              <li>
+                <Link to="/help">Ayuda</Link>
+              </li>
+              <li>
+                <Link to="/shipping">Envíos</Link>
+              </li>
+              <li>
+                <Link to="/contact">Contacto</Link>
+              </li>
             </ul>
           </details>
           <details className={`${styles.footerDetails} ${styles.footerNewsletterMobile}`}>
@@ -153,7 +191,9 @@ export default function Footer() {
             <div className={styles.newsletterCard}>
               <div className={styles.newsletterCopy}>
                 <span className={styles.newsletterTitle}>{'Newsletter {ecommerce}'}</span>
-                <span className={styles.newsletterText}>Consejos breves de cuidado y novedades.</span>
+                <span className={styles.newsletterText}>
+                  Consejos breves de cuidado y novedades.
+                </span>
               </div>
               <form className={styles.newsletterForm} onSubmit={handleNewsletterSubmit}>
                 <input
@@ -186,7 +226,9 @@ export default function Footer() {
             <div className={styles.newsletterCard}>
               <div className={styles.newsletterCopy}>
                 <span className={styles.newsletterTitle}>{'Newsletter {ecommerce}'}</span>
-                <span className={styles.newsletterText}>Consejos breves de cuidado y novedades.</span>
+                <span className={styles.newsletterText}>
+                  Consejos breves de cuidado y novedades.
+                </span>
               </div>
               <form className={styles.newsletterForm} onSubmit={handleNewsletterSubmit}>
                 <input

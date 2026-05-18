@@ -38,13 +38,19 @@ export default function HeroSection() {
         <p className={styles.eyebrow}>Plantas de interior</p>
         <h1 className={styles.title}>Plantas seleccionadas según tu estilo de vida</h1>
         <p className={styles.lead}>
-          Recomendaciones basadas en luz, tiempo y experiencia para que tu planta
-          prospere sin complicaciones.
+          Recomendaciones basadas en luz, tiempo y experiencia para que tu planta prospere sin
+          complicaciones.
         </p>
-        <p className={styles.trust}>Sin permanencia · Cancela cuando quieras · Garantía de devolución</p>
+        <p className={styles.trust}>
+          Sin permanencia · Cancela cuando quieras · Garantía de devolución
+        </p>
         <div className={styles.heroActions}>
-          <Link className="btn" to="/#quiz">Encontrar mi planta ideal</Link>
-          <Link className={`btn btn-ghost ${styles.heroGhostBtn}`} to="/shop">Ver catálogo completo</Link>
+          <Link className="btn" to="/#quiz">
+            Encontrar mi planta ideal
+          </Link>
+          <Link className={`btn btn-ghost ${styles.heroGhostBtn}`} to="/shop">
+            Ver catálogo completo
+          </Link>
         </div>
       </div>
       <div className={styles.heroOverlay} />

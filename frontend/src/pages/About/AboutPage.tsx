@@ -27,8 +27,8 @@ export default function AboutPage() {
           <p className="page-eyebrow">Sobre nosotros</p>
           <h1>{'{ecommerce} nace para ayudarte a elegir con confianza'}</h1>
           <p className="muted">
-            No vendemos plantas al azar. Creamos recomendaciones claras para que tu coleccion crezca con sentido y sin
-            complicaciones.
+            No vendemos plantas al azar. Creamos recomendaciones claras para que tu coleccion crezca
+            con sentido y sin complicaciones.
           </p>
         </section>
 
@@ -36,13 +36,15 @@ export default function AboutPage() {
           <div>
             <h2>Nuestra idea</h2>
             <p className="muted">
-              Creemos que una planta bonita no basta. Lo importante es que encaje con tu espacio, tu luz y tu tiempo.
-              Por eso combinamos seleccion curada con un sistema simple de recomendacion.
+              Creemos que una planta bonita no basta. Lo importante es que encaje con tu espacio, tu
+              luz y tu tiempo. Por eso combinamos seleccion curada con un sistema simple de
+              recomendacion.
             </p>
           </div>
           <div className={styles.highlight}>
             <p>
-              Mas claridad, menos error. Nuestro objetivo es que cada planta llegue a un hogar donde pueda prosperar.
+              Mas claridad, menos error. Nuestro objetivo es que cada planta llegue a un hogar donde
+              pueda prosperar.
             </p>
           </div>
         </section>
@@ -62,11 +64,17 @@ export default function AboutPage() {
         <section className={`container ${styles.cta}`}>
           <div>
             <h2>Listo para elegir tu planta ideal?</h2>
-            <p className="muted">Explora el catalogo o prueba el quiz para recibir una recomendacion.</p>
+            <p className="muted">
+              Explora el catalogo o prueba el quiz para recibir una recomendacion.
+            </p>
           </div>
           <div className={styles.ctaActions}>
-            <Link className="btn" to="/shop">Ver tienda</Link>
-            <Link className="btn btn-ghost" to="/#quiz">Hacer el quiz</Link>
+            <Link className="btn" to="/shop">
+              Ver tienda
+            </Link>
+            <Link className="btn btn-ghost" to="/#quiz">
+              Hacer el quiz
+            </Link>
           </div>
         </section>
       </main>

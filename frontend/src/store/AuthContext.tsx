@@ -83,23 +83,29 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     sessionStorage.clear()
   }, [])
 
-  const login = useCallback(async (payload: LoginPayload) => {
-    try {
-      const data = await authRepository.login(payload)
-      storeSession(data)
-    } catch (error) {
-      throw new Error(toClientError(error))
-    }
-  }, [storeSession])
+  const login = useCallback(
+    async (payload: LoginPayload) => {
+      try {
+        const data = await authRepository.login(payload)
+        storeSession(data)
+      } catch (error) {
+        throw new Error(toClientError(error))
+      }
+    },
+    [storeSession],
+  )
 
-  const register = useCallback(async (payload: RegisterPayload) => {
-    try {
-      const data = await authRepository.register(payload)
-      storeSession(data)
-    } catch (error) {
-      throw new Error(toClientError(error))
-    }
-  }, [storeSession])
+  const register = useCallback(
+    async (payload: RegisterPayload) => {
+      try {
+        const data = await authRepository.register(payload)
+        storeSession(data)
+      } catch (error) {
+        throw new Error(toClientError(error))
+      }
+    },
+    [storeSession],
+  )
 
   const logout = useCallback(async () => {
     const refreshToken = session?.refreshToken

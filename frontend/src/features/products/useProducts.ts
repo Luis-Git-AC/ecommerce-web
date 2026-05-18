@@ -16,7 +16,8 @@ type UseProductResult = {
 
 const DEFAULT_ERROR_MESSAGE = 'No pudimos cargar los productos en este momento.'
 
-const getErrorMessage = (error: unknown) => (error instanceof Error ? error.message : DEFAULT_ERROR_MESSAGE)
+const getErrorMessage = (error: unknown) =>
+  error instanceof Error ? error.message : DEFAULT_ERROR_MESSAGE
 
 export const useProducts = () => {
   const [products, setProducts] = useState<Product[]>([])
@@ -53,7 +54,10 @@ export const useProducts = () => {
     }
   }, [])
 
-  return useMemo<UseProductsResult>(() => ({ products, loading, error }), [error, loading, products])
+  return useMemo<UseProductsResult>(
+    () => ({ products, loading, error }),
+    [error, loading, products],
+  )
 }
 
 export const useFeaturedProducts = (limit = 4) => {
@@ -91,7 +95,10 @@ export const useFeaturedProducts = (limit = 4) => {
     }
   }, [limit])
 
-  return useMemo<UseProductsResult>(() => ({ products, loading, error }), [error, loading, products])
+  return useMemo<UseProductsResult>(
+    () => ({ products, loading, error }),
+    [error, loading, products],
+  )
 }
 
 export const useProductById = (id?: string) => {
@@ -185,5 +192,8 @@ export const useRelatedProducts = (productId?: string, limit = 3) => {
     }
   }, [limit, productId])
 
-  return useMemo<UseProductsResult>(() => ({ products, loading, error }), [error, loading, products])
+  return useMemo<UseProductsResult>(
+    () => ({ products, loading, error }),
+    [error, loading, products],
+  )
 }

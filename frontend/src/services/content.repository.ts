@@ -34,10 +34,12 @@ type GenericCreateResponse = {
 const API_BASE_URL = appEnv.apiBaseUrl
 
 const friendlyStatusMessage = (status: number) => {
-  if (status === 400) return 'Los datos enviados no son validos. Revisa el formulario e intenta de nuevo.'
+  if (status === 400)
+    return 'Los datos enviados no son validos. Revisa el formulario e intenta de nuevo.'
   if (status === 404) return 'No encontramos el recurso solicitado.'
   if (status === 409) return 'Este registro ya existe.'
-  if (status === 429) return 'Has realizado demasiados intentos. Espera unos minutos y vuelve a intentar.'
+  if (status === 429)
+    return 'Has realizado demasiados intentos. Espera unos minutos y vuelve a intentar.'
   if (status >= 500) return 'Tuvimos un problema temporal. Intenta nuevamente en unos minutos.'
   return 'No pudimos completar la solicitud en este momento.'
 }
@@ -49,7 +51,7 @@ const parseErrorMessage = async (response: Response) => {
       return body.message.trim()
     }
   } catch {
-    // No-op: si la respuesta no es JSON util, usamos un mensaje amigable.
+    // No-op: si la respuesta no es JSON util, uso un mensaje amigable.
   }
 
   return friendlyStatusMessage(response.status)
@@ -95,7 +97,11 @@ export const contentRepository = {
   async subscribeNewsletter(payload: { email: string }) {
     return postJson<GenericCreateResponse>('/newsletter/subscribe', payload)
   },
-  async createClubLead(payload: { name: string; email: string; plan: 'basic' | 'medio' | 'premium' }) {
+  async createClubLead(payload: {
+    name: string
+    email: string
+    plan: 'basic' | 'medio' | 'premium'
+  }) {
     return postJson<GenericCreateResponse>('/club/leads', payload)
   },
 }

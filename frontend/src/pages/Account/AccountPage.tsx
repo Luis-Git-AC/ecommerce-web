@@ -164,16 +164,27 @@ export default function AccountPage() {
                     Panel admin
                   </Link>
                 ) : null}
-                <button type="button" className="btn btn-outline" onClick={() => void loadOrders()} disabled={ordersLoading}>
+                <button
+                  type="button"
+                  className="btn btn-outline"
+                  onClick={() => void loadOrders()}
+                  disabled={ordersLoading}
+                >
                   {ordersLoading ? 'Actualizando...' : 'Actualizar lista'}
                 </button>
               </div>
             </div>
 
-            {ordersError ? <p className={`${styles.feedbackFull} state-box state-error`}>{ordersError}</p> : null}
+            {ordersError ? (
+              <p className={`${styles.feedbackFull} state-box state-error`}>{ordersError}</p>
+            ) : null}
 
             {ordersLoading ? (
-              <p className={`${styles.feedbackFull} state-box state-loading`} role="status" aria-live="polite">
+              <p
+                className={`${styles.feedbackFull} state-box state-loading`}
+                role="status"
+                aria-live="polite"
+              >
                 Cargando pedidos...
               </p>
             ) : orders.length === 0 ? (
@@ -277,13 +288,21 @@ export default function AccountPage() {
             </form>
 
             {authMessage ? (
-              <p className={`${styles.feedbackFull} state-box state-success`} role="status" aria-live="polite">
+              <p
+                className={`${styles.feedbackFull} state-box state-success`}
+                role="status"
+                aria-live="polite"
+              >
                 {authMessage}
               </p>
             ) : null}
 
             {authError ? (
-              <p className={`${styles.feedbackFull} state-box state-error`} role="alert" aria-live="assertive">
+              <p
+                className={`${styles.feedbackFull} state-box state-error`}
+                role="alert"
+                aria-live="assertive"
+              >
                 {authError}
               </p>
             ) : null}

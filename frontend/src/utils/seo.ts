@@ -54,7 +54,14 @@ const upsertCanonical = (href: string) => {
   element.setAttribute('href', href)
 }
 
-export const applySeo = ({ title, description, path = '/', robots = 'index, follow', image, type = 'website' }: SeoConfig) => {
+export const applySeo = ({
+  title,
+  description,
+  path = '/',
+  robots = 'index, follow',
+  image,
+  type = 'website',
+}: SeoConfig) => {
   const normalizedTitle = title.trim() || DEFAULT_TITLE
   const normalizedDescription = description.trim() || DEFAULT_DESCRIPTION
   const canonicalUrl = buildUrl(path)

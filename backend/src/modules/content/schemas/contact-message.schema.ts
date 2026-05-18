@@ -15,4 +15,7 @@ const contactMessageSchema = new Schema(
 contactMessageSchema.index({ createdAt: -1 })
 
 export type ContactMessageDocument = InferSchemaType<typeof contactMessageSchema>
-export const ContactMessageModel = model<ContactMessageDocument>('ContactMessage', contactMessageSchema)
+export const ContactMessageModel = model<ContactMessageDocument>(
+  'ContactMessage',
+  contactMessageSchema,
+)

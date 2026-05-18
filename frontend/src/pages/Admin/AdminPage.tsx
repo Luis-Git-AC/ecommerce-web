@@ -97,7 +97,9 @@ export default function AdminPage() {
           <section className={`container ${styles.panel}`}>
             <h1>Área admin</h1>
             <p className="muted">Inicia sesión para acceder al panel.</p>
-            <Link className="btn" to="/account">Ir a cuenta</Link>
+            <Link className="btn" to="/account">
+              Ir a cuenta
+            </Link>
           </section>
         </main>
         <Footer />
@@ -113,7 +115,9 @@ export default function AdminPage() {
           <section className={`container ${styles.panel}`}>
             <h1>Acceso restringido</h1>
             <p className="muted">Esta sección está disponible solo para administradores.</p>
-            <Link className="btn btn-outline" to="/account">Volver a cuenta</Link>
+            <Link className="btn btn-outline" to="/account">
+              Volver a cuenta
+            </Link>
           </section>
         </main>
         <Footer />
@@ -151,7 +155,9 @@ export default function AdminPage() {
                 {users.map((user) => (
                   <div key={user.id} className={styles.row}>
                     <div>
-                      <p><strong>{user.name}</strong> · {user.role}</p>
+                      <p>
+                        <strong>{user.name}</strong> · {user.role}
+                      </p>
                       <p className="muted">{user.email}</p>
                     </div>
                     <div className={styles.meta}>
@@ -169,7 +175,9 @@ export default function AdminPage() {
                 {orders.map((order) => (
                   <div key={order.id} className={styles.row}>
                     <div>
-                      <p><strong>{order.id}</strong> · {order.status}</p>
+                      <p>
+                        <strong>{order.id}</strong> · {order.status}
+                      </p>
                       <p className="muted">{order.user.email}</p>
                     </div>
                     <div className={styles.meta}>

@@ -73,8 +73,7 @@ if (parsed.data.NODE_ENV === 'production') {
   if (parsed.data.CORS_ORIGIN.trim() === '*') {
     productionErrors.push('CORS_ORIGIN cannot be * in production')
   } else {
-    const origins = parsed.data.CORS_ORIGIN
-      .split(',')
+    const origins = parsed.data.CORS_ORIGIN.split(',')
       .map((origin) => origin.trim())
       .filter((origin) => origin.length > 0)
 
@@ -86,7 +85,9 @@ if (parsed.data.NODE_ENV === 'production') {
       try {
         validateOrigin(origin)
       } catch (error) {
-        productionErrors.push(error instanceof Error ? error.message : `Invalid CORS_ORIGIN: ${origin}`)
+        productionErrors.push(
+          error instanceof Error ? error.message : `Invalid CORS_ORIGIN: ${origin}`,
+        )
       }
     }
   }
@@ -95,7 +96,10 @@ if (parsed.data.NODE_ENV === 'production') {
     productionErrors.push('STRIPE_SECRET_KEY must start with sk_')
   }
 
-  if (parsed.data.STRIPE_WEBHOOK_SECRET && !parsed.data.STRIPE_WEBHOOK_SECRET.startsWith('whsec_')) {
+  if (
+    parsed.data.STRIPE_WEBHOOK_SECRET &&
+    !parsed.data.STRIPE_WEBHOOK_SECRET.startsWith('whsec_')
+  ) {
     productionErrors.push('STRIPE_WEBHOOK_SECRET must start with whsec_')
   }
 

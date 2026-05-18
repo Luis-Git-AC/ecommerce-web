@@ -13,4 +13,7 @@ const newsletterSubscriberSchema = new Schema(
 )
 
 export type NewsletterSubscriberDocument = InferSchemaType<typeof newsletterSubscriberSchema>
-export const NewsletterSubscriberModel = model<NewsletterSubscriberDocument>('NewsletterSubscriber', newsletterSubscriberSchema)
+export const NewsletterSubscriberModel = model<NewsletterSubscriberDocument>(
+  'NewsletterSubscriber',
+  newsletterSubscriberSchema,
+)

@@ -70,7 +70,9 @@ export const authRepository = {
   },
 
   async refresh(refreshToken: string) {
-    const response = await apiRequest<WrappedResponse<Pick<AuthSession, 'accessToken' | 'refreshToken'>>>('/auth/refresh', {
+    const response = await apiRequest<
+      WrappedResponse<Pick<AuthSession, 'accessToken' | 'refreshToken'>>
+    >('/auth/refresh', {
       method: 'POST',
       body: { refreshToken },
     })

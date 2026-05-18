@@ -25,7 +25,8 @@ export default function BlogPostPage() {
         }
       } catch (requestError) {
         if (isMounted) {
-          const message = requestError instanceof Error ? requestError.message : 'No se pudo cargar la guía.'
+          const message =
+            requestError instanceof Error ? requestError.message : 'No se pudo cargar la guía.'
           setError(message)
           setPost(null)
         }
@@ -76,7 +77,9 @@ export default function BlogPostPage() {
       <Header />
       <main className={styles.post}>
         <section className="container page-hero">
-          <Link className={styles.backLink} to="/blog">Volver al blog</Link>
+          <Link className={styles.backLink} to="/blog">
+            Volver al blog
+          </Link>
           <p className="page-eyebrow">{'Guía {ecommerce}'}</p>
           <h1>{title}</h1>
           <div className={styles.meta}>
@@ -90,8 +93,12 @@ export default function BlogPostPage() {
           {error ? (
             <div className="state-empty" role="alert" aria-live="assertive">
               <p className="muted">{error}</p>
-              <p className="muted">Puedes volver al listado para explorar otras guías disponibles.</p>
-              <Link className="btn" to="/blog">Ver blog</Link>
+              <p className="muted">
+                Puedes volver al listado para explorar otras guías disponibles.
+              </p>
+              <Link className="btn" to="/blog">
+                Ver blog
+              </Link>
             </div>
           ) : null}
           {hasContent ? (
@@ -99,9 +106,12 @@ export default function BlogPostPage() {
               {image ? <img className={styles.image} src={image} alt={title} /> : null}
               <p className="muted">{post?.content}</p>
               <p className="muted">
-                Si quieres una versión personalizada, escribe a nuestro equipo y te enviaremos recursos y consejos.
+                Si quieres una versión personalizada, escribe a nuestro equipo y te enviaremos
+                recursos y consejos.
               </p>
-              <Link className="btn" to="/contact">Contactar</Link>
+              <Link className="btn" to="/contact">
+                Contactar
+              </Link>
             </>
           ) : null}
         </section>

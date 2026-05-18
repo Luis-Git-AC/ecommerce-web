@@ -35,7 +35,12 @@
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(94deg, rgba(6, 19, 13, 0.72) 0%, rgba(7, 20, 14, 0.52) 48%, rgba(8, 21, 15, 0.28) 100%),
+    linear-gradient(
+      94deg,
+      rgba(6, 19, 13, 0.72) 0%,
+      rgba(7, 20, 14, 0.52) 48%,
+      rgba(8, 21, 15, 0.28) 100%
+    ),
     radial-gradient(circle at 26% 42%, rgba(0, 0, 0, 0.06), rgba(0, 0, 0, 0.18));
   z-index: 1;
 }

@@ -20,7 +20,8 @@ const blogPosts: SeedBlogPost[] = [
     excerpt: 'Un método simple para saber cuándo regar y evitar hojas blandas o podridas.',
     content:
       'Regar suculentas no se trata de frecuencia fija. Revisa siempre el sustrato antes de regar, usa maceta con drenaje y prioriza riegos profundos pero espaciados.',
-    image: 'https://images.unsplash.com/photo-1459664018906-085c36f472af?auto=format&fit=crop&w=900&q=80',
+    image:
+      'https://images.unsplash.com/photo-1459664018906-085c36f472af?auto=format&fit=crop&w=900&q=80',
     publishedAt: new Date('2026-02-12T10:00:00.000Z'),
   },
   {
@@ -30,7 +31,8 @@ const blogPosts: SeedBlogPost[] = [
     excerpt: 'Aprende a identificar si tu espacio tiene luz baja, media o alta sin instrumentos.',
     content:
       'Observa cuántas horas de luz directa recibe cada zona, la intensidad de las sombras y el recorrido del sol. Así puedes ubicar cada planta en el sitio correcto.',
-    image: 'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=900&q=80',
+    image:
+      'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=900&q=80',
     publishedAt: new Date('2026-02-05T10:00:00.000Z'),
   },
   {
@@ -40,7 +42,8 @@ const blogPosts: SeedBlogPost[] = [
     excerpt: 'Ideas sencillas para sumar verde sin saturar el espacio.',
     content:
       'Combina alturas y texturas. Una planta de piso, otra colgante y una mini en repisa pueden crear profundidad visual sin perder orden.',
-    image: 'https://images.unsplash.com/photo-1501004318641-b39e6451bec6?auto=format&fit=crop&w=900&q=80',
+    image:
+      'https://images.unsplash.com/photo-1501004318641-b39e6451bec6?auto=format&fit=crop&w=900&q=80',
     publishedAt: new Date('2026-01-29T10:00:00.000Z'),
   },
   {
@@ -50,7 +53,8 @@ const blogPosts: SeedBlogPost[] = [
     excerpt: 'Las razones más frecuentes y cómo corregirlas sin perder tu planta.',
     content:
       'El amarillamiento suele indicar exceso de agua, falta de luz o cambio brusco de temperatura. Identifica el patrón antes de actuar para no estresar la planta.',
-    image: 'https://images.unsplash.com/photo-1422568374078-27d3842ba676?auto=format&fit=crop&w=900&q=80',
+    image:
+      'https://images.unsplash.com/photo-1422568374078-27d3842ba676?auto=format&fit=crop&w=900&q=80',
     publishedAt: new Date('2026-01-22T10:00:00.000Z'),
   },
 ]

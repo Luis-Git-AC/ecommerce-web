@@ -24,7 +24,8 @@ export async function connectToDatabase() {
   }
 
   const mongoUri = env.MONGODB_URI
-  const dbName = env.NODE_ENV === 'test' ? `${env.MONGODB_DB_NAME ?? 'ecommerce-web'}-test` : env.MONGODB_DB_NAME
+  const dbName =
+    env.NODE_ENV === 'test' ? `${env.MONGODB_DB_NAME ?? 'ecommerce-web'}-test` : env.MONGODB_DB_NAME
 
   connectionPromise = (async () => {
     let lastError: unknown

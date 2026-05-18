@@ -1,7 +1,11 @@
 import type { NextFunction, Request, Response } from 'express'
 import { env } from '../../config/env'
 import { logger } from '../../config/logger'
-import { createMemoryRateLimitStore, createUpstashRateLimitStore, type RateLimitStore } from '../rate-limit/rate-limit-store'
+import {
+  createMemoryRateLimitStore,
+  createUpstashRateLimitStore,
+  type RateLimitStore,
+} from '../rate-limit/rate-limit-store'
 
 type RateLimitOptions = {
   windowMs: number
@@ -22,13 +26,25 @@ const distributedStore: RateLimitStore =
 let hasWarnedMemoryInProduction = false
 let hasWarnedUpstashFallback = false
 
-if (env.NODE_ENV === 'production' && env.RATE_LIMIT_STORE === 'memory' && !hasWarnedMemoryInProduction) {
-  logger.warn('Rate limiting is using in-memory storage in production. Configure RATE_LIMIT_STORE=upstash for distributed protection.')
+if (
+  env.NODE_ENV === 'production' &&
+  env.RATE_LIMIT_STORE === 'memory' &&
+  !hasWarnedMemoryInProduction
+) {
+  logger.warn(
+    'Rate limiting is using in-memory storage in production. Configure RATE_LIMIT_STORE=upstash for distributed protection.',
+  )
   hasWarnedMemoryInProduction = true
 }
 
-if (env.RATE_LIMIT_STORE === 'upstash' && distributedStore.kind === 'memory' && !hasWarnedUpstashFallback) {
-  logger.warn('RATE_LIMIT_STORE=upstash is configured without a valid Upstash URL/token. Falling back to in-memory rate limiting.')
+if (
+  env.RATE_LIMIT_STORE === 'upstash' &&
+  distributedStore.kind === 'memory' &&
+  !hasWarnedUpstashFallback
+) {
+  logger.warn(
+    'RATE_LIMIT_STORE=upstash is configured without a valid Upstash URL/token. Falling back to in-memory rate limiting.',
+  )
   hasWarnedUpstashFallback = true
 }
 
@@ -37,9 +53,8 @@ export function createRateLimitMiddleware(options: RateLimitOptions) {
 
   return async function rateLimitMiddleware(req: Request, res: Response, next: NextFunction) {
     const forwardedFor = req.headers['x-forwarded-for']
-    const forwardedIp = typeof forwardedFor === 'string'
-      ? forwardedFor.split(',')[0]?.trim()
-      : undefined
+    const forwardedIp =
+      typeof forwardedFor === 'string' ? forwardedFor.split(',')[0]?.trim() : undefined
 
     const ip = forwardedIp || req.ip || req.socket.remoteAddress || 'unknown'
     const key = `${env.RATE_LIMIT_PREFIX}:${keyPrefix}:${ip}`

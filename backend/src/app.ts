@@ -65,9 +65,8 @@ app.use(
     logger,
     genReqId: (req, res) => {
       const incoming = req.headers['x-request-id']
-      const requestId = typeof incoming === 'string' && incoming.trim().length > 0
-        ? incoming.trim()
-        : randomUUID()
+      const requestId =
+        typeof incoming === 'string' && incoming.trim().length > 0 ? incoming.trim() : randomUUID()
 
       res.setHeader('x-request-id', requestId)
       return requestId

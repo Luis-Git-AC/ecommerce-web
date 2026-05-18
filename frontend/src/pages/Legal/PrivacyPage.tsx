@@ -16,15 +16,21 @@ export default function PrivacyPage() {
         <section className={`container ${styles.content}`}>
           <article className={styles.card}>
             <h2>Datos que recopilamos</h2>
-            <p className="muted">Nombre, email y preferencias de compra cuando completas formularios.</p>
+            <p className="muted">
+              Nombre, email y preferencias de compra cuando completas formularios.
+            </p>
           </article>
           <article className={styles.card}>
             <h2>Uso de la información</h2>
-            <p className="muted">Usamos los datos para gestionar solicitudes y mejorar la experiencia.</p>
+            <p className="muted">
+              Usamos los datos para gestionar solicitudes y mejorar la experiencia.
+            </p>
           </article>
           <article className={styles.card}>
             <h2>Derechos del usuario</h2>
-            <p className="muted">Puedes solicitar modificación o eliminación de datos en cualquier momento.</p>
+            <p className="muted">
+              Puedes solicitar modificación o eliminación de datos en cualquier momento.
+            </p>
           </article>
         </section>
       </main>

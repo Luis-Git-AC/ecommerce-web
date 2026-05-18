@@ -6,9 +6,9 @@ import { AdminController } from './controllers/admin.controller'
 const adminController = new AdminController()
 
 const adminReadRateLimit = createRateLimitMiddleware({
-	keyPrefix: 'admin-read',
-	windowMs: 15 * 60 * 1000,
-	maxRequests: 120,
+  keyPrefix: 'admin-read',
+  windowMs: 15 * 60 * 1000,
+  maxRequests: 120,
 })
 
 export const adminRouter = Router()

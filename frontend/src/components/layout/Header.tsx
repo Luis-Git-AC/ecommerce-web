@@ -87,9 +87,8 @@ export default function Header() {
       return
     }
 
-    previousFocusedElementRef.current = document.activeElement instanceof HTMLElement
-      ? document.activeElement
-      : null
+    previousFocusedElementRef.current =
+      document.activeElement instanceof HTMLElement ? document.activeElement : null
     lastScrollYRef.current = window.scrollY
 
     const previousBodyOverflow = document.body.style.overflow
@@ -173,9 +172,9 @@ export default function Header() {
       document.documentElement.style.overflow = previousHtmlOverflow
 
       if (
-        previousFocusedElementRef.current
-        && previousFocusedElementRef.current !== document.body
-        && previousFocusedElementRef.current !== menuButtonElement
+        previousFocusedElementRef.current &&
+        previousFocusedElementRef.current !== document.body &&
+        previousFocusedElementRef.current !== menuButtonElement
       ) {
         previousFocusedElementRef.current.focus()
       }
@@ -187,9 +186,8 @@ export default function Header() {
       return
     }
 
-    previousCartFocusedElementRef.current = document.activeElement instanceof HTMLElement
-      ? document.activeElement
-      : null
+    previousCartFocusedElementRef.current =
+      document.activeElement instanceof HTMLElement ? document.activeElement : null
     lastCartScrollYRef.current = window.scrollY
 
     const previousBodyOverflow = document.body.style.overflow
@@ -273,9 +271,9 @@ export default function Header() {
       document.documentElement.style.overflow = previousHtmlOverflow
 
       if (
-        previousCartFocusedElementRef.current
-        && previousCartFocusedElementRef.current !== document.body
-        && previousCartFocusedElementRef.current !== cartButtonElement
+        previousCartFocusedElementRef.current &&
+        previousCartFocusedElementRef.current !== document.body &&
+        previousCartFocusedElementRef.current !== cartButtonElement
       ) {
         previousCartFocusedElementRef.current.focus()
       }
@@ -338,7 +336,11 @@ export default function Header() {
               )}
             </svg>
           </button>
-          <Link className={`${styles.iconBtn} ${styles.iconLink}`} to="/account" aria-label="Mi perfil">
+          <Link
+            className={`${styles.iconBtn} ${styles.iconLink}`}
+            to="/account"
+            aria-label="Mi perfil"
+          >
             <svg viewBox="0 0 24 24" role="img" focusable="false">
               <path
                 d="M12 12a4 4 0 1 0-4-4 4 4 0 0 0 4 4Zm0 2c-4.4 0-8 2.2-8 5v1h16v-1c0-2.8-3.6-5-8-5Z"
@@ -452,7 +454,9 @@ export default function Header() {
                       {item.quantity} x {formatMoney(item.unitPrice, item.currency)}
                     </p>
                   </div>
-                  <p className={styles.cartPreviewLineTotal}>{formatMoney(item.lineTotal, item.currency)}</p>
+                  <p className={styles.cartPreviewLineTotal}>
+                    {formatMoney(item.lineTotal, item.currency)}
+                  </p>
                 </li>
               ))}
             </ul>
@@ -466,7 +470,9 @@ export default function Header() {
               <strong>{formatMoney(cartSubtotal, cartCurrency)}</strong>
             </div>
 
-            <p className={styles.cartDrawerTax}>IVA incluido (21%): {formatMoney(includedVatAmount, cartCurrency, 2)}</p>
+            <p className={styles.cartDrawerTax}>
+              IVA incluido (21%): {formatMoney(includedVatAmount, cartCurrency, 2)}
+            </p>
 
             <Link to="/cart" className="btn" onClick={closeCartDrawer}>
               Completar compra

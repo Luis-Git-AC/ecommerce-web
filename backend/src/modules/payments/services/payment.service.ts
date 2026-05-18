@@ -36,12 +36,18 @@ export class PaymentService {
     })
 
     if (!order) {
-      logger.warn({ userId, orderId: parsed.data.orderId }, 'Payment intent failed: order not found')
+      logger.warn(
+        { userId, orderId: parsed.data.orderId },
+        'Payment intent failed: order not found',
+      )
       throw new HttpError(404, 'Order not found')
     }
 
     if (order.status === 'paid') {
-      logger.info({ userId, orderId: String(order._id) }, 'Payment intent blocked: order already paid')
+      logger.info(
+        { userId, orderId: String(order._id) },
+        'Payment intent blocked: order already paid',
+      )
       throw new HttpError(409, 'Order is already paid')
     }
 
@@ -50,7 +56,10 @@ export class PaymentService {
       throw new HttpError(409, 'Order was canceled and cannot be paid')
     }
 
-    const existingIntentResult = await this.getExistingIntentState(stripe, order.paymentIntentId ?? undefined)
+    const existingIntentResult = await this.getExistingIntentState(
+      stripe,
+      order.paymentIntentId ?? undefined,
+    )
 
     if (existingIntentResult?.alreadyPaid) {
       order.status = 'paid'
@@ -59,7 +68,10 @@ export class PaymentService {
       await order.save()
       await this.clearUserCart(order.userId)
 
-      logger.info({ userId, orderId: String(order._id), paymentIntentId: order.paymentIntentId }, 'Payment intent resolved: already paid in Stripe')
+      logger.info(
+        { userId, orderId: String(order._id), paymentIntentId: order.paymentIntentId },
+        'Payment intent resolved: already paid in Stripe',
+      )
 
       throw new HttpError(409, 'Order is already paid')
     }
@@ -86,7 +98,8 @@ export class PaymentService {
     }
 
     const currency = order.currency.toLowerCase()
-    const idempotencyKey = parsed.data.idempotencyKey ?? `order-${String(order._id)}-amount-${amount}-create-intent`
+    const idempotencyKey =
+      parsed.data.idempotencyKey ?? `order-${String(order._id)}-amount-${amount}-create-intent`
 
     let intent: Stripe.PaymentIntent
 

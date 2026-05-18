@@ -46,7 +46,10 @@ export default function CartPage() {
   const [swipeItemId, setSwipeItemId] = useState<string | null>(null)
   const [draggingItemId, setDraggingItemId] = useState<string | null>(null)
   const [dragOffset, setDragOffset] = useState(0)
-  const [pendingRemoval, setPendingRemoval] = useState<{ productId: string; productName: string } | null>(null)
+  const [pendingRemoval, setPendingRemoval] = useState<{
+    productId: string
+    productName: string
+  } | null>(null)
 
   const touchStartXRef = useRef(0)
   const touchBaseOffsetRef = useRef(0)
@@ -243,7 +246,9 @@ export default function CartPage() {
             <div className={styles.items}>
               {error ? <p className="state-box state-error">{error}</p> : null}
               {actionError ? <p className="state-box state-error">{actionError}</p> : null}
-              {checkoutMessage ? <p className="state-box state-success">{checkoutMessage}</p> : null}
+              {checkoutMessage ? (
+                <p className="state-box state-success">{checkoutMessage}</p>
+              ) : null}
               {checkoutOrderId ? (
                 <Link to={`/checkout/${checkoutOrderId}`} className="btn">
                   Ir al pago
@@ -302,22 +307,31 @@ export default function CartPage() {
 
                           <div className={styles.itemInfo}>
                             <h3>{item.name}</h3>
-                            <p className={styles.lineTotalInline}>{formatMoney(item.lineTotal, item.currency)}</p>
+                            <p className={styles.lineTotalInline}>
+                              {formatMoney(item.lineTotal, item.currency)}
+                            </p>
                           </div>
                         </div>
 
-                        <p className={styles.unitPrice}>{formatMoney(item.unitPrice, item.currency)}</p>
+                        <p className={styles.unitPrice}>
+                          {formatMoney(item.unitPrice, item.currency)}
+                        </p>
 
                         <div className={styles.itemSide}>
                           <div className={styles.itemTopRow}>
-                            <p className={styles.lineTotal}>{formatMoney(item.lineTotal, item.currency)}</p>
+                            <p className={styles.lineTotal}>
+                              {formatMoney(item.lineTotal, item.currency)}
+                            </p>
                           </div>
 
                           <div className={styles.itemControls}>
                             <div className={styles.itemControlsSwipeShell}>
                               <div
                                 className={`${styles.swipeAction} ${swipeItemId === item.productId || draggingItemId === item.productId ? styles.swipeActionVisible : ''}`}
-                                aria-hidden={swipeItemId !== item.productId && draggingItemId !== item.productId}
+                                aria-hidden={
+                                  swipeItemId !== item.productId &&
+                                  draggingItemId !== item.productId
+                                }
                               >
                                 <button
                                   type="button"
@@ -326,7 +340,12 @@ export default function CartPage() {
                                   disabled={actionLoading}
                                   aria-label={`Eliminar ${item.name} del carrito`}
                                 >
-                                  <svg className={styles.swipeDeleteIcon} viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                                  <svg
+                                    className={styles.swipeDeleteIcon}
+                                    viewBox="0 0 24 24"
+                                    aria-hidden="true"
+                                    focusable="false"
+                                  >
                                     <path
                                       d="M9 3.75h6m-8.25 2.5h10.5m-9 0 .6 12a1.5 1.5 0 0 0 1.5 1.42h3.3a1.5 1.5 0 0 0 1.5-1.42l.6-12m-5.1 2.6v7.2m3.3-7.2v7.2"
                                       fill="none"
@@ -341,13 +360,17 @@ export default function CartPage() {
 
                               <div
                                 className={`${styles.itemControlsTrack} ${draggingItemId === item.productId ? styles.itemControlsTrackDragging : ''}`}
-                                style={{ transform: `translateX(${draggingItemId === item.productId ? dragOffset : swipeItemId === item.productId ? -SWIPE_REVEAL_PX : 0}px)` }}
+                                style={{
+                                  transform: `translateX(${draggingItemId === item.productId ? dragOffset : swipeItemId === item.productId ? -SWIPE_REVEAL_PX : 0}px)`,
+                                }}
                               >
                                 <div className={styles.quantityStepper}>
                                   <button
                                     type="button"
                                     className={styles.quantityButton}
-                                    onClick={() => void handleQuantityChange(item.productId, item.quantity - 1)}
+                                    onClick={() =>
+                                      void handleQuantityChange(item.productId, item.quantity - 1)
+                                    }
                                     disabled={actionLoading}
                                     aria-label={`Reducir cantidad de ${item.name}`}
                                   >
@@ -357,7 +380,9 @@ export default function CartPage() {
                                   <button
                                     type="button"
                                     className={styles.quantityButton}
-                                    onClick={() => void handleQuantityChange(item.productId, item.quantity + 1)}
+                                    onClick={() =>
+                                      void handleQuantityChange(item.productId, item.quantity + 1)
+                                    }
                                     disabled={actionLoading}
                                     aria-label={`Aumentar cantidad de ${item.name}`}
                                   >
@@ -369,7 +394,9 @@ export default function CartPage() {
                           </div>
                         </div>
 
-                        <p className={styles.subtotalPrice}>{formatMoney(item.lineTotal, item.currency)}</p>
+                        <p className={styles.subtotalPrice}>
+                          {formatMoney(item.lineTotal, item.currency)}
+                        </p>
                       </div>
                     </article>
                   ))}
@@ -429,13 +456,24 @@ export default function CartPage() {
               <p className={styles.confirmEyebrow}>Confirmar eliminacion</p>
               <h3 id="remove-item-title">Eliminar producto</h3>
               <p id="remove-item-desc" className="muted">
-                Se eliminara <strong>{pendingRemoval.productName}</strong> del carrito. Esta accion no se puede deshacer.
+                Se eliminara <strong>{pendingRemoval.productName}</strong> del carrito. Esta accion
+                no se puede deshacer.
               </p>
               <div className={styles.confirmActions}>
-                <button type="button" className="btn btn-ghost" onClick={handleCancelRemove} disabled={actionLoading}>
+                <button
+                  type="button"
+                  className="btn btn-ghost"
+                  onClick={handleCancelRemove}
+                  disabled={actionLoading}
+                >
                   Cancelar
                 </button>
-                <button type="button" className="btn" onClick={() => void handleConfirmRemove()} disabled={actionLoading}>
+                <button
+                  type="button"
+                  className="btn"
+                  onClick={() => void handleConfirmRemove()}
+                  disabled={actionLoading}
+                >
                   {actionLoading ? 'Eliminando...' : 'Eliminar'}
                 </button>
               </div>

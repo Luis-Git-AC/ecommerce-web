@@ -65,7 +65,9 @@
 
 .footerGrid a,
 .footerDetails summary {
-  transition: color 0.2s ease, opacity 0.2s ease;
+  transition:
+    color 0.2s ease,
+    opacity 0.2s ease;
 }
 
 .footerGrid a:hover,
@@ -136,7 +138,6 @@
   justify-content: center;
 }
 
-
 .newsletterCard {
   width: 100%;
   display: flex;
@@ -201,7 +202,10 @@
   font-weight: 600;
   cursor: pointer;
   min-height: 40px;
-  transition: background-color 0.2s ease, box-shadow 0.2s ease, transform 0.15s ease;
+  transition:
+    background-color 0.2s ease,
+    box-shadow 0.2s ease,
+    transform 0.15s ease;
 }
 
 .newsletterButton:hover {

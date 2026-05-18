@@ -24,7 +24,14 @@ type AssetsManifest = {
   products: ManifestProduct[]
 }
 
-const FRONTEND_IA_ASSETS_DIR = path.resolve(process.cwd(), '..', 'frontend', 'src', 'assets', 'imagenes_ia')
+const FRONTEND_IA_ASSETS_DIR = path.resolve(
+  process.cwd(),
+  '..',
+  'frontend',
+  'src',
+  'assets',
+  'imagenes_ia',
+)
 const OUTPUT_DIR = path.resolve(process.cwd(), 'scripts', 'output')
 const OUTPUT_FILE = path.join(OUTPUT_DIR, 'ia-images-manifest.json')
 

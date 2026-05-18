@@ -50,7 +50,8 @@ function App() {
       if (pathname === '/shop') {
         return {
           title: 'Tienda de plantas | Ecommerce Web',
-          description: 'Explora el catálogo de plantas con detalle de producto, carrito persistente y compra online.',
+          description:
+            'Explora el catálogo de plantas con detalle de producto, carrito persistente y compra online.',
           path: pathname,
         }
       }
@@ -58,7 +59,8 @@ function App() {
       if (pathname.startsWith('/product/')) {
         return {
           title: 'Detalle de producto | Ecommerce Web',
-          description: 'Consulta imágenes, características y cuidados antes de añadir una planta al carrito.',
+          description:
+            'Consulta imágenes, características y cuidados antes de añadir una planta al carrito.',
           path: pathname,
         }
       }
@@ -66,7 +68,8 @@ function App() {
       if (pathname === '/blog') {
         return {
           title: 'Blog de cuidados y consejos | Ecommerce Web',
-          description: 'Guías prácticas para cuidar plantas, resolver problemas comunes y mejorar tus espacios verdes.',
+          description:
+            'Guías prácticas para cuidar plantas, resolver problemas comunes y mejorar tus espacios verdes.',
           path: pathname,
         }
       }
@@ -74,7 +77,8 @@ function App() {
       if (pathname.startsWith('/blog/')) {
         return {
           title: 'Guía del blog | Ecommerce Web',
-          description: 'Artículo de blog sobre cuidados, diseño y problemas comunes en plantas de interior.',
+          description:
+            'Artículo de blog sobre cuidados, diseño y problemas comunes en plantas de interior.',
           path: pathname,
           type: 'article' as const,
         }
@@ -83,7 +87,8 @@ function App() {
       if (pathname === '/about') {
         return {
           title: 'Sobre Ecommerce Web',
-          description: 'Conoce el enfoque detrás del proyecto y la propuesta de valor de esta tienda de plantas.',
+          description:
+            'Conoce el enfoque detrás del proyecto y la propuesta de valor de esta tienda de plantas.',
           path: pathname,
         }
       }
@@ -91,7 +96,8 @@ function App() {
       if (pathname === '/contact') {
         return {
           title: 'Contacto | Ecommerce Web',
-          description: 'Contacta con el equipo para resolver dudas sobre pedidos, cuidados o recomendaciones.',
+          description:
+            'Contacta con el equipo para resolver dudas sobre pedidos, cuidados o recomendaciones.',
           path: pathname,
         }
       }
@@ -115,7 +121,8 @@ function App() {
       if (pathname === '/club') {
         return {
           title: 'Club de plantas | Ecommerce Web',
-          description: 'Explora los planes del club y deja tus datos si te interesa recibir contenido y ventajas.',
+          description:
+            'Explora los planes del club y deja tus datos si te interesa recibir contenido y ventajas.',
           path: pathname,
         }
       }
@@ -128,7 +135,13 @@ function App() {
         }
       }
 
-      if (pathname === '/account' || pathname === '/cart' || pathname.startsWith('/checkout/') || pathname.startsWith('/account/orders/') || pathname === '/admin') {
+      if (
+        pathname === '/account' ||
+        pathname === '/cart' ||
+        pathname.startsWith('/checkout/') ||
+        pathname.startsWith('/account/orders/') ||
+        pathname === '/admin'
+      ) {
         return {
           title: 'Área privada | Ecommerce Web',
           description: 'Zona de usuario y flujo transaccional del ecommerce.',

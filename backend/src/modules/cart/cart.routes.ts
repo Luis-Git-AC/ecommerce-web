@@ -8,9 +8,9 @@ const cartController = new CartController()
 export const cartRouter = Router()
 
 const cartWriteRateLimit = createRateLimitMiddleware({
-	keyPrefix: 'cart-write',
-	windowMs: 15 * 60 * 1000,
-	maxRequests: 80,
+  keyPrefix: 'cart-write',
+  windowMs: 15 * 60 * 1000,
+  maxRequests: 80,
 })
 
 cartRouter.use('/cart', requireAuth)

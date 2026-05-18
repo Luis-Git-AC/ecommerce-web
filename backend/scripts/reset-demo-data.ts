@@ -13,16 +13,17 @@ async function resetDemoData() {
   await connectToDatabase()
 
   try {
-    const [users, carts, orders, products, blogPosts, contacts, newsletters, clubLeads] = await Promise.all([
-      UserModel.deleteMany({}),
-      CartModel.deleteMany({}),
-      OrderModel.deleteMany({}),
-      ProductModel.deleteMany({}),
-      BlogPostModel.deleteMany({}),
-      ContactMessageModel.deleteMany({}),
-      NewsletterSubscriberModel.deleteMany({}),
-      ClubLeadModel.deleteMany({}),
-    ])
+    const [users, carts, orders, products, blogPosts, contacts, newsletters, clubLeads] =
+      await Promise.all([
+        UserModel.deleteMany({}),
+        CartModel.deleteMany({}),
+        OrderModel.deleteMany({}),
+        ProductModel.deleteMany({}),
+        BlogPostModel.deleteMany({}),
+        ContactMessageModel.deleteMany({}),
+        NewsletterSubscriberModel.deleteMany({}),
+        ClubLeadModel.deleteMany({}),
+      ])
 
     logger.info(
       {

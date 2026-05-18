@@ -46,7 +46,9 @@ export default function HelpPage() {
               <h2>Necesitas ayuda personalizada?</h2>
               <p className="muted">Escribe a nuestro equipo y respondemos en menos de 24 horas.</p>
             </div>
-            <Link className="btn" to="/contact">Contactar</Link>
+            <Link className="btn" to="/contact">
+              Contactar
+            </Link>
           </div>
         </section>
       </main>

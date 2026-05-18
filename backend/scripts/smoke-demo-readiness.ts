@@ -8,12 +8,10 @@ async function runSmokeDemoReadiness() {
   await connectToDatabase()
 
   try {
-    const adminLogin = await request(app)
-      .post('/api/auth/login')
-      .send({
-        email: 'admin@ecommerce.local',
-        password: 'Admin12345!',
-      })
+    const adminLogin = await request(app).post('/api/auth/login').send({
+      email: 'admin@ecommerce.local',
+      password: 'Admin12345!',
+    })
 
     assert.equal(adminLogin.status, 200, 'Admin login should return 200')
     const adminToken = adminLogin.body.data.accessToken as string
@@ -25,7 +23,10 @@ async function runSmokeDemoReadiness() {
 
     assert.equal(adminUsers.status, 200, 'Admin users should return 200')
     const users = adminUsers.body.data.items as Array<{ email: string }>
-    assert.ok(users.some((user) => user.email === 'demo.customer@ecommerce.local'), 'Demo customer should exist')
+    assert.ok(
+      users.some((user) => user.email === 'demo.customer@ecommerce.local'),
+      'Demo customer should exist',
+    )
 
     const adminOrders = await request(app)
       .get('/api/admin/orders?page=1&limit=20')
@@ -33,8 +34,14 @@ async function runSmokeDemoReadiness() {
 
     assert.equal(adminOrders.status, 200, 'Admin orders should return 200')
     const orders = adminOrders.body.data.items as Array<{ status: string; currency: string }>
-    assert.ok(orders.some((order) => order.status === 'paid' && order.currency === 'EUR'), 'Paid EUR order should exist')
-    assert.ok(orders.some((order) => order.status === 'failed' && order.currency === 'EUR'), 'Failed EUR order should exist')
+    assert.ok(
+      orders.some((order) => order.status === 'paid' && order.currency === 'EUR'),
+      'Paid EUR order should exist',
+    )
+    assert.ok(
+      orders.some((order) => order.status === 'failed' && order.currency === 'EUR'),
+      'Failed EUR order should exist',
+    )
 
     logger.info(
       {

@@ -45,7 +45,10 @@ export class OrderController {
 
   getOrderById = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const data = await this.orderService.getOrderById(this.getAuthUserId(req), this.getOrderIdParam(req))
+      const data = await this.orderService.getOrderById(
+        this.getAuthUserId(req),
+        this.getOrderIdParam(req),
+      )
       res.status(200).json({ data })
     } catch (error) {
       next(error)

@@ -38,13 +38,7 @@ const getCheckoutReturnUrl = (orderId: string) => {
   return url.toString()
 }
 
-function CheckoutForm({
-  order,
-  onPaid,
-}: {
-  order: OrderDetail
-  onPaid: () => Promise<void>
-}) {
+function CheckoutForm({ order, onPaid }: { order: OrderDetail; onPaid: () => Promise<void> }) {
   const stripe = useStripe()
   const elements = useElements()
 
@@ -97,7 +91,11 @@ function CheckoutForm({
       <p className="muted">Total a pagar: {formatMoney(order.total, order.currency)}</p>
       <form onSubmit={handleSubmit} className={styles.paymentForm}>
         <PaymentElement />
-        <button type="submit" className={`btn ${styles.payButton}`} disabled={submitting || !stripe || !elements}>
+        <button
+          type="submit"
+          className={`btn ${styles.payButton}`}
+          disabled={submitting || !stripe || !elements}
+        >
           {submitting ? 'Procesando pago...' : 'Pagar ahora'}
         </button>
       </form>
@@ -264,7 +262,11 @@ export default function CheckoutPage() {
             </Link>
           </section>
         ) : loading ? (
-          <section className={`container ${styles.panel} ${styles.statePanel}`} role="status" aria-live="polite">
+          <section
+            className={`container ${styles.panel} ${styles.statePanel}`}
+            role="status"
+            aria-live="polite"
+          >
             <h2>Preparando pago...</h2>
           </section>
         ) : error ? (

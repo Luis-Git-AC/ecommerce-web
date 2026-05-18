@@ -25,7 +25,9 @@ export default function ShippingPage() {
         <section className="container page-hero">
           <p className="page-eyebrow">Envios</p>
           <h1>Entregas cuidadas para que tu planta llegue perfecta</h1>
-          <p className="muted">Cuidamos el embalaje y el transporte para reducir el estres de la planta.</p>
+          <p className="muted">
+            Cuidamos el embalaje y el transporte para reducir el estres de la planta.
+          </p>
         </section>
 
         <section className={`container ${styles.content}`}>
@@ -40,11 +42,15 @@ export default function ShippingPage() {
           <div className={styles.detail}>
             <div>
               <h2>Costes y zonas</h2>
-              <p className="muted">Envio gratis en pedidos superiores a $45. Tarifas estandar desde $4.90.</p>
+              <p className="muted">
+                Envio gratis en pedidos superiores a $45. Tarifas estandar desde $4.90.
+              </p>
             </div>
             <div>
               <h2>Politica de incidencias</h2>
-              <p className="muted">Si tu planta llega en mal estado, contactanos en 48 horas para gestionarlo.</p>
+              <p className="muted">
+                Si tu planta llega en mal estado, contactanos en 48 horas para gestionarlo.
+              </p>
             </div>
           </div>
         </section>

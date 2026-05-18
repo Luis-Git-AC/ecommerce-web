@@ -1,0 +1,39 @@
+# Dependencies
+node_modules
+**/node_modules
+
+# Build output
+dist
+**/dist
+build
+**/build
+
+# Coverage
+coverage
+**/coverage
+
+# Lockfiles
+package-lock.json
+**/package-lock.json
+
+# Test artifacts
+test-results
+**/test-results
+playwright-report
+**/playwright-report
+
+# Backend script output
+backend/scripts/output
+
+# Vercel
+.vercel
+**/.vercel
+
+# Editor / OS
+.DS_Store
+*.suo
+*.swp
+*.swo
+
+# Project artifacts that should not be reformatted
+tree.txt

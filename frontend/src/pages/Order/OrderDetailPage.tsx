@@ -150,7 +150,9 @@ export default function OrderDetailPage() {
                   <div key={`${order.id}-${item.productId}`} className={styles.itemRow}>
                     <div>
                       <h3>{item.name}</h3>
-                      <p className="muted">{item.quantity} x {formatMoney(item.unitPrice, item.currency)}</p>
+                      <p className="muted">
+                        {item.quantity} x {formatMoney(item.unitPrice, item.currency)}
+                      </p>
                     </div>
                     <p className={styles.itemTotal}>{formatMoney(item.lineTotal, item.currency)}</p>
                   </div>

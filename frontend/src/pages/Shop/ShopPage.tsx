@@ -191,8 +191,8 @@ export default function ShopPage() {
           <aside className={`${styles.filters} ${isFiltersOpen ? styles.filtersOpen : ''}`}>
             <div className={styles.filtersHeader}>
               <div>
-              <h2>Tienda</h2>
-              <p className="muted">Filtra para encontrar tu planta ideal.</p>
+                <h2>Tienda</h2>
+                <p className="muted">Filtra para encontrar tu planta ideal.</p>
               </div>
               <button
                 type="button"
@@ -212,7 +212,11 @@ export default function ShopPage() {
                 <legend>{group.title}</legend>
                 <div className={styles.filterOptions}>
                   {group.options.map((option) => (
-                    <label key={option} className={styles.filterOption} htmlFor={`${toId(group.title)}-${toId(option)}`}>
+                    <label
+                      key={option}
+                      className={styles.filterOption}
+                      htmlFor={`${toId(group.title)}-${toId(option)}`}
+                    >
                       <input
                         id={`${toId(group.title)}-${toId(option)}`}
                         type="checkbox"

@@ -24,7 +24,9 @@ export default function TermsPage() {
           </article>
           <article className={styles.card}>
             <h2>Limitación de responsabilidad</h2>
-            <p className="muted">La información es referencial y puede actualizarse sin previo aviso.</p>
+            <p className="muted">
+              La información es referencial y puede actualizarse sin previo aviso.
+            </p>
           </article>
         </section>
       </main>

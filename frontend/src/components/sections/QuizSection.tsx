@@ -32,9 +32,7 @@ const QUESTIONS = [
 const getIcon = (name: string) => {
   switch (name) {
     case 'moon':
-      return (
-        <path d="M13.5 3.5a6.5 6.5 0 0 0 7 9.6A8 8 0 1 1 13.5 3.5Z" />
-      )
+      return <path d="M13.5 3.5a6.5 6.5 0 0 0 7 9.6A8 8 0 1 1 13.5 3.5Z" />
     case 'sun':
       return (
         <path d="M12 4.5v2.2M12 17.3v2.2M4.5 12h2.2M17.3 12h2.2M6.2 6.2l1.6 1.6M16.2 16.2l1.6 1.6M6.2 17.8l1.6-1.6M16.2 7.8l1.6-1.6M12 8a4 4 0 1 1-4 4 4 4 0 0 1 4-4Z" />
@@ -46,15 +44,15 @@ const getIcon = (name: string) => {
     case 'drop':
       return <path d="M12 4c3.5 4.5 5 7 5 9a5 5 0 1 1-10 0c0-2 1.5-4.5 5-9Z" />
     case 'drop-half':
-      return (
-        <path d="M12 4c3.5 4.5 5 7 5 9a5 5 0 1 1-10 0c0-2 1.5-4.5 5-9Zm0 6v8" />
-      )
+      return <path d="M12 4c3.5 4.5 5 7 5 9a5 5 0 1 1-10 0c0-2 1.5-4.5 5-9Zm0 6v8" />
     case 'drop-multi':
       return (
         <path d="M8 5c2.5 3.2 3.6 5 3.6 6.4a3.6 3.6 0 0 1-7.2 0C4.4 10 5.5 8.2 8 5Zm8 1.5c2.8 3.6 4 5.6 4 7.3a4 4 0 1 1-8 0c0-1.7 1.2-3.7 4-7.3Z" />
       )
     case 'sprout':
-      return <path d="M12 19V9M12 9c-3.5 0-6-2-6-5 3.5 0 6 2 6 5Zm0 0c3.5 0 6-2 6-5-3.5 0-6 2-6 5Z" />
+      return (
+        <path d="M12 19V9M12 9c-3.5 0-6-2-6-5 3.5 0 6 2 6 5Zm0 0c3.5 0 6-2 6-5-3.5 0-6 2-6 5Z" />
+      )
     case 'leaf':
       return <path d="M6 14c6-6 12-6 12-6-1 6-6 10-12 10a6 6 0 0 1 0-4Z" />
     case 'leaf-strong':
@@ -183,7 +181,9 @@ export default function QuizSection() {
         </div>
         <div className={styles.quizCard}>
           <div className={styles.quizHeader}>
-            <span className={styles.pill}>Paso {stepIndex + 1} de {totalSteps}</span>
+            <span className={styles.pill}>
+              Paso {stepIndex + 1} de {totalSteps}
+            </span>
             <div className={styles.progress} aria-hidden="true">
               <span style={{ width: `${progress}%` }} />
             </div>
@@ -212,7 +212,12 @@ export default function QuizSection() {
             <p className="muted">{summary}</p>
           </div>
           <div className={styles.quizFooter}>
-            <button className="btn btn-outline" type="button" onClick={goBack} disabled={stepIndex === 0}>
+            <button
+              className="btn btn-outline"
+              type="button"
+              onClick={goBack}
+              disabled={stepIndex === 0}
+            >
               Atrás
             </button>
             <div className={styles.footerActions}>

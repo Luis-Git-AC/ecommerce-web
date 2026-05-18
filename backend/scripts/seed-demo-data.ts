@@ -18,7 +18,10 @@ async function seedDemoData() {
   await connectToDatabase()
 
   try {
-    const products = await ProductModel.find({}).sort({ isFeatured: -1, createdAt: -1 }).limit(2).lean()
+    const products = await ProductModel.find({})
+      .sort({ isFeatured: -1, createdAt: -1 })
+      .limit(2)
+      .lean()
 
     if (products.length < 2) {
       throw new Error('At least 2 products are required to seed demo orders')
@@ -108,8 +111,18 @@ async function seedDemoData() {
           role: user.role,
         },
         orders: [
-          { id: String(paidOrder._id), status: paidOrder.status, total: paidOrder.total, currency: paidOrder.currency },
-          { id: String(failedOrder._id), status: failedOrder.status, total: failedOrder.total, currency: failedOrder.currency },
+          {
+            id: String(paidOrder._id),
+            status: paidOrder.status,
+            total: paidOrder.total,
+            currency: paidOrder.currency,
+          },
+          {
+            id: String(failedOrder._id),
+            status: failedOrder.status,
+            total: failedOrder.total,
+            currency: failedOrder.currency,
+          },
         ],
       },
       'Demo seed completed',

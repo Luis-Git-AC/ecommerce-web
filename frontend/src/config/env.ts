@@ -50,7 +50,11 @@ if (mode === 'production' && !rawSiteUrl) {
   throw new Error('Missing VITE_SITE_URL in production.')
 }
 
-if (mode === 'production' && rawStripePublishableKey && !rawStripePublishableKey.startsWith('pk_')) {
+if (
+  mode === 'production' &&
+  rawStripePublishableKey &&
+  !rawStripePublishableKey.startsWith('pk_')
+) {
   throw new Error('Invalid VITE_STRIPE_PUBLISHABLE_KEY in production.')
 }
 

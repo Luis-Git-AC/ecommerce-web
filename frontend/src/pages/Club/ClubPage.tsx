@@ -146,7 +146,9 @@ export default function ClubPage() {
                     ))}
                   </ul>
                 </div>
-                <Link className="btn" to={`/contact?plan=${plan.id}`}>Empezar</Link>
+                <Link className="btn" to={`/contact?plan=${plan.id}`}>
+                  Empezar
+                </Link>
               </article>
             ))}
           </div>
@@ -155,10 +157,16 @@ export default function ClubPage() {
         <section className={`container ${styles.preview}`}>
           <div>
             <h2>Vista previa de la caja</h2>
-            <p className="muted">Incluye planta, guía de cuidado y detalles que facilitan el mantenimiento.</p>
+            <p className="muted">
+              Incluye planta, guía de cuidado y detalles que facilitan el mantenimiento.
+            </p>
           </div>
           <div className={styles.previewCard}>
-            <img src={boxMedioPreview} alt="Caja Medio del Club" className={styles.previewCardImage} />
+            <img
+              src={boxMedioPreview}
+              alt="Caja Medio del Club"
+              className={styles.previewCardImage}
+            />
             <div className={styles.previewCardContent}>
               <h3>Plan Medio - Contenido del mes</h3>
               <p className="muted">Selección personalizada adaptada a tu espacio y experiencia.</p>
@@ -175,7 +183,9 @@ export default function ClubPage() {
         <section className={`container ${styles.leadSection}`}>
           <div className={styles.sectionHeader}>
             <h2>Únete a nuestro club</h2>
-            <p className="muted">Crea tu perfil y comienza a recibir plantas seleccionadas mensualmente.</p>
+            <p className="muted">
+              Crea tu perfil y comienza a recibir plantas seleccionadas mensualmente.
+            </p>
           </div>
 
           <div className={styles.leadFaqWrapper}>
@@ -205,7 +215,13 @@ export default function ClubPage() {
                 </div>
                 <div className={styles.leadField}>
                   <label htmlFor="club-plan">Plan de interés</label>
-                  <select id="club-plan" value={leadPlan} onChange={(event) => setLeadPlan(event.target.value as 'basic' | 'medio' | 'premium')}>
+                  <select
+                    id="club-plan"
+                    value={leadPlan}
+                    onChange={(event) =>
+                      setLeadPlan(event.target.value as 'basic' | 'medio' | 'premium')
+                    }
+                  >
                     <option value="basic">Básico</option>
                     <option value="medio">Medio</option>
                     <option value="premium">Premium</option>
@@ -240,7 +256,6 @@ export default function ClubPage() {
             </div>
           </div>
         </section>
-
       </main>
       <Footer />
     </div>

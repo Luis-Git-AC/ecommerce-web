@@ -7,7 +7,10 @@ async function startServer() {
   await connectToDatabase()
 
   const server = app.listen(env.PORT, () => {
-    logger.info({ port: env.PORT, apiPrefix: env.API_PREFIX, nodeEnv: env.NODE_ENV }, 'API listening')
+    logger.info(
+      { port: env.PORT, apiPrefix: env.API_PREFIX, nodeEnv: env.NODE_ENV },
+      'API listening',
+    )
   })
 
   const shutdown = async () => {

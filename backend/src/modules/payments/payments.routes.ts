@@ -20,4 +20,9 @@ const webhookRateLimit = createRateLimitMiddleware({
 })
 
 paymentsRouter.post('/payments/webhook', webhookRateLimit, paymentController.handleWebhook)
-paymentsRouter.post('/payments/intents', requireAuth, createIntentRateLimit, paymentController.createPaymentIntent)
+paymentsRouter.post(
+  '/payments/intents',
+  requireAuth,
+  createIntentRateLimit,
+  paymentController.createPaymentIntent,
+)
