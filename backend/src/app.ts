@@ -3,15 +3,11 @@
 /// <reference path="./types/express.d.ts" />
 import cors from 'cors'
 import express from 'express'
-// Import por namespace: bajo resolucion ESM estricta (node16/nodenext) el import
-// por defecto de paquetes duales CJS+ESM como helmet resuelve a veces a un
-// objeto no invocable segun el entorno de build (funciona en local, falla en
-// Vercel). `.default` es estable independientemente de esa ambiguedad.
-import * as helmetModule from 'helmet'
 import { pinoHttp } from 'pino-http'
 import type { Request } from 'express'
 import type { CorsOptions } from 'cors'
 import { randomUUID } from 'node:crypto'
+import { createRequire } from 'node:module'
 import { connectToDatabase } from './config/db.js'
 import { env } from './config/env.js'
 import { logger } from './config/logger.js'
@@ -25,6 +21,17 @@ import { paymentsRouter } from './modules/payments/payments.routes.js'
 import { productsRouter } from './modules/products/products.routes.js'
 import { docsRouter } from './docs/docs.routes.js'
 import { systemRouter } from './routes/system.routes.js'
+
+// helmet es un paquete dual CJS+ESM cuyo default export el type-checker de
+// Vercel (Linux) resuelve como no invocable bajo node16/nodenext, aunque en
+// local (Windows) y en runtime (verificado con curl real) resuelve bien. Ya
+// se probo `import * as helmetModule from 'helmet'` con `.default` y tampoco
+// bastaba: Vercel seguia marcandolo no invocable. `require()` via
+// createRequire evita por completo la logica de interop ESM/CJS de
+// TypeScript para el VALOR en runtime; el tipo se toma aparte con
+// `typeof import(...)`, que es solo type-level y no depende de esa logica.
+const require = createRequire(import.meta.url)
+const helmet: typeof import('helmet').default = require('helmet')
 
 export const app = express()
 
@@ -54,7 +61,7 @@ const corsOptions: CorsOptions = {
   maxAge: 60 * 60 * 24,
 }
 
-app.use(helmetModule.default())
+app.use(helmet())
 app.use(cors(corsOptions))
 app.use(
   express.json({

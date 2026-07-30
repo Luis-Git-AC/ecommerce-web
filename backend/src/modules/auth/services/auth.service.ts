@@ -1,9 +1,5 @@
 import { createHash } from 'node:crypto'
-// Import por namespace: mismo riesgo de interop ESM/CJS que helmet (ver app.ts).
-// bcryptjs no ha fallado aun en Vercel, pero tiene la misma forma de export
-// (`export default bcrypt`) y es mas barato prevenirlo que esperar al proximo
-// deploy roto.
-import * as bcryptModule from 'bcryptjs'
+import { createRequire } from 'node:module'
 import { HttpError } from '../../../common/errors/http-error.js'
 import { logger } from '../../../config/logger.js'
 import { loginSchema, refreshSessionSchema, registerSchema } from '../dto/auth.dto.js'
@@ -11,7 +7,11 @@ import { UserRepository } from '../repositories/user.repository.js'
 import { MAX_ACTIVE_SESSIONS, type UserRole } from '../schemas/user.schema.js'
 import { TokenService } from './token.service.js'
 
-const bcrypt = bcryptModule.default
+// Ver comentario en app.ts: require() via createRequire evita la inestabilidad
+// de interop ESM/CJS que el type-checker de Vercel aplica a paquetes duales
+// como bcryptjs (misma forma de export que helmet).
+const require = createRequire(import.meta.url)
+const bcrypt: typeof import('bcryptjs').default = require('bcryptjs')
 const SALT_ROUNDS = 12
 
 type AuthResponse = {

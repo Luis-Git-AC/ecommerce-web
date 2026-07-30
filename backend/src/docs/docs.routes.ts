@@ -1,9 +1,12 @@
 import { Router } from 'express'
-// Ver comentario en app.ts: import por namespace por la misma inestabilidad
-// de interop ESM/CJS de helmet entre entornos.
-import * as helmetModule from 'helmet'
+import { createRequire } from 'node:module'
 import { env } from '../config/env.js'
 import { openApiDocument } from './openapi.js'
+
+// Ver comentario en app.ts: require() via createRequire evita la inestabilidad
+// de interop ESM/CJS de helmet entre el type-checker de Vercel y el local.
+const require = createRequire(import.meta.url)
+const helmet: typeof import('helmet').default = require('helmet')
 
 export const docsRouter = Router()
 
@@ -11,7 +14,7 @@ docsRouter.get('/openapi.json', (_req, res) => {
   res.status(200).json(openApiDocument)
 })
 
-const docsCsp = helmetModule.default.contentSecurityPolicy({
+const docsCsp = helmet.contentSecurityPolicy({
   directives: {
     defaultSrc: ["'self'"],
     scriptSrc: ["'self'", "'unsafe-inline'", 'https://cdn.jsdelivr.net'],
