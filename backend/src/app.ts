@@ -18,6 +18,7 @@ import { paymentsRouter } from './modules/payments/payments.routes'
 import { productsRouter } from './modules/products/products.routes'
 import { docsRouter } from './docs/docs.routes'
 import { systemRouter } from './routes/system.routes'
+import './types/express'
 
 export const app = express()
 
