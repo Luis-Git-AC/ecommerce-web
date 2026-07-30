@@ -2,7 +2,7 @@ import { render, screen, waitFor } from '@testing-library/react'
 import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import { describe, expect, it, vi } from 'vitest'
 import CheckoutPage from './CheckoutPage'
-import type { OrderDetail } from '../../types/commerce'
+import type { OrderDetail } from '@/types/commerce'
 
 const mocks = vi.hoisted(() => ({
   orderDetail: {
@@ -16,6 +16,27 @@ const mocks = vi.hoisted(() => ({
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
   } satisfies OrderDetail,
+}))
+
+vi.mock('../../config/env', () => ({
+  appEnv: {
+    mode: 'test',
+    apiBaseUrl: 'http://localhost:4000/api',
+    stripePublishableKey: 'pk_test_dummy_never_used',
+    siteUrl: 'http://localhost:5173',
+    ogImageUrl: '',
+  },
+}))
+
+vi.mock('@stripe/stripe-js', () => ({
+  loadStripe: vi.fn().mockResolvedValue({}),
+}))
+
+vi.mock('@stripe/react-stripe-js', () => ({
+  Elements: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
+  PaymentElement: () => <div data-testid="payment-element" />,
+  useStripe: () => null,
+  useElements: () => null,
 }))
 
 vi.mock('../../components/layout/Header', () => ({

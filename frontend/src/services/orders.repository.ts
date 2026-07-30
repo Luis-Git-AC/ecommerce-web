@@ -1,15 +1,16 @@
 import { apiRequest } from './api.client'
-import type { OrderDetail, OrdersPage } from '../types/commerce'
+import type { OrderDetail, OrdersPage, ShippingAddress } from '../types/commerce'
 
 type WrappedResponse<T> = {
   data: T
 }
 
 export const ordersRepository = {
-  async create(accessToken: string) {
+  async create(accessToken: string, shippingAddress: ShippingAddress) {
     const response = await apiRequest<WrappedResponse<OrderDetail>>('/orders', {
       method: 'POST',
       accessToken,
+      body: { shippingAddress },
     })
 
     return response.data

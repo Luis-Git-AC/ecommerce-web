@@ -66,4 +66,6 @@ export async function disconnectDatabase() {
     await mongoose.disconnect()
     logger.info('MongoDB disconnected')
   }
+
+  connectionPromise = null
 }

@@ -23,4 +23,9 @@ productsRouter.get(
   readProductsRateLimit,
   productController.getRelatedProducts,
 )
+productsRouter.get(
+  '/products/slug/:slug',
+  readProductsRateLimit,
+  productController.getProductBySlug,
+)
 productsRouter.get('/products/:id', readProductsRateLimit, productController.getProductById)

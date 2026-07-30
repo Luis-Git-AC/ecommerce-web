@@ -1,10 +1,10 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import Footer from '../../components/layout/Footer'
-import Header from '../../components/layout/Header'
-import ClubHeroSection from '../../components/sections/ClubHeroSection'
-import { contentRepository } from '../../services/content.repository'
-import boxMedioPreview from '../../assets/club/box-medio-preview.png'
+import Footer from '@/components/layout/Footer'
+import Header from '@/components/layout/Header'
+import ClubHeroSection from '@/components/sections/ClubHeroSection'
+import { contentRepository } from '@/services/content.repository'
+import boxMedioPreview from '@/assets/club/box-medio-preview.png'
 import styles from './ClubPage.module.css'
 
 const plans = [
@@ -109,7 +109,7 @@ export default function ClubPage() {
   return (
     <div className="page brand-page">
       <Header />
-      <main className={styles.club}>
+      <main id="main-content" className={styles.club}>
         <ClubHeroSection />
 
         <section id="como-funciona" className={`container ${styles.steps}`}>

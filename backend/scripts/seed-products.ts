@@ -16,6 +16,8 @@ type SeedProduct = {
   size: string
   petFriendly: boolean
   isFeatured: boolean
+  stock: number
+  isActive: boolean
   images: Array<{ url: string; alt: string; publicId?: string }>
   tags: string[]
 }
@@ -63,6 +65,8 @@ const seededProducts: SeedProduct[] = [
     size: 'm',
     petFriendly: false,
     isFeatured: true,
+    stock: 12,
+    isActive: true,
     images: [
       {
         url: 'https://images.unsplash.com/photo-1459156212016-c812468e2115?auto=format&fit=crop&w=1200&q=80',
@@ -83,6 +87,8 @@ const seededProducts: SeedProduct[] = [
     size: 'l',
     petFriendly: false,
     isFeatured: true,
+    stock: 4,
+    isActive: true,
     images: [
       {
         url: 'https://images.unsplash.com/photo-1463320726281-696a485928c7?auto=format&fit=crop&w=1200&q=80',
@@ -103,6 +109,8 @@ const seededProducts: SeedProduct[] = [
     size: 'xl',
     petFriendly: false,
     isFeatured: true,
+    stock: 25,
+    isActive: true,
     images: [
       {
         url: 'https://images.unsplash.com/photo-1512428813834-c702c7702b78?auto=format&fit=crop&w=1200&q=80',
@@ -123,6 +131,8 @@ const seededProducts: SeedProduct[] = [
     size: 's',
     petFriendly: false,
     isFeatured: false,
+    stock: 8,
+    isActive: true,
     images: [
       {
         url: 'https://images.unsplash.com/photo-1485955900006-10f4d324d411?auto=format&fit=crop&w=1200&q=80',
@@ -143,6 +153,8 @@ const seededProducts: SeedProduct[] = [
     size: 'm',
     petFriendly: false,
     isFeatured: true,
+    stock: 18,
+    isActive: true,
     images: [
       {
         url: 'https://images.unsplash.com/photo-1485955900006-10f4d324d411?auto=format&fit=crop&w=1200&q=80',
@@ -163,6 +175,8 @@ const seededProducts: SeedProduct[] = [
     size: 's',
     petFriendly: true,
     isFeatured: false,
+    stock: 6,
+    isActive: true,
     images: [
       {
         url: 'https://images.unsplash.com/photo-1459156212016-c812468e2115?auto=format&fit=crop&w=1200&q=80',
@@ -183,6 +197,8 @@ const seededProducts: SeedProduct[] = [
     size: 's',
     petFriendly: true,
     isFeatured: false,
+    stock: 32,
+    isActive: true,
     images: [
       {
         url: 'https://images.unsplash.com/photo-1493666438817-866a91353ca9?auto=format&fit=crop&w=1200&q=80',
@@ -203,6 +219,8 @@ const seededProducts: SeedProduct[] = [
     size: 'm',
     petFriendly: false,
     isFeatured: false,
+    stock: 15,
+    isActive: true,
     images: [
       {
         url: 'https://images.unsplash.com/photo-1501004318641-b39e6451bec6?auto=format&fit=crop&w=1200&q=80',
@@ -223,6 +241,8 @@ const seededProducts: SeedProduct[] = [
     size: 'm',
     petFriendly: false,
     isFeatured: false,
+    stock: 3,
+    isActive: true,
     images: [
       {
         url: 'https://images.unsplash.com/photo-1493666438817-866a91353ca9?auto=format&fit=crop&w=1200&q=80',
@@ -243,6 +263,8 @@ const seededProducts: SeedProduct[] = [
     size: 'xs',
     petFriendly: true,
     isFeatured: false,
+    stock: 21,
+    isActive: true,
     images: [
       {
         url: 'https://images.unsplash.com/photo-1459156212016-c812468e2115?auto=format&fit=crop&w=1200&q=80',

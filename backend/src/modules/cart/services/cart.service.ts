@@ -2,9 +2,11 @@ import { Types } from 'mongoose'
 import { HttpError } from '../../../common/errors/http-error'
 import { ProductModel } from '../../products/schemas/product.schema'
 import { addCartItemSchema, updateCartItemSchema } from '../dto/cart.dto'
-import { CartModel } from '../schemas/cart.schema'
+import { CartRepository } from '../repositories/cart.repository'
 
 export class CartService {
+  constructor(private readonly cartRepository: CartRepository = new CartRepository()) {}
+
   async getCart(userId: string) {
     const cart = await this.findOrCreateCart(userId)
     return this.toCartResponse(cart)
@@ -21,7 +23,7 @@ export class CartService {
       throw new HttpError(400, 'Invalid product id')
     }
 
-    const product = await ProductModel.findById(productId).lean()
+    const product = await ProductModel.findOne({ _id: productId, isActive: true }).lean()
     if (!product) {
       throw new HttpError(404, 'Product not found')
     }
@@ -30,9 +32,11 @@ export class CartService {
 
     const existingItem = cart.items.find((item) => String(item.productId) === productId)
     if (existingItem) {
+      this.assertStockAvailable(product, existingItem.quantity + parsed.data.quantity)
       existingItem.quantity += parsed.data.quantity
       existingItem.lineTotal = this.toMoney(existingItem.quantity * existingItem.unitPrice)
     } else {
+      this.assertStockAvailable(product, parsed.data.quantity)
       cart.items.push({
         productId: new Types.ObjectId(productId),
         slug: product.slug,
@@ -67,6 +71,13 @@ export class CartService {
     if (!item) {
       throw new HttpError(404, 'Cart item not found')
     }
+
+    const product = await ProductModel.findOne({ _id: productId, isActive: true }).lean()
+    if (!product) {
+      throw new HttpError(404, 'Product not found')
+    }
+
+    this.assertStockAvailable(product, parsed.data.quantity)
 
     item.quantity = parsed.data.quantity
     item.lineTotal = this.toMoney(item.quantity * item.unitPrice)
@@ -110,18 +121,7 @@ export class CartService {
       throw new HttpError(401, 'Unauthorized')
     }
 
-    const objectUserId = new Types.ObjectId(userId)
-    const existing = await CartModel.findOne({ userId: objectUserId })
-    if (existing) {
-      return existing
-    }
-
-    return CartModel.create({
-      userId: objectUserId,
-      items: [],
-      subtotal: 0,
-      total: 0,
-    })
+    return this.cartRepository.findOrCreate(new Types.ObjectId(userId))
   }
 
   private recalculate(cart: Awaited<ReturnType<CartService['findOrCreateCart']>>) {
@@ -158,5 +158,19 @@ export class CartService {
 
   private toMoney(value: number) {
     return Math.round((value + Number.EPSILON) * 100) / 100
+  }
+
+  private assertStockAvailable(
+    product: { name: string; stock: number },
+    requestedQuantity: number,
+  ) {
+    if (product.stock <= 0) {
+      throw new HttpError(409, `"${product.name}" está agotado ahora mismo.`)
+    }
+
+    if (requestedQuantity > product.stock) {
+      const unidades = product.stock === 1 ? 'unidad disponible' : 'unidades disponibles'
+      throw new HttpError(409, `Solo quedan ${product.stock} ${unidades} de "${product.name}".`)
+    }
   }
 }

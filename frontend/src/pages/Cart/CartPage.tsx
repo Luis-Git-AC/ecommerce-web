@@ -1,25 +1,21 @@
 import { useEffect, useRef, useState, type TouchEvent } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import Footer from '../../components/layout/Footer'
-import Header from '../../components/layout/Header'
-import { ordersRepository } from '../../services/orders.repository'
-import { ApiClientError } from '../../services/api.client'
-import { useAuth } from '../../store/AuthContext'
-import { useCart } from '../../store/CartContext'
+import Footer from '@/components/layout/Footer'
+import Header from '@/components/layout/Header'
+import { ordersRepository } from '@/services/orders.repository'
+import { ApiClientError } from '@/services/api.client'
+import { useAuth } from '@/store/AuthContext'
+import { useCart } from '@/store/CartContext'
 import styles from './CartPage.module.css'
-
-const formatMoney = (value: number, currency: string, maximumFractionDigits = 0) => {
-  try {
-    return new Intl.NumberFormat('es-ES', {
-      style: 'currency',
-      currency: currency || 'EUR',
-      minimumFractionDigits: maximumFractionDigits,
-      maximumFractionDigits,
-    }).format(value)
-  } catch {
-    return `${value} EUR`
-  }
-}
+import { formatMoney } from '@/utils/format'
+import ShippingAddressForm from '@/components/ui/ShippingAddressForm'
+import { CartSkeleton } from '@/components/ui/Skeletons'
+import {
+  emptyShippingAddress,
+  validateShippingAddress,
+  type ShippingAddressErrors,
+} from '@/utils/shipping'
+import type { ShippingAddress } from '@/types/commerce'
 
 const VAT_RATE = 0.21
 
@@ -36,13 +32,15 @@ export default function CartPage() {
   const SWIPE_THRESHOLD_PX = 36
 
   const navigate = useNavigate()
-  const { isAuthenticated, accessToken } = useAuth()
+  const { accessToken } = useAuth()
   const { cart, loading, error, updateItemQuantity, removeItem, clearCart, refreshCart } = useCart()
 
   const [actionError, setActionError] = useState<string | null>(null)
   const [actionLoading, setActionLoading] = useState(false)
   const [checkoutMessage, setCheckoutMessage] = useState<string | null>(null)
   const [checkoutOrderId, setCheckoutOrderId] = useState<string | null>(null)
+  const [shippingAddress, setShippingAddress] = useState<ShippingAddress>(emptyShippingAddress)
+  const [addressErrors, setAddressErrors] = useState<ShippingAddressErrors>({})
   const [swipeItemId, setSwipeItemId] = useState<string | null>(null)
   const [draggingItemId, setDraggingItemId] = useState<string | null>(null)
   const [dragOffset, setDragOffset] = useState(0)
@@ -190,13 +188,21 @@ export default function CartPage() {
       return
     }
 
+    const validationErrors = validateShippingAddress(shippingAddress)
+    setAddressErrors(validationErrors)
+
+    if (Object.keys(validationErrors).length > 0) {
+      setActionError('Revisa los datos de envío antes de continuar.')
+      return
+    }
+
     setActionError(null)
     setCheckoutMessage(null)
     setCheckoutOrderId(null)
     setActionLoading(true)
 
     try {
-      const order = await ordersRepository.create(accessToken)
+      const order = await ordersRepository.create(accessToken, shippingAddress)
       await refreshCart()
       setCheckoutMessage(`Pedido creado con éxito: ${order.id}`)
       setCheckoutOrderId(order.id)
@@ -223,23 +229,14 @@ export default function CartPage() {
   return (
     <div className="page brand-page">
       <Header />
-      <main className={styles.cart}>
+      <main id="main-content" className={styles.cart}>
         <section className={`container ${styles.hero}`}>
           <h1>Carrito</h1>
         </section>
 
-        {!isAuthenticated ? (
-          <section className={`container ${styles.panel}`}>
-            <h2>Tu carrito está protegido</h2>
-            <p className="muted">Inicia sesión para guardar productos y generar pedidos.</p>
-            <Link to="/account" className="btn">
-              Iniciar sesión
-            </Link>
-          </section>
-        ) : loading ? (
-          <section className={`container ${styles.panel}`} role="status" aria-live="polite">
-            <h2>Cargando carrito...</h2>
-            <p className="muted">Estamos sincronizando tu sesión.</p>
+        {loading ? (
+          <section className={`container ${styles.content}`}>
+            <CartSkeleton />
           </section>
         ) : (
           <section className={`container ${styles.content}`}>
@@ -405,6 +402,20 @@ export default function CartPage() {
             </div>
 
             <aside className={styles.summary}>
+              {cart && cart.items.length > 0 ? (
+                <div className={styles.shippingBlock}>
+                  <ShippingAddressForm
+                    value={shippingAddress}
+                    errors={addressErrors}
+                    disabled={actionLoading}
+                    onChange={(next) => {
+                      setShippingAddress(next)
+                      setAddressErrors({})
+                    }}
+                  />
+                </div>
+              ) : null}
+
               <h2>Resumen</h2>
               <p>
                 <strong>Productos:</strong> {cart?.totalItems ?? 0}

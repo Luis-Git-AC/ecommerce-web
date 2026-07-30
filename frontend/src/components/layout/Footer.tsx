@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import type { FormEvent } from 'react'
 import { Link } from 'react-router-dom'
-import { contentRepository } from '../../services/content.repository'
+import { contentRepository } from '@/services/content.repository'
 import styles from './Footer.module.css'
 
 export default function Footer() {

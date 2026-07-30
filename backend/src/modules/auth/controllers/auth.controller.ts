@@ -1,4 +1,5 @@
 import type { NextFunction, Request, Response } from 'express'
+import { HttpError } from '../../../common/errors/http-error'
 import { AuthService } from '../services/auth.service'
 
 export class AuthController {
@@ -6,7 +7,9 @@ export class AuthController {
 
   register = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const data = await this.authService.register(req.body)
+      const data = await this.authService.register(req.body, {
+        userAgent: req.headers['user-agent'],
+      })
       res.status(201).json({ data })
     } catch (error) {
       next(error)
@@ -15,7 +18,7 @@ export class AuthController {
 
   login = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const data = await this.authService.login(req.body)
+      const data = await this.authService.login(req.body, { userAgent: req.headers['user-agent'] })
       res.status(200).json({ data })
     } catch (error) {
       next(error)
@@ -24,8 +27,36 @@ export class AuthController {
 
   refresh = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const data = await this.authService.refresh(req.body)
+      const data = await this.authService.refresh(req.body, {
+        userAgent: req.headers['user-agent'],
+      })
       res.status(200).json({ data })
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  me = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const userId = req.auth?.userId
+      if (!userId) {
+        throw new HttpError(401, 'Unauthorized')
+      }
+
+      res.status(200).json({ data: await this.authService.getProfile(userId) })
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  logoutAll = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const userId = req.auth?.userId
+      if (!userId) {
+        throw new HttpError(401, 'Unauthorized')
+      }
+
+      res.status(200).json({ data: await this.authService.logoutAll(userId) })
     } catch (error) {
       next(error)
     }

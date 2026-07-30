@@ -3,9 +3,9 @@
 }
 
 .stateCard {
-  border: 1px solid #e7e2d8;
-  border-radius: 18px;
-  background: #fffdf7;
+  border: 1px solid var(--color-border-soft);
+  border-radius: var(--radius-xl);
+  background: var(--color-surface-raised-warm);
   padding: 2rem;
   display: grid;
   gap: 0.9rem;
@@ -40,8 +40,8 @@
 
 .mainImageButton:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 3px rgba(46, 139, 87, 0.28);
-  border-radius: 20px;
+  box-shadow: 0 0 0 3px var(--color-brand-alpha-28);
+  border-radius: var(--radius-lg);
 }
 
 .mainImageFrame {
@@ -58,13 +58,13 @@
 }
 
 .mainImageWrap:focus-visible {
-  outline: 2px solid #2e8b57;
+  outline: 2px solid var(--color-brand);
   outline-offset: 6px;
-  border-radius: 20px;
+  border-radius: var(--radius-lg);
 }
 
 .mainImage {
-  border-radius: 20px;
+  border-radius: var(--radius-lg);
   height: 420px;
   object-fit: cover;
   width: 100%;
@@ -74,7 +74,7 @@
   position: fixed;
   inset: 0;
   z-index: 1100;
-  background: rgba(15, 20, 17, 0.82);
+  background: var(--color-product-page-8);
   display: grid;
   place-items: center;
   padding: 1rem;
@@ -83,25 +83,25 @@
 .lightboxDialog {
   width: min(980px, 100%);
   max-height: calc(100vh - 2rem);
-  border-radius: 20px;
-  background: #101512;
-  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: var(--radius-lg);
+  background: var(--color-product-page-2);
+  border: 1px solid var(--color-white-alpha-14);
   padding: 1rem;
   display: grid;
   gap: 0.8rem;
 }
 
 .lightboxDialog:focus-visible {
-  outline: 2px solid #8fdbb2;
+  outline: 2px solid var(--color-product-page-3);
   outline-offset: 4px;
 }
 
 .lightboxClose {
   justify-self: end;
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  background: rgba(255, 255, 255, 0.1);
-  color: #f6fff8;
-  border-radius: 999px;
+  border: 1px solid var(--color-product-page-9);
+  background: var(--color-white-alpha-10);
+  color: var(--color-product-page-6);
+  border-radius: var(--radius-pill);
   padding: 0.4rem 0.9rem;
   min-height: 36px;
   cursor: pointer;
@@ -109,7 +109,7 @@
 
 .lightboxClose:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 3px rgba(143, 219, 178, 0.35);
+  box-shadow: 0 0 0 3px var(--color-product-page-7);
 }
 
 .lightboxImageFrame {
@@ -120,8 +120,8 @@
   width: 100%;
   max-height: min(72vh, 860px);
   object-fit: contain;
-  border-radius: 14px;
-  background: #0b110d;
+  border-radius: var(--radius-lg-sm);
+  background: var(--color-product-page-1);
 }
 
 .lightboxControls {
@@ -163,10 +163,10 @@
 }
 
 .navButton {
-  border: 1px solid #d7d2c8;
-  background: white;
-  color: #1f2a22;
-  border-radius: 999px;
+  border: 1px solid var(--color-border-strong);
+  background: var(--color-surface);
+  color: var(--color-text);
+  border-radius: var(--radius-pill);
   padding: 0.45rem 0.9rem;
   min-height: 38px;
   cursor: pointer;
@@ -179,13 +179,13 @@
 
 .navButton:focus-visible {
   outline: none;
-  border-color: #2e8b57;
-  box-shadow: 0 0 0 3px rgba(46, 139, 87, 0.2);
+  border-color: var(--color-brand);
+  box-shadow: 0 0 0 3px var(--color-brand-alpha-20);
 }
 
 .counter {
   font-size: 0.9rem;
-  color: #5c6b61;
+  color: var(--color-text-muted);
   min-width: 3.2rem;
   text-align: center;
 }
@@ -203,7 +203,7 @@
   align-items: center;
   justify-content: center;
   width: 1rem;
-  color: #2e8b57;
+  color: var(--color-brand);
   font-size: 0.8rem;
   opacity: 0.72;
 }
@@ -247,30 +247,30 @@
 }
 
 .thumb {
-  border: 1px solid #e0dbd2;
-  border-radius: 14px;
+  border: 1px solid var(--color-product-page-4);
+  border-radius: var(--radius-lg-sm);
   padding: 0;
-  background: white;
+  background: var(--color-surface);
   overflow: hidden;
   cursor: pointer;
   transition:
-    border-color 0.2s ease,
-    box-shadow 0.2s ease;
+    border-color var(--transition-base),
+    box-shadow var(--transition-base);
 }
 
 .thumb:hover {
-  border-color: #cfc8bb;
+  border-color: var(--color-border-mud);
 }
 
 .thumb:focus-visible {
   outline: none;
-  border-color: #2e8b57;
-  box-shadow: 0 0 0 3px rgba(46, 139, 87, 0.2);
+  border-color: var(--color-brand);
+  box-shadow: 0 0 0 3px var(--color-brand-alpha-20);
 }
 
 .thumbActive {
-  border-color: #2e8b57;
-  box-shadow: 0 0 0 2px rgba(46, 139, 87, 0.22);
+  border-color: var(--color-brand);
+  box-shadow: 0 0 0 2px var(--color-product-page-10);
 }
 
 .thumb img {
@@ -289,22 +289,22 @@
   text-transform: uppercase;
   letter-spacing: 0.2em;
   font-size: 0.75rem;
-  color: #5c6b61;
+  color: var(--color-text-muted);
 }
 
 .price {
   font-size: 1.5rem;
   font-weight: 700;
-  color: #2e8b57;
+  color: var(--color-brand);
   margin: 0 0 1rem;
 }
 
 .care {
   margin-top: 2rem;
   padding: 1.5rem;
-  border-radius: 18px;
-  border: 1px solid #e7e2d8;
-  background: #fffdf7;
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--color-border-soft);
+  background: var(--color-surface-raised-warm);
   display: grid;
   gap: 1rem;
 }
@@ -321,15 +321,15 @@
 }
 
 .careItem {
-  border-radius: 14px;
-  background: #f4f0e8;
+  border-radius: var(--radius-lg-sm);
+  background: var(--color-product-page-5);
   padding: 0.75rem 1rem;
 }
 
 .careLabel {
   margin: 0 0 0.3rem;
   font-size: 0.85rem;
-  color: #5c6b61;
+  color: var(--color-text-muted);
 }
 
 .careValue {
@@ -473,4 +473,22 @@
   .directionHintPrev {
     animation: none;
   }
+}
+
+.stockNoticeLow,
+.stockNoticeOut {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.stockNoticeLow {
+  color: var(--color-text-deep);
+}
+
+.stockNoticeOut {
+  color: var(--color-error-strong);
 }

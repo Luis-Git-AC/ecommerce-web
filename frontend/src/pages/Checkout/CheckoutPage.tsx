@@ -2,31 +2,20 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { Elements, PaymentElement, useElements, useStripe } from '@stripe/react-stripe-js'
 import { loadStripe } from '@stripe/stripe-js'
-import Footer from '../../components/layout/Footer'
-import Header from '../../components/layout/Header'
-import { appEnv } from '../../config/env'
-import { ApiClientError } from '../../services/api.client'
-import { ordersRepository } from '../../services/orders.repository'
-import { paymentsRepository } from '../../services/payments.repository'
-import { useAuth } from '../../store/AuthContext'
-import { useCart } from '../../store/CartContext'
-import type { OrderDetail } from '../../types/commerce'
+import Footer from '@/components/layout/Footer'
+import Header from '@/components/layout/Header'
+import { appEnv } from '@/config/env'
+import { ApiClientError } from '@/services/api.client'
+import { ordersRepository } from '@/services/orders.repository'
+import { paymentsRepository } from '@/services/payments.repository'
+import { useAuth } from '@/store/AuthContext'
+import { useCart } from '@/store/CartContext'
+import type { OrderDetail } from '@/types/commerce'
 import styles from './CheckoutPage.module.css'
+import { formatMoney } from '@/utils/format'
 
 const stripePublishableKey = appEnv.stripePublishableKey
 const stripePromise = stripePublishableKey ? loadStripe(stripePublishableKey) : null
-
-const formatMoney = (value: number, currency: string) => {
-  try {
-    return new Intl.NumberFormat('es-ES', {
-      style: 'currency',
-      currency: currency || 'EUR',
-      maximumFractionDigits: 0,
-    }).format(value)
-  } catch {
-    return `${value} EUR`
-  }
-}
 
 const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
 
@@ -163,7 +152,7 @@ export default function CheckoutPage() {
             await refreshCart()
             return
           } catch {
-            // no-op, keep fallback error below
+            // noop
           }
         }
 
@@ -246,22 +235,14 @@ export default function CheckoutPage() {
   return (
     <div className="page brand-page">
       <Header />
-      <main className={styles.checkout}>
+      <main id="main-content" className={styles.checkout}>
         <section className={`container ${styles.hero}`}>
           <p className="page-eyebrow">Pago</p>
           <h1>Checkout seguro</h1>
           <p className="muted">Confirma tu compra con tarjeta en modo de prueba.</p>
         </section>
 
-        {!isAuthenticated ? (
-          <section className={`container ${styles.panel} ${styles.statePanel}`}>
-            <h2>Necesitas iniciar sesión</h2>
-            <p className="muted">Debes autenticarte para pagar este pedido.</p>
-            <Link to="/account" className="btn">
-              Ir a cuenta
-            </Link>
-          </section>
-        ) : loading ? (
+        {loading ? (
           <section
             className={`container ${styles.panel} ${styles.statePanel}`}
             role="status"
@@ -298,6 +279,13 @@ export default function CheckoutPage() {
               <p>
                 <strong>Total:</strong> {formatMoney(order.total, order.currency)}
               </p>
+              {order.shippingAddress ? (
+                <p className="muted">
+                  <strong>Envío a:</strong> {order.shippingAddress.fullName},{' '}
+                  {order.shippingAddress.line1}, {order.shippingAddress.postalCode}{' '}
+                  {order.shippingAddress.city}
+                </p>
+              ) : null}
               <Link to="/account" className="btn btn-outline">
                 Ver pedidos
               </Link>

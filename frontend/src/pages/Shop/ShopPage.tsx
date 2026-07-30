@@ -1,10 +1,12 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
-import Footer from '../../components/layout/Footer'
-import Header from '../../components/layout/Header'
-import ProductCard from '../../components/ui/ProductCard'
-import type { Product } from '../../types/product'
-import { useProducts } from '../../features/products/useProducts'
+import Footer from '@/components/layout/Footer'
+import Header from '@/components/layout/Header'
+import ProductCard from '@/components/ui/ProductCard'
+import { useFocusTrap } from '@/hooks/useFocusTrap'
+import { ProductGridSkeleton } from '@/components/ui/Skeletons'
+import { useProductsQuery } from '@/features/products/queries'
+import type { ProductSortOption } from '@/types/product'
 import styles from './ShopPage.module.css'
 
 const filters = [
@@ -19,7 +21,7 @@ const filters = [
     options: ['easy', 'medium', 'hard'],
   },
   {
-    key: 'lightRequired',
+    key: 'lightLevel',
     title: 'Necesidad de luz',
     options: ['low', 'medium', 'high'],
   },
@@ -29,56 +31,32 @@ const filters = [
     options: ['xs', 's', 'm', 'l', 'xl'],
   },
   {
-    key: 'petSafe',
+    key: 'petFriendly',
     title: 'Pet-friendly',
     options: ['true', 'false'],
   },
 ] as const
 
 type FilterKey = (typeof filters)[number]['key']
-type SortOption = 'featured' | 'price-asc' | 'price-desc'
 type FiltersState = Record<FilterKey, string[]>
+
+const SORT_OPTIONS: Array<{ value: ProductSortOption; label: string }> = [
+  { value: 'featured', label: 'Destacadas' },
+  { value: 'price_asc', label: 'Precio: menor a mayor' },
+  { value: 'price_desc', label: 'Precio: mayor a menor' },
+]
+
+const SORT_VALUES = SORT_OPTIONS.map((option) => option.value)
+
+const isSortOption = (value: string): value is ProductSortOption =>
+  (SORT_VALUES as string[]).includes(value)
 
 const toId = (value: string) =>
   value
     .toLowerCase()
     .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '')
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/^-+|-+$/g, '')
-
-const normalize = (value: string) =>
-  value
-    .toLowerCase()
-    .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '')
-
-const initialFiltersState: FiltersState = {
-  category: [],
-  careLevel: [],
-  lightRequired: [],
-  size: [],
-  petSafe: [],
-}
-
-const getFiltersStateFromSearch = (searchParams: URLSearchParams): FiltersState => {
-  const parsed: FiltersState = {
-    category: [],
-    careLevel: [],
-    lightRequired: [],
-    size: [],
-    petSafe: [],
-  }
-
-  for (const group of filters) {
-    const allowed = new Set<string>(group.options)
-    parsed[group.key] = searchParams.getAll(group.key).filter((value) => allowed.has(value))
-  }
-
-  return parsed
-}
-
-const parsePrice = (price: string) => Number.parseFloat(price.replace(/[^\d.]/g, '')) || 0
 
 const optionLabelMap: Record<string, string> = {
   suculentas: 'Suculentas',
@@ -99,106 +77,192 @@ const optionLabelMap: Record<string, string> = {
   false: 'No',
 }
 
-const getProductValue = (product: Product, key: FilterKey) => {
-  if (key === 'petSafe') {
-    return product.petSafe ? 'true' : 'false'
+const getFiltersStateFromSearch = (searchParams: URLSearchParams): FiltersState => {
+  const parsed: FiltersState = {
+    category: [],
+    careLevel: [],
+    lightLevel: [],
+    size: [],
+    petFriendly: [],
   }
 
-  return String(product[key])
+  for (const group of filters) {
+    const allowed = new Set<string>(group.options)
+    parsed[group.key] = searchParams.getAll(group.key).filter((value) => allowed.has(value))
+  }
+
+  return parsed
+}
+
+const toPetFriendlyFilter = (selected: string[]) => {
+  if (selected.length !== 1) {
+    return undefined
+  }
+
+  return selected[0] === 'true'
 }
 
 export default function ShopPage() {
-  const [searchParams] = useSearchParams()
-  const { products, loading, error } = useProducts()
-  const [activeFilters, setActiveFilters] = useState<FiltersState>(initialFiltersState)
-  const [sortBy, setSortBy] = useState<SortOption>('featured')
+  const [searchParams, setSearchParams] = useSearchParams()
+
+  const activeFilters = useMemo(() => getFiltersStateFromSearch(searchParams), [searchParams])
+  const sortParam = searchParams.get('sort') ?? 'featured'
+  const sortBy: ProductSortOption = isSortOption(sortParam) ? sortParam : 'featured'
+  const searchParam = searchParams.get('q') ?? ''
+
+  const [searchInput, setSearchInput] = useState(searchParam)
+  const [debouncedSearch, setDebouncedSearch] = useState(searchParam)
   const [isFiltersOpen, setIsFiltersOpen] = useState(false)
+  const filtersRef = useRef<HTMLElement | null>(null)
+  const filtersToggleRef = useRef<HTMLButtonElement | null>(null)
 
   useEffect(() => {
-    setActiveFilters(getFiltersStateFromSearch(searchParams))
-  }, [searchParams])
+    setSearchInput(searchParam)
+    setDebouncedSearch(searchParam)
+  }, [searchParam])
 
   useEffect(() => {
-    if (!isFiltersOpen) {
-      document.body.style.overflow = ''
-      document.documentElement.style.overflow = ''
+    const timeoutId = window.setTimeout(() => {
+      setDebouncedSearch(searchInput.trim())
+    }, 300)
+
+    return () => window.clearTimeout(timeoutId)
+  }, [searchInput])
+
+  useEffect(() => {
+    const current = searchParams.get('q') ?? ''
+    if (current === debouncedSearch) {
       return
     }
 
-    document.body.style.overflow = 'hidden'
-    document.documentElement.style.overflow = 'hidden'
-
-    return () => {
-      document.body.style.overflow = ''
-      document.documentElement.style.overflow = ''
-    }
-  }, [isFiltersOpen])
-
-  const visibleProducts = useMemo(() => {
-    const filtered = products.filter((product) =>
-      filters.every((group) => {
-        const selected = activeFilters[group.key]
-        if (!selected.length) {
-          return true
-        }
-
-        const productValue = normalize(getProductValue(product, group.key))
-        return selected.some((value) => normalize(value) === productValue)
-      }),
-    )
-
-    if (sortBy === 'price-asc') {
-      return [...filtered].sort((a, b) => parsePrice(a.price) - parsePrice(b.price))
+    const next = new URLSearchParams(searchParams)
+    if (debouncedSearch) {
+      next.set('q', debouncedSearch)
+    } else {
+      next.delete('q')
     }
 
-    if (sortBy === 'price-desc') {
-      return [...filtered].sort((a, b) => parsePrice(b.price) - parsePrice(a.price))
-    }
+    setSearchParams(next, { replace: true })
+  }, [debouncedSearch, searchParams, setSearchParams])
 
-    return filtered
-  }, [activeFilters, products, sortBy])
+  const closeFilters = useCallback(() => setIsFiltersOpen(false), [])
 
-  const hasActiveFilters = Object.values(activeFilters).some((group) => group.length > 0)
+  useFocusTrap({
+    isOpen: isFiltersOpen,
+    containerRef: filtersRef,
+    triggerRef: filtersToggleRef,
+    onClose: closeFilters,
+  })
+
+  const queryFilters = useMemo(
+    () => ({
+      category: activeFilters.category,
+      careLevel: activeFilters.careLevel,
+      lightLevel: activeFilters.lightLevel,
+      size: activeFilters.size,
+      petFriendly: toPetFriendlyFilter(activeFilters.petFriendly),
+      q: debouncedSearch || undefined,
+      sort: sortBy,
+      limit: 12,
+    }),
+    [activeFilters, debouncedSearch, sortBy],
+  )
+
+  const [page, setPage] = useState(1)
+
+  const filtersKey = JSON.stringify(queryFilters)
+  useEffect(() => {
+    setPage(1)
+  }, [filtersKey])
+
+  const {
+    data,
+    isPending,
+    isFetching,
+    error: queryError,
+  } = useProductsQuery({ ...queryFilters, page })
+
+  const products = data?.items ?? []
+  const total = data?.total ?? 0
+  const loading = isPending
+  const loadingMore = isFetching && !isPending
+  const error = queryError ? queryError.message : null
+  const hasMore = data ? data.page < data.totalPages : false
+  const loadMore = () => setPage((prev) => prev + 1)
+
+  const updateSearchParams = useCallback(
+    (mutate: (params: URLSearchParams) => void) => {
+      const next = new URLSearchParams(searchParams)
+      mutate(next)
+      setSearchParams(next, { replace: true })
+    },
+    [searchParams, setSearchParams],
+  )
 
   const toggleFilter = (key: FilterKey, option: string) => {
-    setActiveFilters((prev) => {
-      const current = prev[key]
-      const exists = current.includes(option)
-      return {
-        ...prev,
-        [key]: exists ? current.filter((value) => value !== option) : [...current, option],
+    updateSearchParams((params) => {
+      const current = params.getAll(key)
+      const nextValues = current.includes(option)
+        ? current.filter((value) => value !== option)
+        : [...current, option]
+
+      params.delete(key)
+      for (const value of nextValues) {
+        params.append(key, value)
       }
     })
   }
 
   const clearFilters = () => {
-    setActiveFilters(initialFiltersState)
-    setSortBy('featured')
+    setSearchInput('')
+    updateSearchParams((params) => {
+      for (const group of filters) {
+        params.delete(group.key)
+      }
+      params.delete('q')
+      params.delete('sort')
+    })
   }
+
+  const handleSortChange = (value: string) => {
+    updateSearchParams((params) => {
+      if (value === 'featured') {
+        params.delete('sort')
+      } else {
+        params.set('sort', value)
+      }
+    })
+  }
+
+  const hasActiveFilters =
+    Object.values(activeFilters).some((group) => group.length > 0) ||
+    Boolean(searchParam) ||
+    sortBy !== 'featured'
 
   return (
     <div className="page brand-page">
       <Header />
-      <main className={styles.shop}>
+      <main id="main-content" className={styles.shop}>
         <div className={`container ${styles.layout}`}>
-          <button
-            type="button"
+          <div
             className={styles.filtersOverlay}
-            aria-label="Cerrar filtros"
-            aria-hidden={!isFiltersOpen}
-            onClick={() => setIsFiltersOpen(false)}
+            data-open={isFiltersOpen}
+            aria-hidden="true"
+            onClick={closeFilters}
           />
-          <aside className={`${styles.filters} ${isFiltersOpen ? styles.filtersOpen : ''}`}>
+          <aside
+            ref={filtersRef}
+            className={`${styles.filters} ${isFiltersOpen ? styles.filtersOpen : ''}`}
+            role="dialog"
+            aria-modal={isFiltersOpen}
+            aria-labelledby="shop-filters-title"
+          >
             <div className={styles.filtersHeader}>
               <div>
-                <h2>Tienda</h2>
+                <h2 id="shop-filters-title">Tienda</h2>
                 <p className="muted">Filtra para encontrar tu planta ideal.</p>
               </div>
-              <button
-                type="button"
-                className={styles.filtersClose}
-                onClick={() => setIsFiltersOpen(false)}
-              >
+              <button type="button" className={styles.filtersClose} onClick={closeFilters}>
                 Cerrar
               </button>
               {hasActiveFilters ? (
@@ -236,13 +300,25 @@ export default function ShopPage() {
                 <h2>Plantas disponibles</h2>
                 <p className="muted">Seleccionadas para distintos espacios y ritmos.</p>
                 <p className={styles.resultsCount} aria-live="polite">
-                  {visibleProducts.length} productos
+                  {loading ? 'Buscando…' : `${total} ${total === 1 ? 'producto' : 'productos'}`}
                 </p>
               </div>
               <div className={styles.mobileControls}>
+                <label className={styles.searchField}>
+                  <span className="sr-only">Buscar plantas</span>
+                  <input
+                    type="search"
+                    value={searchInput}
+                    placeholder="Buscar plantas..."
+                    onChange={(event) => setSearchInput(event.target.value)}
+                  />
+                </label>
                 <button
                   type="button"
+                  ref={filtersToggleRef}
                   className={`btn btn-outline ${styles.filtersToggle}`}
+                  aria-expanded={isFiltersOpen}
+                  aria-controls="shop-filters-title"
                   onClick={() => setIsFiltersOpen(true)}
                 >
                   Filtros
@@ -251,44 +327,60 @@ export default function ShopPage() {
                   className={styles.sort}
                   aria-label="Ordenar"
                   value={sortBy}
-                  onChange={(event) => setSortBy(event.target.value as SortOption)}
+                  onChange={(event) => handleSortChange(event.target.value)}
                   disabled={loading}
                 >
-                  <option value="featured">Destacadas</option>
-                  <option value="price-asc">Precio: menor a mayor</option>
-                  <option value="price-desc">Precio: mayor a menor</option>
+                  {SORT_OPTIONS.map((option) => (
+                    <option key={option.value} value={option.value}>
+                      {option.label}
+                    </option>
+                  ))}
                 </select>
               </div>
             </div>
             {loading ? (
-              <div className="state-empty" role="status" aria-live="polite">
-                <h3>Cargando catálogo...</h3>
-                <p className="muted">Estamos trayendo los productos desde el servidor.</p>
-              </div>
+              <ProductGridSkeleton count={8} />
             ) : error ? (
               <div className="state-empty" role="alert" aria-live="assertive">
                 <h3>No pudimos cargar la tienda</h3>
                 <p className="muted">{error}</p>
               </div>
-            ) : visibleProducts.length === 0 ? (
+            ) : products.length === 0 ? (
               <div className="state-empty" role="status" aria-live="polite">
                 <h3>No encontramos plantas con ese criterio</h3>
                 <p className="muted">Ajusta los filtros para descubrir más opciones.</p>
               </div>
             ) : (
-              <div className={styles.grid}>
-                {visibleProducts.map((product) => (
-                  <ProductCard
-                    key={product.id}
-                    id={product.id}
-                    name={product.name}
-                    price={product.price}
-                    image={product.images.card}
-                    mobileLayout="editorial"
-                    variant="home"
-                  />
-                ))}
-              </div>
+              <>
+                <div className={styles.grid}>
+                  {products.map((product) => (
+                    <ProductCard
+                      key={product.id}
+                      id={product.id}
+                      slug={product.slug}
+                      name={product.name}
+                      price={product.price}
+                      currency={product.currency}
+                      stock={product.stock}
+                      image={product.images.card}
+                      mobileLayout="editorial"
+                      variant="home"
+                    />
+                  ))}
+                </div>
+                {hasMore ? (
+                  <div className={styles.loadMoreRow}>
+                    <button
+                      type="button"
+                      className="btn btn-outline"
+                      onClick={loadMore}
+                      disabled={loadingMore}
+                    >
+                      {loadingMore ? 'Cargando...' : 'Cargar más plantas'}
+                    </button>
+                  </div>
+                ) : null}
+              </>
             )}
           </section>
         </div>

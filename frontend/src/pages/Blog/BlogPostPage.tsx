@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
-import Footer from '../../components/layout/Footer'
-import Header from '../../components/layout/Header'
-import { contentRepository, type BlogPost } from '../../services/content.repository'
-import { applySeo } from '../../utils/seo'
+import Footer from '@/components/layout/Footer'
+import Header from '@/components/layout/Header'
+import { contentRepository, type BlogPost } from '@/services/content.repository'
+import { applySeo } from '@/utils/seo'
 import styles from './BlogPostPage.module.css'
 
 export default function BlogPostPage() {
@@ -75,7 +75,7 @@ export default function BlogPostPage() {
   return (
     <div className="page brand-page">
       <Header />
-      <main className={styles.post}>
+      <main id="main-content" className={styles.post}>
         <section className="container page-hero">
           <Link className={styles.backLink} to="/blog">
             Volver al blog

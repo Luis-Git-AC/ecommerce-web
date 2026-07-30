@@ -2,9 +2,8 @@ import { Types } from 'mongoose'
 import { HttpError } from '../../../common/errors/http-error'
 import { OrderModel } from '../../orders/schemas/order.schema'
 import { UserModel } from '../../auth/schemas/user.schema'
+import { escapeRegex } from '../../../common/utils/regex'
 import { listAdminOrdersQuerySchema, listAdminUsersQuerySchema } from '../dto/admin.dto'
-
-const escapeRegex = (value: string) => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
 
 export class AdminService {
   async listUsers(rawQuery: unknown) {

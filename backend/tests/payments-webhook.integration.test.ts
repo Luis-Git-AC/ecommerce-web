@@ -3,6 +3,8 @@ import { Types } from 'mongoose'
 import { afterAll, beforeAll, describe, expect, it, vi } from 'vitest'
 import { connectToDatabase, disconnectDatabase } from '../src/config/db'
 import { OrderModel } from '../src/modules/orders/schemas/order.schema'
+import { validShippingAddress } from './fixtures'
+import { ProductModel } from '../src/modules/products/schemas/product.schema'
 
 const stripeMocks = vi.hoisted(() => ({
   constructEvent: vi.fn(),
@@ -45,6 +47,7 @@ describe('Payments webhook integration', () => {
 
     const order = await OrderModel.create({
       userId,
+      shippingAddress: validShippingAddress,
       items: [
         {
           productId: new Types.ObjectId(),
@@ -100,6 +103,7 @@ describe('Payments webhook integration', () => {
 
     const order = await OrderModel.create({
       userId,
+      shippingAddress: validShippingAddress,
       items: [
         {
           productId: new Types.ObjectId(),
@@ -171,6 +175,7 @@ describe('Payments webhook integration', () => {
 
     const order = await OrderModel.create({
       userId,
+      shippingAddress: validShippingAddress,
       items: [
         {
           productId: new Types.ObjectId(),
@@ -216,5 +221,143 @@ describe('Payments webhook integration', () => {
     expect(updatedOrder?.status).toBe('canceled')
     expect(updatedOrder?.paymentIntentId).toBe(paymentIntentId)
     expect(updatedOrder?.paymentLastError).toBe('Payment canceled')
+  })
+  it('descuenta el stock de los productos al confirmarse el pago', async () => {
+    const userId = new Types.ObjectId()
+    const paymentIntentId = `pi_test_stock_${new Types.ObjectId().toHexString()}`
+
+    const product = await ProductModel.create({
+      slug: `webhook-stock-${Date.now()}`,
+      name: 'Producto Con Stock',
+      description: 'Producto para validar el decremento de stock',
+      price: 20,
+      currency: 'EUR',
+      category: 'test',
+      careLevel: 'easy',
+      lightLevel: 'medium',
+      size: 'm',
+      petFriendly: false,
+      isFeatured: false,
+      stock: 10,
+      isActive: true,
+      images: [{ url: 'https://example.com/p.jpg', alt: 'Producto' }],
+      tags: [],
+    })
+
+    const order = await OrderModel.create({
+      userId,
+      shippingAddress: validShippingAddress,
+      items: [
+        {
+          productId: product._id,
+          slug: product.slug,
+          name: product.name,
+          image: 'https://example.com/p.jpg',
+          quantity: 3,
+          unitPrice: 20,
+          currency: 'EUR',
+          lineTotal: 60,
+        },
+      ],
+      subtotal: 60,
+      total: 60,
+      currency: 'EUR',
+      status: 'pending',
+      paymentIntentId,
+    })
+
+    stripeMocks.constructEvent.mockReturnValueOnce({
+      id: 'evt_test_stock_001',
+      type: 'payment_intent.succeeded',
+      data: { object: { id: paymentIntentId, metadata: { orderId: String(order._id) } } },
+    })
+
+    const response = await request(app)
+      .post('/api/payments/webhook')
+      .set('stripe-signature', 't=123,v1=fake')
+      .set('Content-Type', 'application/json')
+      .send({ id: 'evt_test_stock_001' })
+
+    expect(response.status).toBe(200)
+
+    const updatedProduct = await ProductModel.findById(product._id).lean()
+    expect(updatedProduct?.stock).toBe(7)
+
+    const updatedOrder = await OrderModel.findById(order._id).lean()
+    expect(updatedOrder?.status).toBe('paid')
+  })
+
+  it('ignora la reentrega del mismo evento y no descuenta stock dos veces', async () => {
+    const userId = new Types.ObjectId()
+    const paymentIntentId = `pi_test_dup_${new Types.ObjectId().toHexString()}`
+    const eventId = `evt_test_duplicate_${Date.now()}`
+
+    const product = await ProductModel.create({
+      slug: `webhook-dup-${Date.now()}`,
+      name: 'Producto Duplicado',
+      description: 'Producto para validar la idempotencia del webhook',
+      price: 20,
+      currency: 'EUR',
+      category: 'test',
+      careLevel: 'easy',
+      lightLevel: 'medium',
+      size: 'm',
+      petFriendly: false,
+      isFeatured: false,
+      stock: 10,
+      isActive: true,
+      images: [{ url: 'https://example.com/p.jpg', alt: 'Producto' }],
+      tags: [],
+    })
+
+    const order = await OrderModel.create({
+      userId,
+      shippingAddress: validShippingAddress,
+      items: [
+        {
+          productId: product._id,
+          slug: product.slug,
+          name: product.name,
+          image: 'https://example.com/p.jpg',
+          quantity: 2,
+          unitPrice: 20,
+          currency: 'EUR',
+          lineTotal: 40,
+        },
+      ],
+      subtotal: 40,
+      total: 40,
+      currency: 'EUR',
+      status: 'pending',
+      paymentIntentId,
+    })
+
+    const buildEvent = () => ({
+      id: eventId,
+      type: 'payment_intent.succeeded',
+      data: { object: { id: paymentIntentId, metadata: { orderId: String(order._id) } } },
+    })
+
+    const send = () =>
+      request(app)
+        .post('/api/payments/webhook')
+        .set('stripe-signature', 't=123,v1=fake')
+        .set('Content-Type', 'application/json')
+        .send({ id: eventId })
+
+    stripeMocks.constructEvent.mockReturnValueOnce(buildEvent())
+    const first = await send()
+    expect(first.status).toBe(200)
+    expect(first.body.data.duplicate).toBe(false)
+
+    // Stripe reintenta la entrega del MISMO evento.
+    stripeMocks.constructEvent.mockReturnValueOnce(buildEvent())
+    const second = await send()
+    expect(second.status).toBe(200)
+    expect(second.body.data.duplicate).toBe(true)
+
+    // El stock se descuenta una sola vez.
+    const updatedProduct = await ProductModel.findById(product._id).lean()
+    expect(updatedProduct?.stock).toBe(8)
   })
 })

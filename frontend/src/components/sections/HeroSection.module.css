@@ -3,7 +3,7 @@
   min-height: 74vh;
   display: flex;
   align-items: center;
-  color: white;
+  color: var(--color-on-media);
   isolation: isolate;
 }
 
@@ -37,11 +37,11 @@
   background:
     linear-gradient(
       94deg,
-      rgba(6, 19, 13, 0.72) 0%,
-      rgba(7, 20, 14, 0.52) 48%,
-      rgba(8, 21, 15, 0.28) 100%
+      var(--color-hero-section-9) 0%,
+      var(--color-hero-section-10) 48%,
+      var(--color-hero-section-11) 100%
     ),
-    radial-gradient(circle at 26% 42%, rgba(0, 0, 0, 0.06), rgba(0, 0, 0, 0.18));
+    radial-gradient(circle at 26% 42%, var(--color-hero-section-1), var(--color-hero-section-2));
   z-index: 1;
 }
 
@@ -84,16 +84,16 @@
   line-height: 1.08;
   letter-spacing: -0.012em;
   margin: 0.5rem 0 1rem;
-  color: #ffffff;
-  text-shadow: 0 2px 20px rgba(0, 0, 0, 0.45);
+  color: var(--color-on-media);
+  text-shadow: 0 2px 20px var(--color-black-alpha-45);
 }
 
 .lead {
   font-size: 1.08rem;
   max-width: 52ch;
   margin-bottom: 1.25rem;
-  color: rgba(255, 255, 255, 0.99);
-  text-shadow: 0 1px 16px rgba(0, 0, 0, 0.56);
+  color: var(--color-hero-section-7);
+  text-shadow: 0 1px 16px var(--color-hero-section-3);
 }
 
 .trust {
@@ -105,13 +105,13 @@
   font-weight: 600;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.9);
+  color: var(--color-on-media-soft);
   margin: 0 0 2rem;
   padding: 0.5rem 0.82rem;
-  border-radius: 999px;
-  border: 1px solid rgba(255, 255, 255, 0.36);
-  background: rgba(12, 25, 19, 0.2);
-  text-shadow: 0 1px 10px rgba(0, 0, 0, 0.35);
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--color-hero-section-5);
+  background: var(--color-hero-section-4);
+  text-shadow: 0 1px 10px var(--color-black-alpha-35);
 }
 
 .heroActions {
@@ -126,33 +126,33 @@
   font-size: 0.75rem;
   font-family: var(--home-ui-font, 'Hanken Grotesk', 'Source Sans Pro', sans-serif);
   font-weight: 700;
-  color: rgba(255, 255, 255, 0.95);
-  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.35);
+  color: var(--color-hero-section-6);
+  text-shadow: 0 1px 8px var(--color-black-alpha-35);
 }
 
 .heroActions :global(.btn-ghost) {
-  color: #ffffff;
-  border-color: rgba(255, 255, 255, 0.88);
-  background: rgba(255, 255, 255, 0.14);
+  color: var(--color-on-media);
+  border-color: var(--color-on-media-border);
+  background: var(--color-white-alpha-14);
   backdrop-filter: blur(4px);
-  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.45);
+  text-shadow: 0 1px 8px var(--color-black-alpha-45);
 }
 
 .heroActions :global(.btn-ghost:hover) {
-  background: rgba(255, 255, 255, 0.24);
-  border-color: rgba(255, 255, 255, 1);
+  background: var(--color-white-alpha-24);
+  border-color: var(--color-hero-section-8);
 }
 
 .heroGhostBtn {
-  color: #ffffff !important;
-  border-color: rgba(255, 255, 255, 0.9) !important;
-  background: rgba(255, 255, 255, 0.14) !important;
+  color: var(--color-on-media) !important;
+  border-color: var(--color-on-media-border-strong) !important;
+  background: var(--color-white-alpha-14) !important;
   backdrop-filter: blur(4px);
 }
 
 .heroGhostBtn:hover {
-  background: rgba(255, 255, 255, 0.24) !important;
-  border-color: #ffffff !important;
+  background: var(--color-white-alpha-24) !important;
+  border-color: var(--color-on-media) !important;
 }
 
 @keyframes heroReveal {

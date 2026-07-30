@@ -1,0 +1,14 @@
+# robots.txt — Ecommerce Web
+
+User-agent: *
+Allow: /
+
+# Zonas privadas y transaccionales: no aportan nada al índice y exponen
+# rutas de usuario.
+Disallow: /account
+Disallow: /account/
+Disallow: /cart
+Disallow: /checkout/
+Disallow: /admin
+
+Sitemap: http://localhost:5173/sitemap.xml

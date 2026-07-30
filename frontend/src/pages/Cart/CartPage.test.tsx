@@ -3,24 +3,42 @@ import { MemoryRouter } from 'react-router-dom'
 import { describe, expect, it, vi } from 'vitest'
 import CartPage from './CartPage'
 
-vi.mock('../../components/layout/Header', () => ({
+vi.mock('@/components/layout/Header', () => ({
   default: () => <div>Header</div>,
 }))
 
-vi.mock('../../components/layout/Footer', () => ({
+vi.mock('@/components/layout/Footer', () => ({
   default: () => <div>Footer</div>,
 }))
 
-vi.mock('../../store/AuthContext', () => ({
+vi.mock('@/store/AuthContext', () => ({
   useAuth: () => ({
-    isAuthenticated: false,
-    accessToken: null,
+    isAuthenticated: true,
+    accessToken: 'token-demo',
   }),
 }))
 
-vi.mock('../../store/CartContext', () => ({
+vi.mock('@/store/CartContext', () => ({
   useCart: () => ({
-    cart: null,
+    cart: {
+      id: 'cart-1',
+      userId: 'user-1',
+      items: [
+        {
+          productId: 'p-1',
+          slug: 'monstera',
+          name: 'Monstera Deliciosa',
+          image: '/monstera.jpg',
+          quantity: 2,
+          unitPrice: 30,
+          currency: 'EUR',
+          lineTotal: 60,
+        },
+      ],
+      subtotal: 60,
+      total: 60,
+      totalItems: 2,
+    },
     loading: false,
     error: null,
     updateItemQuantity: vi.fn(),
@@ -31,14 +49,14 @@ vi.mock('../../store/CartContext', () => ({
 }))
 
 describe('CartPage', () => {
-  it('muestra el guard de autenticacion cuando no hay sesion', () => {
+  it('muestra los productos del carrito con su total', () => {
     render(
       <MemoryRouter>
         <CartPage />
       </MemoryRouter>,
     )
 
-    expect(screen.getByRole('heading', { name: 'Tu carrito está protegido' })).toBeInTheDocument()
-    expect(screen.getByRole('link', { name: 'Iniciar sesión' })).toHaveAttribute('href', '/account')
+    expect(screen.getByText('Monstera Deliciosa')).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: 'Carrito' })).toBeInTheDocument()
   })
 })

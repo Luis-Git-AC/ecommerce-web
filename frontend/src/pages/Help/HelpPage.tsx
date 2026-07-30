@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
-import Footer from '../../components/layout/Footer'
-import Header from '../../components/layout/Header'
+import Footer from '@/components/layout/Footer'
+import Header from '@/components/layout/Header'
 import styles from './HelpPage.module.css'
 
 const faqs = [
@@ -22,7 +22,7 @@ export default function HelpPage() {
   return (
     <div className="page brand-page">
       <Header />
-      <main className={styles.help}>
+      <main id="main-content" className={styles.help}>
         <section className="container page-hero">
           <p className="page-eyebrow">Ayuda</p>
           <h1>Resolvemos tus dudas antes de comprar</h1>

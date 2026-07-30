@@ -1,12 +1,12 @@
-import Footer from '../../components/layout/Footer'
-import Header from '../../components/layout/Header'
+import Footer from '@/components/layout/Footer'
+import Header from '@/components/layout/Header'
 import styles from './LegalPage.module.css'
 
 export default function CookiesPage() {
   return (
     <div className="page brand-page">
       <Header />
-      <main className={styles.legal}>
+      <main id="main-content" className={styles.legal}>
         <section className="container page-hero">
           <p className="page-eyebrow">Cookies</p>
           <h1>Política de cookies</h1>

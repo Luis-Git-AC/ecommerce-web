@@ -1,0 +1,151 @@
+.card {
+  display: grid;
+  gap: 1rem;
+  padding: 1.25rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  background: var(--color-surface-raised);
+  color: inherit;
+  text-decoration: none;
+  transition:
+    border-color var(--transition-base),
+    box-shadow var(--transition-base),
+    transform var(--transition-base);
+}
+
+.card:hover {
+  border-color: var(--color-brand-border-soft);
+  box-shadow: 0 8px 24px var(--color-ink-alpha-08);
+  transform: translateY(-2px);
+}
+
+.card:focus-visible {
+  outline: none;
+  border-color: var(--color-brand);
+  box-shadow: 0 0 0 3px var(--color-brand-alpha-20);
+}
+
+.card:active {
+  transform: translateY(0);
+}
+
+.topRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.date {
+  font-size: 0.82rem;
+  color: var(--color-text-muted);
+}
+
+.amountRow {
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.total {
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.01em;
+  color: var(--color-text-strong);
+}
+
+.itemCount {
+  font-size: 0.88rem;
+  color: var(--color-text-muted);
+}
+
+.timeline {
+  padding-top: 0.25rem;
+}
+
+.footRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--color-border-mist);
+}
+
+.ref {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--color-text-muted);
+  letter-spacing: 0.02em;
+}
+
+.action {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--color-brand-ink);
+}
+
+.chevron {
+  width: 14px;
+  height: 14px;
+  transition: transform var(--transition-base);
+}
+
+.card:hover .chevron {
+  transform: translateX(3px);
+}
+
+.alert {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0.6rem 0.75rem;
+  border-radius: var(--radius-md);
+  font-size: 0.84rem;
+  font-weight: 600;
+}
+
+.alertPending {
+  color: var(--color-order-pending-fg);
+  background: var(--color-order-pending-bg);
+  border: 1px solid var(--color-order-pending-border);
+}
+
+.alertNegative {
+  color: var(--color-order-negative-fg);
+  background: var(--color-order-negative-bg);
+  border: 1px solid var(--color-order-negative-border);
+}
+
+@media (max-width: 520px) {
+  .card {
+    padding: 1rem;
+  }
+
+  .total {
+    font-size: 1.4rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card,
+  .chevron {
+    transition: none;
+  }
+
+  .card:hover {
+    transform: none;
+  }
+
+  .card:hover .chevron {
+    transform: none;
+  }
+}

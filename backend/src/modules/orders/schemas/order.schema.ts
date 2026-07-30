@@ -1,5 +1,27 @@
 import { model, Schema, type InferSchemaType, Types } from 'mongoose'
 
+export const ORDER_STATUSES = [
+  'pending',
+  'paid',
+  'processing',
+  'shipped',
+  'delivered',
+  'failed',
+  'canceled',
+] as const
+
+export type OrderStatus = (typeof ORDER_STATUSES)[number]
+
+export const ALLOWED_STATUS_TRANSITIONS: Record<OrderStatus, OrderStatus[]> = {
+  pending: ['paid', 'failed', 'canceled'],
+  paid: ['processing', 'canceled'],
+  processing: ['shipped'],
+  shipped: ['delivered'],
+  delivered: [],
+  failed: [],
+  canceled: [],
+}
+
 const orderItemSchema = new Schema(
   {
     productId: { type: Schema.Types.ObjectId, required: true, ref: 'Product' },
@@ -16,9 +38,24 @@ const orderItemSchema = new Schema(
   },
 )
 
+const shippingAddressSchema = new Schema(
+  {
+    fullName: { type: String, required: true, trim: true },
+    line1: { type: String, required: true, trim: true },
+    line2: { type: String, required: false, trim: true },
+    city: { type: String, required: true, trim: true },
+    postalCode: { type: String, required: true, trim: true },
+    province: { type: String, required: true, trim: true },
+    country: { type: String, required: true, trim: true, default: 'ES' },
+    phone: { type: String, required: true, trim: true },
+  },
+  { _id: false },
+)
+
 const orderSchema = new Schema(
   {
     userId: { type: Types.ObjectId, required: true, index: true, ref: 'User' },
+    shippingAddress: { type: shippingAddressSchema, required: true },
     items: { type: [orderItemSchema], required: true },
     subtotal: { type: Number, required: true, min: 0 },
     total: { type: Number, required: true, min: 0 },
@@ -26,7 +63,7 @@ const orderSchema = new Schema(
     status: {
       type: String,
       required: true,
-      enum: ['pending', 'paid', 'failed', 'canceled'],
+      enum: ORDER_STATUSES,
       default: 'pending',
       index: true,
     },

@@ -1,5 +1,5 @@
-import Footer from '../../components/layout/Footer'
-import Header from '../../components/layout/Header'
+import Footer from '@/components/layout/Footer'
+import Header from '@/components/layout/Header'
 import styles from './ShippingPage.module.css'
 
 const items = [
@@ -21,7 +21,7 @@ export default function ShippingPage() {
   return (
     <div className="page brand-page">
       <Header />
-      <main className={styles.shipping}>
+      <main id="main-content" className={styles.shipping}>
         <section className="container page-hero">
           <p className="page-eyebrow">Envios</p>
           <h1>Entregas cuidadas para que tu planta llegue perfecta</h1>

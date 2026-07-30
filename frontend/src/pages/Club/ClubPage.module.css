@@ -56,9 +56,13 @@
 }
 
 .leadForm {
-  border: 1px solid #e3dccf;
-  border-radius: 20px;
-  background: linear-gradient(180deg, #fffdf8 0%, #f9f4ea 100%);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: linear-gradient(
+    180deg,
+    var(--color-surface-raised) 0%,
+    var(--color-surface-sunken) 100%
+  );
   padding: 1.5rem;
   display: grid;
   gap: 1rem;
@@ -72,15 +76,15 @@
 .leadField label {
   font-size: 0.92rem;
   font-weight: 600;
-  color: #314135;
+  color: var(--color-text-deepest);
 }
 
 .leadField input,
 .leadField select {
   padding: 0.72rem 0.92rem;
-  border: 1px solid #d9d2c5;
-  border-radius: 12px;
-  background: #fffdf9;
+  border: 1px solid var(--color-border-stone);
+  border-radius: var(--radius-md);
+  background: var(--color-surface-raised-alt);
 }
 
 .leadStatus {
@@ -89,11 +93,11 @@
 }
 
 .leadStatusSuccess {
-  color: #2e8b57;
+  color: var(--color-brand);
 }
 
 .leadStatusError {
-  color: #b5473c;
+  color: var(--color-error);
 }
 
 .stepGrid {
@@ -103,10 +107,14 @@
 }
 
 .stepCard {
-  border: 1px solid #e3dccf;
-  border-radius: 18px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
   padding: 1.5rem;
-  background: linear-gradient(180deg, #fffdf8 0%, #f9f4ea 100%);
+  background: linear-gradient(
+    180deg,
+    var(--color-surface-raised) 0%,
+    var(--color-surface-sunken) 100%
+  );
   display: grid;
   gap: 0.75rem;
 }
@@ -114,9 +122,13 @@
 .stepIndex {
   width: 34px;
   height: 34px;
-  border-radius: 999px;
-  background: linear-gradient(180deg, #e6f2e8 0%, #d9e9dc 100%);
-  color: #2b6c49;
+  border-radius: var(--radius-pill);
+  background: linear-gradient(
+    180deg,
+    var(--color-success-surface-alt) 0%,
+    var(--color-success-surface-soft) 100%
+  );
+  color: var(--color-brand-mid);
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -131,10 +143,14 @@
 }
 
 .planCard {
-  border: 1px solid #e3dccf;
-  border-radius: 18px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
   padding: 2rem;
-  background: linear-gradient(180deg, #fffdf8 0%, #f9f4ea 100%);
+  background: linear-gradient(
+    180deg,
+    var(--color-surface-raised) 0%,
+    var(--color-surface-sunken) 100%
+  );
   display: grid;
   grid-template-rows: 1fr auto;
   align-content: start;
@@ -148,7 +164,7 @@
 .price {
   font-size: 1.5rem;
   font-weight: 700;
-  color: #2e8b57;
+  color: var(--color-brand);
   margin: 0.5rem 0;
 }
 
@@ -158,14 +174,18 @@
   margin: 1rem 0 0;
   display: grid;
   gap: 0.5rem;
-  color: #2a3b2f;
+  color: var(--color-text-deep);
 }
 
 .previewCard {
-  border: 1px solid #e3dccf;
-  border-radius: 18px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
   padding: 1.5rem;
-  background: linear-gradient(180deg, #fffdf8 0%, #f9f4ea 100%);
+  background: linear-gradient(
+    180deg,
+    var(--color-surface-raised) 0%,
+    var(--color-surface-sunken) 100%
+  );
   display: grid;
   grid-template-columns: auto 1fr;
   align-items: center;
@@ -177,7 +197,7 @@
 .previewCardImage {
   width: 380px;
   height: auto;
-  border-radius: 14px;
+  border-radius: var(--radius-lg-sm);
   object-fit: cover;
 }
 
@@ -197,13 +217,13 @@
   margin: 0.5rem 0 0;
   display: grid;
   gap: 0.4rem;
-  color: #2a3b2f;
+  color: var(--color-text-deep);
   font-size: 0.95rem;
 }
 
 .previewList li::before {
   content: '✓ ';
-  color: #2e8b57;
+  color: var(--color-brand);
   font-weight: 700;
   margin-right: 0.4rem;
 }
@@ -215,10 +235,14 @@
 }
 
 .faqCard {
-  border: 1px solid #e3dccf;
-  border-radius: 18px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
   padding: 1.5rem;
-  background: linear-gradient(180deg, #fffdf8 0%, #f9f4ea 100%);
+  background: linear-gradient(
+    180deg,
+    var(--color-surface-raised) 0%,
+    var(--color-surface-sunken) 100%
+  );
   display: grid;
   gap: 0.75rem;
 }
@@ -284,7 +308,7 @@
 
   .previewCardImage {
     width: 100%;
-    border-radius: 12px;
+    border-radius: var(--radius-md);
   }
 
   .previewCardContent {

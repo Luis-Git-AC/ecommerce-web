@@ -34,6 +34,22 @@ export class ProductController {
     }
   }
 
+  getProductBySlug = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const slugParam = req.params.slug
+      const slug = Array.isArray(slugParam) ? slugParam[0] : slugParam
+
+      if (!slug) {
+        throw new HttpError(400, 'Product slug is required')
+      }
+
+      const product = await this.productService.getProductBySlug(slug)
+      res.status(200).json(product)
+    } catch (error) {
+      next(error)
+    }
+  }
+
   getFeaturedProducts = async (_req: Request, res: Response, next: NextFunction) => {
     try {
       const products = await this.productService.getFeaturedProducts()

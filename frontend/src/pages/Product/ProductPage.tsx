@@ -10,14 +10,23 @@ import {
 import { Link } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
 import { useParams } from 'react-router-dom'
-import Footer from '../../components/layout/Footer'
-import { useProductById, useRelatedProducts } from '../../features/products/useProducts'
-import Header from '../../components/layout/Header'
-import ProductCard from '../../components/ui/ProductCard'
-import { ApiClientError } from '../../services/api.client'
-import { useAuth } from '../../store/AuthContext'
-import { useCart } from '../../store/CartContext'
-import { applySeo } from '../../utils/seo'
+import Footer from '@/components/layout/Footer'
+import {
+  useProductByIdQuery,
+  useProductBySlugQuery,
+  useRelatedProductsQuery,
+} from '@/features/products/queries'
+import { formatMoney } from '@/utils/format'
+import { getStockLabel } from '@/utils/stock'
+import { getScrollBehavior } from '@/utils/motion'
+import Header from '@/components/layout/Header'
+import ProductCard from '@/components/ui/ProductCard'
+import { ProductDetailSkeleton } from '@/components/ui/Skeletons'
+import { ApiClientError } from '@/services/api.client'
+import { useAuth } from '@/store/AuthContext'
+import { useCart } from '@/store/CartContext'
+import { applySeo } from '@/utils/seo'
+import { applyJsonLd, breadcrumbJsonLd, productJsonLd } from '@/utils/jsonLd'
 import styles from './ProductPage.module.css'
 
 const formatLabel = (value: string) =>
@@ -42,10 +51,21 @@ const valueLabelMap: Record<string, string> = {
 
 const humanizeValue = (value: string) => valueLabelMap[value] ?? formatLabel(value)
 
+const OBJECT_ID_PATTERN = /^[0-9a-f]{24}$/i
+
 export default function ProductPage() {
   const navigate = useNavigate()
   const { id } = useParams()
-  const { product, loading, error } = useProductById(id)
+
+  const isLegacyIdRoute = Boolean(id && OBJECT_ID_PATTERN.test(id))
+
+  const byId = useProductByIdQuery(isLegacyIdRoute ? id : undefined)
+  const bySlug = useProductBySlugQuery(isLegacyIdRoute ? undefined : id)
+  const active = isLegacyIdRoute ? byId : bySlug
+  const product = active.data
+  const loading = active.isPending
+  const error = active.error ? active.error.message : null
+
   const { isAuthenticated } = useAuth()
   const { addToCart } = useCart()
   const [cartFeedback, setCartFeedback] = useState<string | null>(null)
@@ -53,7 +73,13 @@ export default function ProductPage() {
   const [cartLoading, setCartLoading] = useState(false)
 
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: 'smooth' })
+    if (isLegacyIdRoute && product?.slug) {
+      navigate(`/product/${product.slug}`, { replace: true })
+    }
+  }, [isLegacyIdRoute, navigate, product?.slug])
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: getScrollBehavior() })
   }, [id])
 
   useEffect(() => {
@@ -64,9 +90,18 @@ export default function ProductPage() {
     applySeo({
       title: `${product.name} | Ecommerce Web`,
       description: `Compra ${product.name}. Categoría ${humanizeValue(product.category)}, dificultad ${humanizeValue(product.careLevel)} y nivel de luz ${humanizeValue(product.lightRequired)}.`,
-      path: `/product/${product.id}`,
+      path: `/product/${product.slug}`,
       image: product.images.card.src,
     })
+
+    applyJsonLd([
+      productJsonLd(product),
+      breadcrumbJsonLd([
+        { name: 'Inicio', path: '/' },
+        { name: 'Tienda', path: '/shop' },
+        { name: product.name, path: `/product/${product.slug}` },
+      ]),
+    ])
   }, [product])
 
   const gallery = useMemo(() => {
@@ -247,7 +282,10 @@ export default function ProductPage() {
     [product],
   )
 
-  const { products: related } = useRelatedProducts(product?.id, 3)
+  const { data: related = [] } = useRelatedProductsQuery(product?.id, 3)
+
+  const isOutOfStock = product ? product.stock <= 0 : false
+  const stockLabel = product ? getStockLabel(product.stock) : null
 
   const handleAddToCart = async () => {
     if (!product) {
@@ -285,10 +323,9 @@ export default function ProductPage() {
     return (
       <div className="page brand-page">
         <Header />
-        <main className={styles.product}>
-          <div className={`container ${styles.stateCard}`} role="status" aria-live="polite">
-            <h1>Cargando producto...</h1>
-            <p className="muted">Estamos trayendo la información desde el servidor.</p>
+        <main id="main-content" className={styles.product}>
+          <div className="container">
+            <ProductDetailSkeleton />
           </div>
         </main>
         <Footer />
@@ -300,7 +337,7 @@ export default function ProductPage() {
     return (
       <div className="page brand-page">
         <Header />
-        <main className={styles.product}>
+        <main id="main-content" className={styles.product}>
           <div className={`container ${styles.stateCard}`} role="alert" aria-live="assertive">
             <h1>No pudimos cargar el producto</h1>
             <p className="muted">{error}</p>
@@ -318,7 +355,7 @@ export default function ProductPage() {
     return (
       <div className="page brand-page">
         <Header />
-        <main className={styles.product}>
+        <main id="main-content" className={styles.product}>
           <div className={`container ${styles.stateCard}`} role="status" aria-live="polite">
             <h1>Producto no disponible</h1>
             <p className="muted">Este producto no existe o fue retirado del catálogo.</p>
@@ -335,7 +372,7 @@ export default function ProductPage() {
   return (
     <div className="page brand-page">
       <Header />
-      <main className={styles.product}>
+      <main id="main-content" className={styles.product}>
         <div className={`container ${styles.layout}`}>
           <section className={styles.gallery}>
             <div
@@ -421,7 +458,16 @@ export default function ProductPage() {
           <section className={styles.details}>
             <p className={styles.category}>{humanizeValue(product.category)}</p>
             <h1>{product.name}</h1>
-            <p className={styles.price}>{product.price}</p>
+            <p className={styles.price}>{formatMoney(product.price, product.currency)}</p>
+            {stockLabel ? (
+              <p
+                className={isOutOfStock ? styles.stockNoticeOut : styles.stockNoticeLow}
+                role="status"
+                aria-live="polite"
+              >
+                {stockLabel}
+              </p>
+            ) : null}
             <p className="muted">
               Ideal para espacios con luz {humanizeValue(product.lightRequired)} y cuidado{' '}
               {humanizeValue(product.careLevel)}. Tamaño {` ${humanizeValue(product.size)}`} y
@@ -431,9 +477,9 @@ export default function ProductPage() {
               className="btn"
               type="button"
               onClick={() => void handleAddToCart()}
-              disabled={cartLoading}
+              disabled={cartLoading || isOutOfStock}
             >
-              {cartLoading ? 'Agregando...' : 'Añadir al carrito'}
+              {isOutOfStock ? 'Agotado' : cartLoading ? 'Agregando...' : 'Añadir al carrito'}
             </button>
             {cartFeedback ? (
               <p className="muted" role="status" aria-live="polite">
@@ -468,8 +514,11 @@ export default function ProductPage() {
               <ProductCard
                 key={item.id}
                 id={item.id}
+                slug={item.slug}
                 name={item.name}
                 price={item.price}
+                currency={item.currency}
+                stock={item.stock}
                 image={item.images.card}
                 variant="home"
               />

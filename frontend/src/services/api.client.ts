@@ -25,7 +25,7 @@ const parseErrorMessage = async (response: Response) => {
       return data.message
     }
   } catch {
-    // Si no hay JSON valido, uso fallback textual.
+    // noop
   }
 
   return `Request failed: ${response.status} ${response.statusText}`

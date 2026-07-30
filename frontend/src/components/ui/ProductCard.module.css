@@ -1,28 +1,32 @@
 .card {
-  border-radius: 20px;
+  border-radius: var(--radius-lg);
   overflow: hidden;
-  background: white;
-  border: 1px solid #ece8e0;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border-mist);
   display: flex;
   flex-direction: column;
   min-height: 100%;
 }
 
 .cardHome {
-  border-radius: 18px;
-  border-color: #e2dbce;
-  background: linear-gradient(180deg, #fffdf8 0%, #f9f5eb 100%);
-  box-shadow: 0 10px 22px rgba(31, 42, 34, 0.09);
+  border-radius: var(--radius-xl);
+  border-color: var(--color-product-card-3);
+  background: linear-gradient(
+    180deg,
+    var(--color-surface-raised) 0%,
+    var(--color-surface-sand) 100%
+  );
+  box-shadow: 0 10px 22px var(--color-product-card-6);
   transition:
-    transform 0.2s ease,
-    box-shadow 0.2s ease,
-    border-color 0.2s ease;
+    transform var(--transition-base),
+    box-shadow var(--transition-base),
+    border-color var(--transition-base);
 }
 
 .cardHome:hover {
   transform: translateY(-3px);
-  box-shadow: 0 16px 28px rgba(31, 42, 34, 0.13);
-  border-color: #d3c6af;
+  box-shadow: 0 16px 28px var(--color-product-card-7);
+  border-color: var(--color-product-card-2);
 }
 
 .card picture {
@@ -39,10 +43,42 @@
   background: transparent;
 }
 
+.stockBadge {
+  position: absolute;
+  top: 0.75rem;
+  left: 0.75rem;
+  z-index: 1;
+  padding: 0.3rem 0.7rem;
+  border-radius: var(--radius-pill);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  backdrop-filter: blur(4px);
+}
+
+.stockBadgeLow {
+  background: var(--color-surface-cream);
+  border: 1px solid var(--color-border-camel);
+  color: var(--color-text-deep);
+}
+
+.stockBadgeOut {
+  background: var(--color-error-surface);
+  border: 1px solid var(--color-error-border);
+  color: var(--color-error-strong);
+}
+
 .imageSkeleton {
   position: absolute;
   inset: 0;
-  background: linear-gradient(110deg, #f1ece2 8%, #fbf8f3 18%, #f1ece2 33%);
+  background: linear-gradient(
+    110deg,
+    var(--color-surface-clay-alt) 8%,
+    var(--color-product-card-5) 18%,
+    var(--color-surface-clay-alt) 33%
+  );
   background-size: 200% 100%;
   animation: imagePulse 1.2s linear infinite;
 }
@@ -53,8 +89,8 @@
   place-items: center;
   text-align: center;
   padding: 0.75rem;
-  color: #5c6b61;
-  background: #f6f3ed;
+  color: var(--color-text-muted);
+  background: var(--color-product-card-4);
 }
 
 .image {
@@ -89,7 +125,7 @@
   font-size: 0.94rem;
   font-weight: 600;
   letter-spacing: 0.03em;
-  color: #2f5c45;
+  color: var(--color-product-card-1);
 }
 
 .linkHome {
@@ -117,7 +153,7 @@
   .mobileEditorial {
     overflow: hidden;
     border-radius: 16px;
-    box-shadow: 0 10px 24px rgba(31, 42, 34, 0.11);
+    box-shadow: 0 10px 24px var(--color-ink-alpha-11);
   }
 
   .mobileEditorial .imageWrap,
@@ -143,9 +179,13 @@
   .mobileEditorial .body {
     margin-top: 0;
     border-radius: 0;
-    background: linear-gradient(180deg, #fffdf8 0%, #f9f5eb 100%);
+    background: linear-gradient(
+      180deg,
+      var(--color-surface-raised) 0%,
+      var(--color-surface-sand) 100%
+    );
     border: 0;
-    border-top: 1px solid #e3dccf;
+    border-top: 1px solid var(--color-border);
     padding: 0.78rem 0.9rem 0.86rem;
     gap: 0.28rem;
   }
@@ -169,7 +209,7 @@
     justify-self: start;
     min-height: 34px;
     padding: 0.45rem 0.85rem;
-    border-radius: 12px;
+    border-radius: var(--radius-md);
   }
 
   .mobileEditorial .imageContainMobile {
@@ -230,12 +270,12 @@
 
 @media (max-width: 900px) and (orientation: landscape) and (max-height: 500px) {
   .cardHome {
-    border-radius: 14px;
+    border-radius: var(--radius-lg-sm);
   }
 
   .mobileEditorial {
-    border-radius: 14px;
-    box-shadow: 0 8px 18px rgba(31, 42, 34, 0.1);
+    border-radius: var(--radius-lg-sm);
+    box-shadow: 0 8px 18px var(--color-ink-alpha-10);
   }
 
   .mobileEditorial .imageWrap,

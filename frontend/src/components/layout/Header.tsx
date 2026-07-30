@@ -1,22 +1,12 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import logo from '../../assets/logo2-trimmed.png'
-import { useAuth } from '../../store/AuthContext'
-import { useCart } from '../../store/CartContext'
+import logo from '@/assets/logo2-trimmed.png'
+import { useAuth } from '@/store/AuthContext'
+import { useCart } from '@/store/CartContext'
+import Skeleton from '@/components/ui/Skeleton'
+import ThemeToggle from '@/components/ui/ThemeToggle'
 import styles from './Header.module.css'
-
-const formatMoney = (value: number, currency: string, maximumFractionDigits = 0) => {
-  try {
-    return new Intl.NumberFormat('es-ES', {
-      style: 'currency',
-      currency: currency || 'EUR',
-      minimumFractionDigits: maximumFractionDigits,
-      maximumFractionDigits,
-    }).format(value)
-  } catch {
-    return `${value} EUR`
-  }
-}
+import { formatMoney } from '@/utils/format'
 
 const VAT_RATE = 0.21
 
@@ -288,6 +278,9 @@ export default function Header() {
 
   return (
     <header className={styles.siteHeader}>
+      <a className="skip-link" href="#main-content">
+        Saltar al contenido principal
+      </a>
       <div className={`container ${styles.headerInner}`}>
         <Link className={styles.logo} to="/">
           <span className={styles.logoIcon} aria-hidden="true">
@@ -307,6 +300,7 @@ export default function Header() {
           ))}
         </nav>
         <div className={styles.headerActions}>
+          <ThemeToggle />
           <button
             className={`${styles.iconBtn} ${styles.menuButton}`}
             type="button"
@@ -428,7 +422,8 @@ export default function Header() {
           </div>
         ) : cartLoading ? (
           <div className={styles.cartDrawerBody}>
-            <p className="muted">Cargando carrito...</p>
+            <Skeleton variant="text" width="70%" />
+            <Skeleton variant="text" width="50%" />
           </div>
         ) : !cart || cart.items.length === 0 ? (
           <div className={styles.cartDrawerBody}>

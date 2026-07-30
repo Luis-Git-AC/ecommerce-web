@@ -27,7 +27,7 @@ export class OrderController {
 
   createOrder = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const data = await this.orderService.createOrder(this.getAuthUserId(req))
+      const data = await this.orderService.createOrder(this.getAuthUserId(req), req.body)
       res.status(201).json({ data })
     } catch (error) {
       next(error)

@@ -1,13 +1,18 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import type { ProductImage } from '../../types/product'
+import type { ProductImage } from '@/types/product'
+import { formatMoney } from '@/utils/format'
+import { getStockLabel, getStockStatus } from '@/utils/stock'
 import styles from './ProductCard.module.css'
 
 type ProductCardProps = {
   id: string
+  slug?: string
   name: string
-  price: string
+  price: number
+  currency?: string
   image: ProductImage
+  stock?: number
   imageMode?: 'cover' | 'contain-mobile'
   mobileLayout?: 'default' | 'editorial'
   to?: string
@@ -16,15 +21,20 @@ type ProductCardProps = {
 
 export default function ProductCard({
   id,
+  slug,
   name,
   price,
+  currency = 'EUR',
   image,
+  stock,
   imageMode = 'cover',
   mobileLayout = 'default',
   to,
   variant = 'default',
 }: ProductCardProps) {
-  const target = to ?? `/product/${id}`
+  const target = to ?? `/product/${slug ?? id}`
+  const stockStatus = stock === undefined ? null : getStockStatus(stock)
+  const stockLabel = stock === undefined ? null : getStockLabel(stock)
   const [isImageLoading, setIsImageLoading] = useState(Boolean(image.src))
   const [hasImageError, setHasImageError] = useState(!image.src)
   const isHomeVariant = variant === 'home'
@@ -73,10 +83,19 @@ export default function ProductCard({
             />
           </picture>
         )}
+        {stockLabel ? (
+          <span
+            className={`${styles.stockBadge} ${
+              stockStatus === 'out' ? styles.stockBadgeOut : styles.stockBadgeLow
+            }`}
+          >
+            {stockLabel}
+          </span>
+        ) : null}
       </div>
       <div className={styles.body}>
         <h3>{name}</h3>
-        <p className={priceClassName}>{price}</p>
+        <p className={priceClassName}>{formatMoney(price, currency)}</p>
         <Link className={linkClassName} to={target}>
           Ver detalle
         </Link>

@@ -23,6 +23,17 @@ dist-ssr
 !**/.env.production.example
 
 
+# Test artifacts and coverage
+frontend/test-results/
+frontend/playwright-report/
+frontend/blob-report/
+frontend/coverage/
+backend/coverage/
+**/.vitest-cache/
+
+# Generated script output
+backend/scripts/output/
+
 # Local Stripe CLI files
 .stripe/
 **/.stripe/

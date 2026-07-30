@@ -118,11 +118,39 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     try {
       await authRepository.logout(refreshToken)
     } catch {
-      // Logout local siempre para no bloquear salida por error de red.
+      // noop
     } finally {
       clearSession()
     }
   }, [clearSession, session?.refreshToken])
+
+  useEffect(() => {
+    if (!session?.accessToken) {
+      return
+    }
+
+    let canceled = false
+
+    const validate = async () => {
+      try {
+        await authRepository.me(session.accessToken)
+      } catch (error) {
+        if (canceled) {
+          return
+        }
+
+        if (error instanceof ApiClientError && error.status === 401) {
+          clearSession()
+        }
+      }
+    }
+
+    void validate()
+
+    return () => {
+      canceled = true
+    }
+  }, [clearSession, session?.accessToken])
 
   useEffect(() => {
     if (!session?.accessToken || !session.refreshToken) {

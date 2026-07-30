@@ -2,6 +2,7 @@ import request from 'supertest'
 import { afterAll, beforeAll, describe, expect, it, vi } from 'vitest'
 import { connectToDatabase, disconnectDatabase } from '../src/config/db'
 import { ProductModel } from '../src/modules/products/schemas/product.schema'
+import { createOrderBody } from './fixtures'
 
 const stripeMocks = vi.hoisted(() => ({
   createIntent: vi.fn(),
@@ -60,6 +61,8 @@ describe('Payments intent integration', () => {
       size: 'm',
       petFriendly: true,
       isFeatured: false,
+      stock: 50,
+      isActive: true,
       images: [{ url: 'https://example.com/product.jpg', alt: 'Payment Intent Product' }],
       tags: ['test'],
     })
@@ -87,6 +90,7 @@ describe('Payments intent integration', () => {
     const createOrder = await request(app)
       .post('/api/orders')
       .set('Authorization', `Bearer ${accessToken}`)
+      .send(createOrderBody)
 
     expect(createOrder.status).toBe(201)
 

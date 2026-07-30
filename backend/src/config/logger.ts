@@ -14,8 +14,18 @@ const transport = shouldUsePrettyLogs
     }
   : undefined
 
+const getLogLevel = () => {
+  const configuredLevel = process.env.LOG_LEVEL || undefined
+
+  if (env.NODE_ENV === 'test') {
+    return configuredLevel ?? 'silent'
+  }
+
+  return configuredLevel ?? (env.NODE_ENV === 'production' ? 'info' : 'debug')
+}
+
 export const logger = pino({
-  level: env.NODE_ENV === 'production' ? 'info' : 'debug',
+  level: getLogLevel(),
   redact: {
     paths: [
       'req.headers.authorization',

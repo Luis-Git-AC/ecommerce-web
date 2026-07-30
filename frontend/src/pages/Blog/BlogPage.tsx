@@ -1,8 +1,8 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
-import Footer from '../../components/layout/Footer'
-import Header from '../../components/layout/Header'
-import { contentRepository, type BlogPost } from '../../services/content.repository'
+import Footer from '@/components/layout/Footer'
+import Header from '@/components/layout/Header'
+import { contentRepository, type BlogPost } from '@/services/content.repository'
 import styles from './BlogPage.module.css'
 
 const categories = ['Todos', 'Cuidados', 'Diseño', 'Problemas comunes'] as const
@@ -61,7 +61,7 @@ export default function BlogPage() {
   return (
     <div className="page brand-page">
       <Header />
-      <main className={styles.blog}>
+      <main id="main-content" className={styles.blog}>
         <section className="container page-hero">
           <div>
             <p className="page-eyebrow">{'Blog {ecommerce}'}</p>

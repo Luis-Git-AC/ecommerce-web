@@ -1,5 +1,6 @@
 import { Router } from 'express'
 import { createRateLimitMiddleware } from '../../common/middlewares/rate-limit.middleware'
+import { requireAuth } from '../../common/middlewares/auth.middleware'
 import { AuthController } from './controllers/auth.controller'
 
 const authController = new AuthController()
@@ -17,3 +18,5 @@ authRouter.post('/auth/register', createAuthRateLimit('auth-register'), authCont
 authRouter.post('/auth/login', createAuthRateLimit('auth-login'), authController.login)
 authRouter.post('/auth/refresh', createAuthRateLimit('auth-refresh'), authController.refresh)
 authRouter.post('/auth/logout', createAuthRateLimit('auth-logout'), authController.logout)
+authRouter.get('/auth/me', requireAuth, authController.me)
+authRouter.post('/auth/logout-all', requireAuth, authController.logoutAll)

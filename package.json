@@ -2,6 +2,9 @@
   "name": "ecommerce-web",
   "version": "1.0.0",
   "private": true,
+  "engines": {
+    "node": ">=22.12.0"
+  },
   "devDependencies": {
     "concurrently": "^9.2.1",
     "prettier": "^3.8.3"
@@ -25,7 +28,9 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "quality": "npm run typecheck && npm run lint && npm run format:check && npm run test",
-    "deploy:check": "npm run quality && npm run build"
+    "deploy:check": "npm run quality && npm run build",
+    "dev:services": "docker compose up -d",
+    "dev:services:stop": "docker compose down"
   },
   "type": "commonjs"
 }

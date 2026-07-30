@@ -36,6 +36,12 @@ const envSchema = z.object({
   JWT_REFRESH_EXPIRES_IN: z.string().default('7d'),
   STRIPE_SECRET_KEY: z.string().optional(),
   STRIPE_WEBHOOK_SECRET: z.string().optional(),
+  EMAIL_ENABLED: z
+    .string()
+    .optional()
+    .transform((value) => value === 'true'),
+  RESEND_API_KEY: z.string().trim().optional(),
+  EMAIL_FROM: z.string().trim().optional(),
 })
 
 const parsed = envSchema.safeParse(process.env)

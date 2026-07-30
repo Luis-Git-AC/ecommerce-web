@@ -48,6 +48,23 @@ export class ProductService {
     }
   }
 
+  async getProductBySlug(slug: string) {
+    const normalizedSlug = slug.trim()
+    if (!normalizedSlug) {
+      throw new HttpError(400, 'Product slug is required')
+    }
+
+    const product = await this.productRepository.findBySlug(normalizedSlug)
+    if (!product) {
+      throw new HttpError(404, 'Product not found')
+    }
+
+    return {
+      ...product,
+      images: optimizeProductImages(this.normalizeImages(product.images), 'detail'),
+    }
+  }
+
   async getFeaturedProducts() {
     const products = await this.productRepository.findFeatured()
 
@@ -78,6 +95,7 @@ export class ProductService {
         lightLevel: query.lightLevel,
         size: query.size,
         petFriendly: query.petFriendly,
+        q: query.q,
       },
       page: query.page,
       limit: query.limit,

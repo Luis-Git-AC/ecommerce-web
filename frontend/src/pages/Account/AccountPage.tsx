@@ -1,38 +1,29 @@
 import { useCallback, useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
-import Footer from '../../components/layout/Footer'
-import Header from '../../components/layout/Header'
-import { ordersRepository } from '../../services/orders.repository'
-import { ApiClientError } from '../../services/api.client'
-import { useAuth } from '../../store/AuthContext'
-import type { OrderSummary } from '../../types/commerce'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
+import Footer from '@/components/layout/Footer'
+import Header from '@/components/layout/Header'
+import OrderCard from '@/components/ui/OrderCard'
+import { OrderListSkeleton } from '@/components/ui/Skeletons'
+import { ordersRepository } from '@/services/orders.repository'
+import { ApiClientError } from '@/services/api.client'
+import { useAuth } from '@/store/AuthContext'
+import type { OrderSummary } from '@/types/commerce'
 import styles from './AccountPage.module.css'
 
-const formatMoney = (value: number, currency: string) => {
-  try {
-    return new Intl.NumberFormat('es-ES', {
-      style: 'currency',
-      currency: currency || 'EUR',
-      maximumFractionDigits: 0,
-    }).format(value)
-  } catch {
-    return `${value} EUR`
-  }
-}
-
-const formatDate = (value: string) => {
-  try {
-    return new Intl.DateTimeFormat('es-CO', {
-      dateStyle: 'medium',
-      timeStyle: 'short',
-    }).format(new Date(value))
-  } catch {
-    return value
-  }
-}
+const ORDERS_PAGE_SIZE = 10
 
 export default function AccountPage() {
   const { session, accessToken, isAuthenticated, login, register, logout } = useAuth()
+  const navigate = useNavigate()
+  const location = useLocation()
+
+  const redirectTo = (location.state as { from?: string } | null)?.from
+
+  const goToOriginalDestination = useCallback(() => {
+    if (redirectTo && redirectTo !== '/account') {
+      navigate(redirectTo, { replace: true })
+    }
+  }, [navigate, redirectTo])
 
   const [loginEmail, setLoginEmail] = useState('')
   const [loginPassword, setLoginPassword] = useState('')
@@ -47,10 +38,15 @@ export default function AccountPage() {
   const [orders, setOrders] = useState<OrderSummary[]>([])
   const [ordersLoading, setOrdersLoading] = useState(false)
   const [ordersError, setOrdersError] = useState<string | null>(null)
+  const [ordersPage, setOrdersPage] = useState(1)
+  const [ordersTotalPages, setOrdersTotalPages] = useState(1)
+  const [ordersLoadingMore, setOrdersLoadingMore] = useState(false)
 
   const loadOrders = useCallback(async () => {
     if (!accessToken) {
       setOrders([])
+      setOrdersPage(1)
+      setOrdersTotalPages(1)
       setOrdersError(null)
       return
     }
@@ -59,8 +55,10 @@ export default function AccountPage() {
     setOrdersError(null)
 
     try {
-      const data = await ordersRepository.list(accessToken, { page: 1, limit: 10 })
+      const data = await ordersRepository.list(accessToken, { page: 1, limit: ORDERS_PAGE_SIZE })
       setOrders(data.items)
+      setOrdersPage(data.page)
+      setOrdersTotalPages(data.totalPages)
     } catch (error) {
       if (error instanceof ApiClientError) {
         setOrdersError(error.message)
@@ -93,6 +91,7 @@ export default function AccountPage() {
       await login({ email: loginEmail, password: loginPassword })
       setAuthMessage('Sesión iniciada correctamente.')
       setLoginPassword('')
+      goToOriginalDestination()
     } catch (error) {
       if (error instanceof Error) {
         setAuthError(error.message)
@@ -127,17 +126,46 @@ export default function AccountPage() {
     }
   }
 
+  const loadMoreOrders = useCallback(async () => {
+    if (!accessToken) return
+
+    setOrdersLoadingMore(true)
+    setOrdersError(null)
+
+    try {
+      const data = await ordersRepository.list(accessToken, {
+        page: ordersPage + 1,
+        limit: ORDERS_PAGE_SIZE,
+      })
+      setOrders((prev) => [...prev, ...data.items])
+      setOrdersPage(data.page)
+      setOrdersTotalPages(data.totalPages)
+    } catch (error) {
+      if (error instanceof ApiClientError) {
+        setOrdersError(error.message)
+      } else if (error instanceof Error) {
+        setOrdersError(error.message)
+      } else {
+        setOrdersError('No pudimos cargar más pedidos.')
+      }
+    } finally {
+      setOrdersLoadingMore(false)
+    }
+  }, [accessToken, ordersPage])
+
   const handleLogout = async () => {
     setAuthError(null)
     setAuthMessage(null)
     await logout()
     setOrders([])
+    setOrdersPage(1)
+    setOrdersTotalPages(1)
   }
 
   return (
     <div className="page brand-page">
       <Header />
-      <main className={styles.account}>
+      <main id="main-content" className={styles.account}>
         <section className={`container ${styles.hero}`}>
           <p className="page-eyebrow">Cuenta</p>
           <h1>Cuenta y pedidos</h1>
@@ -157,8 +185,15 @@ export default function AccountPage() {
             </div>
 
             <div className={styles.ordersHeader}>
-              <h3>Mis pedidos</h3>
-              <div>
+              <div className={styles.ordersHeading}>
+                <h3>Mis pedidos</h3>
+                {orders.length > 0 ? (
+                  <p className={styles.ordersCount}>
+                    {orders.length === 1 ? '1 pedido' : `${orders.length} pedidos`}
+                  </p>
+                ) : null}
+              </div>
+              <div className={styles.ordersActions}>
                 {session.user.role === 'admin' ? (
                   <Link to="/admin" className="btn btn-outline">
                     Panel admin
@@ -166,11 +201,11 @@ export default function AccountPage() {
                 ) : null}
                 <button
                   type="button"
-                  className="btn btn-outline"
+                  className="btn btn-ghost"
                   onClick={() => void loadOrders()}
                   disabled={ordersLoading}
                 >
-                  {ordersLoading ? 'Actualizando...' : 'Actualizar lista'}
+                  {ordersLoading ? 'Actualizando...' : 'Actualizar'}
                 </button>
               </div>
             </div>
@@ -180,13 +215,7 @@ export default function AccountPage() {
             ) : null}
 
             {ordersLoading ? (
-              <p
-                className={`${styles.feedbackFull} state-box state-loading`}
-                role="status"
-                aria-live="polite"
-              >
-                Cargando pedidos...
-              </p>
+              <OrderListSkeleton count={3} />
             ) : orders.length === 0 ? (
               <div className="state-empty">
                 <p className="muted">Aún no tienes pedidos.</p>
@@ -195,28 +224,25 @@ export default function AccountPage() {
                 </Link>
               </div>
             ) : (
-              <div className={styles.ordersList}>
-                {orders.map((order) => (
-                  <article key={order.id} className={styles.orderCard}>
-                    <p>
-                      <strong>Pedido:</strong> {order.id}
-                    </p>
-                    <p>
-                      <strong>Estado:</strong> {order.status}
-                    </p>
-                    <p>
-                      <strong>Total:</strong> {formatMoney(order.total, order.currency)}
-                    </p>
-                    <p>
-                      <strong>Productos:</strong> {order.totalItems}
-                    </p>
-                    <p className="muted">{formatDate(order.createdAt)}</p>
-                    <Link to={`/account/orders/${order.id}`} className="btn btn-outline">
-                      Ver detalle
-                    </Link>
-                  </article>
-                ))}
-              </div>
+              <>
+                <div className={styles.ordersList}>
+                  {orders.map((order) => (
+                    <OrderCard key={order.id} order={order} />
+                  ))}
+                </div>
+                {orders.length > 0 && ordersPage < ordersTotalPages ? (
+                  <div className={styles.loadMoreRow}>
+                    <button
+                      type="button"
+                      className="btn btn-outline"
+                      onClick={() => void loadMoreOrders()}
+                      disabled={ordersLoadingMore}
+                    >
+                      {ordersLoadingMore ? 'Cargando...' : 'Cargar más pedidos'}
+                    </button>
+                  </div>
+                ) : null}
+              </>
             )}
           </section>
         ) : (

@@ -22,6 +22,8 @@ const productSchema = new Schema(
     size: { type: String, required: true, trim: true, index: true },
     petFriendly: { type: Boolean, required: true, default: false, index: true },
     isFeatured: { type: Boolean, required: true, default: false, index: true },
+    stock: { type: Number, required: true, default: 0, min: 0 },
+    isActive: { type: Boolean, required: true, default: true, index: true },
     images: {
       type: [productImageSchema],
       required: true,
@@ -38,6 +40,7 @@ const productSchema = new Schema(
   },
 )
 
+productSchema.index({ isActive: 1, createdAt: -1 })
 productSchema.index({ category: 1, isFeatured: -1, createdAt: -1 })
 productSchema.index({ price: 1, createdAt: -1 })
 productSchema.index({ price: -1, createdAt: -1 })

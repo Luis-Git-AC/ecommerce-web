@@ -19,9 +19,13 @@
 .panel,
 .summary,
 .itemCard {
-  background: linear-gradient(180deg, #fffdf8 0%, #f9f4ea 100%);
-  border: 1px solid #e3dccf;
-  border-radius: 18px;
+  background: linear-gradient(
+    180deg,
+    var(--color-surface-raised) 0%,
+    var(--color-surface-sunken) 100%
+  );
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
 }
 
 .panel {
@@ -42,7 +46,7 @@
 
 .itemSwipeShell {
   position: relative;
-  border-radius: 18px;
+  border-radius: var(--radius-xl);
   overflow: hidden;
 }
 
@@ -56,7 +60,7 @@
   grid-template-columns: minmax(0, 1fr) auto;
   gap: 0.8rem 1.1rem;
   align-items: center;
-  transition: transform 0.2s ease;
+  transition: transform var(--transition-base);
 }
 
 .itemCardDragging {
@@ -73,10 +77,10 @@
 .desktopRemoveButton {
   width: 1.7rem;
   height: 1.7rem;
-  border: 1px solid #d8cfbf;
-  border-radius: 999px;
-  background: #fffdf8;
-  color: #7b8a7e;
+  border: 1px solid var(--color-border-clay);
+  border-radius: var(--radius-pill);
+  background: var(--color-surface-raised);
+  color: var(--color-cart-page-1);
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -95,8 +99,8 @@
 }
 
 .desktopRemoveButton:hover:not(:disabled) {
-  border-color: #c8bfad;
-  color: #5f6d62;
+  border-color: var(--color-cart-page-2);
+  color: var(--color-text-muted-soft);
 }
 
 .desktopRemoveButton:disabled {
@@ -110,8 +114,8 @@
   border-radius: 10px;
   object-fit: cover;
   object-position: center;
-  border: 1px solid #ddd4c3;
-  background: #f6f1e7;
+  border: 1px solid var(--color-border-sand-warm);
+  background: var(--color-surface-linen);
 }
 
 .itemInfo {
@@ -136,7 +140,7 @@
   text-align: center;
   font-size: 1.06rem;
   font-weight: 650;
-  color: var(--home-ink-strong, #1a261f);
+  color: var(--home-ink-strong, var(--color-text-strong));
 }
 
 .itemSide {
@@ -164,7 +168,7 @@
 .itemControlsTrack {
   position: relative;
   z-index: 1;
-  transition: transform 0.2s ease;
+  transition: transform var(--transition-base);
 }
 
 .itemControlsTrackDragging {
@@ -174,9 +178,9 @@
 .quantityStepper {
   display: inline-flex;
   align-items: center;
-  border: 1px solid #d8cfbf;
-  border-radius: 999px;
-  background: #fffdf8;
+  border: 1px solid var(--color-border-clay);
+  border-radius: var(--radius-pill);
+  background: var(--color-surface-raised);
   overflow: hidden;
 }
 
@@ -190,8 +194,8 @@
   text-align: center;
   font-weight: 600;
   font-size: 0.92rem;
-  background: rgba(46, 139, 87, 0.06);
-  color: #1f5939;
+  background: var(--color-cart-page-8);
+  color: var(--color-brand-dark);
 }
 
 .quantityButton {
@@ -201,7 +205,7 @@
   padding: 0;
   border: 0;
   background: transparent;
-  color: #1f5939;
+  color: var(--color-brand-dark);
   font-size: 0.98rem;
   font-weight: 700;
   line-height: 1;
@@ -215,7 +219,7 @@
 }
 
 .quantityButton:hover:not(:disabled) {
-  background: rgba(46, 139, 87, 0.09);
+  background: var(--color-brand-alpha-09);
 }
 
 .removeButton {
@@ -223,18 +227,18 @@
   padding: 0.22rem 0.45rem;
   border: 0;
   background: transparent;
-  color: #1f5939;
+  color: var(--color-brand-dark);
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 0.28rem;
   flex: 0 0 auto;
-  border-radius: 8px;
+  border-radius: var(--radius-sm);
   cursor: pointer;
 }
 
 .removeButton:hover:not(:disabled) {
-  background: rgba(46, 139, 87, 0.08);
+  background: var(--color-cart-page-9);
 }
 
 .removeButton:disabled {
@@ -269,21 +273,21 @@
 
 .totalLine {
   padding-top: 0.5rem;
-  border-top: 1px solid #e3dccf;
+  border-top: 1px solid var(--color-border);
 }
 
 .lineTotal {
   margin: 0;
   font-size: 1.15rem;
   font-weight: 700;
-  color: var(--home-ink-strong, #1a261f);
+  color: var(--home-ink-strong, var(--color-text-strong));
 }
 
 .confirmOverlay {
   position: fixed;
   inset: 0;
   z-index: 70;
-  background: rgba(18, 32, 24, 0.42);
+  background: var(--color-cart-page-7);
   display: grid;
   place-items: center;
   padding: 1rem;
@@ -291,13 +295,17 @@
 
 .confirmDialog {
   width: min(100%, 430px);
-  background: linear-gradient(180deg, #fffdf8 0%, #f9f4ea 100%);
-  border: 1px solid #e3dccf;
-  border-radius: 18px;
+  background: linear-gradient(
+    180deg,
+    var(--color-surface-raised) 0%,
+    var(--color-surface-sunken) 100%
+  );
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
   padding: 1.1rem;
   display: grid;
   gap: 0.7rem;
-  box-shadow: 0 22px 40px rgba(14, 23, 17, 0.22);
+  box-shadow: 0 22px 40px var(--color-cart-page-5);
 }
 
 .confirmEyebrow {
@@ -305,7 +313,7 @@
   font-size: 0.73rem;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  color: var(--home-ink-muted, #4d6053);
+  color: var(--home-ink-muted, var(--color-text-slate));
   font-weight: 700;
 }
 
@@ -332,7 +340,7 @@
     align-items: center;
     gap: 0.75rem;
     padding: 0 1.1rem;
-    color: var(--home-ink-muted, #4d6053);
+    color: var(--home-ink-muted, var(--color-text-slate));
     text-transform: uppercase;
     letter-spacing: 0.08em;
     font-size: 0.74rem;
@@ -454,9 +462,9 @@
     height: 100%;
     border: 0;
     border-radius: 16px;
-    background: linear-gradient(180deg, #ff8a84 0%, #f36a64 100%);
-    color: #ffffff;
-    box-shadow: 0 8px 16px rgba(166, 44, 37, 0.22);
+    background: linear-gradient(180deg, var(--color-cart-page-4) 0%, var(--color-cart-page-3) 100%);
+    color: var(--color-surface);
+    box-shadow: 0 8px 16px var(--color-cart-page-6);
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -478,10 +486,14 @@
     gap: 0.4rem;
     grid-template-columns: minmax(0, 1fr) auto;
     align-items: start;
-    background: linear-gradient(180deg, #fffdf8 0%, #f9f4ea 100%);
+    background: linear-gradient(
+      180deg,
+      var(--color-surface-raised) 0%,
+      var(--color-surface-sunken) 100%
+    );
     border: 0;
     border-radius: 0;
-    border-bottom: 1px solid #ddd4c3;
+    border-bottom: 1px solid var(--color-border-sand-warm);
     touch-action: pan-y;
     position: relative;
     z-index: 1;
@@ -500,7 +512,7 @@
   .itemThumb {
     width: 66px;
     height: 66px;
-    border-radius: 12px;
+    border-radius: var(--radius-md);
   }
 
   .itemInfo h3 {
@@ -514,7 +526,7 @@
     margin-top: 0.48rem;
     font-size: 1.08rem;
     font-weight: 700;
-    color: var(--home-ink-strong, #1a261f);
+    color: var(--home-ink-strong, var(--color-text-strong));
   }
 
   .itemSide {
@@ -597,4 +609,10 @@
   .confirmDialog h3 {
     font-size: 1.3rem;
   }
+}
+
+.shippingBlock {
+  padding-bottom: 1.25rem;
+  margin-bottom: 1.25rem;
+  border-bottom: 1px solid var(--color-border);
 }

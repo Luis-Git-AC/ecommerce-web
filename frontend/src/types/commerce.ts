@@ -42,7 +42,102 @@ export type OrderItem = {
   lineTotal: number
 }
 
-export type OrderStatus = 'pending' | 'paid' | 'failed' | 'canceled'
+export type ShippingAddress = {
+  fullName: string
+  line1: string
+  line2?: string
+  city: string
+  postalCode: string
+  province: string
+  country: string
+  phone: string
+}
+
+export const ORDER_STATUSES = [
+  'pending',
+  'paid',
+  'processing',
+  'shipped',
+  'delivered',
+  'failed',
+  'canceled',
+] as const
+
+export type OrderStatus = (typeof ORDER_STATUSES)[number]
+
+export const ORDER_STATUS_LABELS: Record<OrderStatus, string> = {
+  pending: 'Pendiente de pago',
+  paid: 'Pagado',
+  processing: 'En preparación',
+  shipped: 'Enviado',
+  delivered: 'Entregado',
+  failed: 'Fallido',
+  canceled: 'Cancelado',
+}
+
+export const ALLOWED_STATUS_TRANSITIONS: Record<OrderStatus, OrderStatus[]> = {
+  pending: ['paid', 'failed', 'canceled'],
+  paid: ['processing', 'canceled'],
+  processing: ['shipped'],
+  shipped: ['delivered'],
+  delivered: [],
+  failed: [],
+  canceled: [],
+}
+
+export type AdminProduct = {
+  id: string
+  slug: string
+  name: string
+  description: string
+  price: number
+  currency: string
+  category: string
+  careLevel: string
+  lightLevel: string
+  size: string
+  petFriendly: boolean
+  isFeatured: boolean
+  stock: number
+  isActive: boolean
+  images: Array<{ url: string; alt: string; publicId?: string }>
+  tags: string[]
+  createdAt?: string
+  updatedAt?: string
+}
+
+export type AdminProductsPage = {
+  items: AdminProduct[]
+  page: number
+  limit: number
+  total: number
+  totalPages: number
+}
+
+export type AdminStats = {
+  revenue: { total: number; paidOrders: number; currency: string }
+  ordersByStatus: Partial<Record<OrderStatus, number>>
+  topProducts: Array<{ slug: string; name: string; units: number; revenue: number }>
+  newUsersLast30Days: number
+  lowStockProducts: number
+  totals: { activeProducts: number; totalUsers: number; totalOrders: number }
+}
+
+export type AdminContactMessage = {
+  id: string
+  name: string
+  email: string
+  message: string
+  createdAt: string
+}
+
+export type AdminContactMessagesPage = {
+  items: AdminContactMessage[]
+  page: number
+  limit: number
+  total: number
+  totalPages: number
+}
 
 export type OrderSummary = {
   id: string
@@ -64,6 +159,7 @@ export type OrdersPage = {
 export type OrderDetail = {
   id: string
   userId: string
+  shippingAddress?: ShippingAddress
   status: OrderStatus
   currency: string
   subtotal: number

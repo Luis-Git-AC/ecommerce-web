@@ -1,34 +1,59 @@
 import { Types } from 'mongoose'
 import { HttpError } from '../../../common/errors/http-error'
 import { logger } from '../../../config/logger'
-import { CartModel } from '../../cart/schemas/cart.schema'
-import { listOrdersQuerySchema } from '../dto/orders.dto'
-import { OrderModel } from '../schemas/order.schema'
+import { CartRepository } from '../../cart/repositories/cart.repository'
+import { ProductModel } from '../../products/schemas/product.schema'
+import { createOrderSchema, listOrdersQuerySchema } from '../dto/orders.dto'
+import { OrderRepository } from '../repositories/order.repository'
+import type { OrderStatus } from '../schemas/order.schema'
+
+type RevalidatedOrderLines = {
+  items: Array<{
+    productId: Types.ObjectId
+    slug: string
+    name: string
+    image: string
+    quantity: number
+    unitPrice: number
+    currency: string
+    lineTotal: number
+  }>
+  subtotal: number
+  total: number
+  currency: string
+}
 
 export class OrderService {
-  async createOrder(userId: string) {
+  constructor(
+    private readonly orderRepository: OrderRepository = new OrderRepository(),
+    private readonly cartRepository: CartRepository = new CartRepository(),
+  ) {}
+
+  async createOrder(userId: string, rawBody: unknown) {
     const objectUserId = this.toObjectId(userId)
 
-    const cart = await CartModel.findOne({ userId: objectUserId })
+    const parsedBody = createOrderSchema.safeParse(rawBody)
+    if (!parsedBody.success) {
+      const detalle = parsedBody.error.issues.map((issue) => issue.message).join('; ')
+      logger.warn({ userId, detalle }, 'Order create failed: invalid shipping address')
+      throw new HttpError(400, `Direccion de envio no valida: ${detalle}`)
+    }
+
+    const shippingAddress = parsedBody.data.shippingAddress
+
+    const cart = await this.cartRepository.findByUser(objectUserId)
     if (!cart || cart.items.length === 0) {
       logger.warn({ userId }, 'Order create failed: cart is empty')
       throw new HttpError(400, 'Cart is empty')
     }
 
-    const currency = cart.items[0]?.currency ?? 'EUR'
+    const revalidated = await this.revalidateCartLines(userId, cart.items)
+    const currency = revalidated.currency
     const orderPayload = {
-      items: cart.items.map((item) => ({
-        productId: item.productId,
-        slug: item.slug,
-        name: item.name,
-        image: item.image,
-        quantity: item.quantity,
-        unitPrice: item.unitPrice,
-        currency: item.currency,
-        lineTotal: item.lineTotal,
-      })),
-      subtotal: cart.subtotal,
-      total: cart.total,
+      shippingAddress,
+      items: revalidated.items,
+      subtotal: revalidated.subtotal,
+      total: revalidated.total,
       currency,
       status: 'pending' as const,
       paymentIntentId: undefined,
@@ -36,13 +61,11 @@ export class OrderService {
       paidAt: undefined,
     }
 
-    const existingPending = await OrderModel.findOne({
-      userId: objectUserId,
-      status: 'pending',
-    }).sort({ createdAt: -1 })
+    const existingPending = await this.orderRepository.findLatestByStatus(objectUserId, 'pending')
 
     if (existingPending) {
       existingPending.set({
+        shippingAddress: orderPayload.shippingAddress,
         items: orderPayload.items,
         subtotal: orderPayload.subtotal,
         total: orderPayload.total,
@@ -68,7 +91,7 @@ export class OrderService {
       return this.toOrderDetailResponse(existingPending)
     }
 
-    const created = await OrderModel.create({
+    const created = await this.orderRepository.create({
       userId: objectUserId,
       ...orderPayload,
     })
@@ -96,18 +119,12 @@ export class OrderService {
     }
 
     const { page, limit, includePending } = parsed.data
-    const query = includePending
-      ? { userId: objectUserId }
-      : { userId: objectUserId, status: { $ne: 'pending' } }
-
-    const [orders, total] = await Promise.all([
-      OrderModel.find(query)
-        .sort({ createdAt: -1 })
-        .skip((page - 1) * limit)
-        .limit(limit)
-        .lean(),
-      OrderModel.countDocuments(query),
-    ])
+    const { items: orders, total } = await this.orderRepository.findPaginatedByUser({
+      userId: objectUserId,
+      page,
+      limit,
+      includePending,
+    })
 
     return {
       items: orders.map((order) => ({
@@ -132,16 +149,113 @@ export class OrderService {
       throw new HttpError(400, 'Invalid order id')
     }
 
-    const order = await OrderModel.findOne({
-      _id: new Types.ObjectId(orderId),
-      userId: objectUserId,
-    }).lean()
+    const order = await this.orderRepository.findByIdForUser(
+      new Types.ObjectId(orderId),
+      objectUserId,
+    )
 
     if (!order) {
       throw new HttpError(404, 'Order not found')
     }
 
     return this.toOrderDetailResponse(order)
+  }
+
+  private async revalidateCartLines(
+    userId: string,
+    cartItems: Array<{
+      productId: Types.ObjectId
+      quantity: number
+      unitPrice: number
+    }>,
+  ): Promise<RevalidatedOrderLines> {
+    const productIds = cartItems.map((item) => item.productId)
+    const products = await ProductModel.find({ _id: { $in: productIds }, isActive: true }).lean()
+    const productsById = new Map(products.map((product) => [String(product._id), product]))
+
+    const missing = cartItems.filter((item) => !productsById.has(String(item.productId)))
+    if (missing.length > 0) {
+      logger.warn(
+        {
+          userId,
+          missingProductIds: missing.map((item) => String(item.productId)),
+        },
+        'Order create failed: cart contains products no longer available',
+      )
+
+      throw new HttpError(
+        409,
+        'Algunos productos de tu carrito ya no están disponibles. Revísalo antes de continuar.',
+      )
+    }
+
+    const outOfStock = cartItems.filter((item) => {
+      const product = productsById.get(String(item.productId))
+      return product ? item.quantity > product.stock : false
+    })
+
+    if (outOfStock.length > 0) {
+      const detalle = outOfStock
+        .map((item) => {
+          const product = productsById.get(String(item.productId))!
+          return `${product.name} (quedan ${product.stock})`
+        })
+        .join(', ')
+
+      logger.warn(
+        {
+          userId,
+          outOfStock: outOfStock.map((item) => String(item.productId)),
+        },
+        'Order create failed: insufficient stock',
+      )
+
+      throw new HttpError(409, `No hay stock suficiente para: ${detalle}.`)
+    }
+
+    let subtotal = 0
+    const items = cartItems.map((item) => {
+      const product = productsById.get(String(item.productId))!
+
+      if (product.price !== item.unitPrice) {
+        logger.warn(
+          {
+            userId,
+            productId: String(product._id),
+            cartUnitPrice: item.unitPrice,
+            catalogUnitPrice: product.price,
+          },
+          'Order line reprice: cart price differs from catalog price',
+        )
+      }
+
+      const lineTotal = this.toMoney(product.price * item.quantity)
+      subtotal += lineTotal
+
+      return {
+        productId: product._id,
+        slug: product.slug,
+        name: product.name,
+        image: product.images[0]?.url ?? '',
+        quantity: item.quantity,
+        unitPrice: product.price,
+        currency: product.currency,
+        lineTotal,
+      }
+    })
+
+    const normalizedSubtotal = this.toMoney(subtotal)
+
+    return {
+      items,
+      subtotal: normalizedSubtotal,
+      total: normalizedSubtotal,
+      currency: items[0]?.currency ?? 'EUR',
+    }
+  }
+
+  private toMoney(value: number) {
+    return Math.round((value + Number.EPSILON) * 100) / 100
   }
 
   private toObjectId(value: string) {
@@ -155,7 +269,17 @@ export class OrderService {
   private toOrderDetailResponse(order: {
     _id: unknown
     userId: unknown
-    status: 'pending' | 'paid' | 'failed' | 'canceled'
+    shippingAddress?: {
+      fullName: string
+      line1: string
+      line2?: string | null
+      city: string
+      postalCode: string
+      province: string
+      country: string
+      phone: string
+    } | null
+    status: OrderStatus
     currency: string
     subtotal: number
     total: number
@@ -178,6 +302,18 @@ export class OrderService {
     return {
       id: String(order._id),
       userId: String(order.userId),
+      shippingAddress: order.shippingAddress
+        ? {
+            fullName: order.shippingAddress.fullName,
+            line1: order.shippingAddress.line1,
+            line2: order.shippingAddress.line2 ?? undefined,
+            city: order.shippingAddress.city,
+            postalCode: order.shippingAddress.postalCode,
+            province: order.shippingAddress.province,
+            country: order.shippingAddress.country,
+            phone: order.shippingAddress.phone,
+          }
+        : undefined,
       status: order.status,
       currency: order.currency,
       subtotal: order.subtotal,

@@ -1,5 +1,10 @@
-import { appEnv } from '../config/env'
-import type { Product } from '../types/product'
+import { apiRequest } from './api.client'
+import type {
+  Product,
+  ProductListFilters,
+  ProductListPage,
+  ProductSortOption,
+} from '../types/product'
 
 type ProductApiImage = {
   url: string
@@ -10,6 +15,7 @@ type ProductApi = {
   _id: string
   slug: string
   name: string
+  description: string
   price: number
   currency: string
   category: string
@@ -17,10 +23,13 @@ type ProductApi = {
   lightLevel: string
   size: string
   petFriendly: boolean
+  isFeatured?: boolean
+  stock?: number
+  tags?: string[]
   images: ProductApiImage[]
 }
 
-type ProductListResponse = {
+type ProductListApiResponse = {
   items: ProductApi[]
   total: number
   page: number
@@ -28,71 +37,114 @@ type ProductListResponse = {
   totalPages: number
 }
 
-const API_BASE_URL = appEnv.apiBaseUrl
-
 const toProductImage = (image?: ProductApiImage) => ({
   src: image?.url ?? '',
 })
 
-const formatPrice = (value: number, currency: string) => {
-  try {
-    return new Intl.NumberFormat('es-ES', {
-      style: 'currency',
-      currency: currency || 'EUR',
-      maximumFractionDigits: 0,
-    }).format(value)
-  } catch {
-    return `${value} EUR`
-  }
-}
-
 const mapApiProduct = (product: ProductApi): Product => ({
   id: product._id,
+  slug: product.slug,
   name: product.name,
-  price: formatPrice(product.price, product.currency),
+  description: product.description ?? '',
+  price: product.price,
+  currency: product.currency || 'EUR',
   category: product.category,
   careLevel: product.careLevel,
   lightRequired: product.lightLevel,
   petSafe: product.petFriendly,
   size: product.size,
+  isFeatured: product.isFeatured ?? false,
+  stock: product.stock ?? 0,
+  tags: product.tags ?? [],
   images: {
     card: toProductImage(product.images[0]),
     gallery: product.images.slice(1).map((item) => toProductImage(item)),
   },
 })
 
-const getJson = async <T>(path: string): Promise<T> => {
-  const response = await fetch(`${API_BASE_URL}${path}`)
+const buildListQuery = (filters: ProductListFilters = {}) => {
+  const params = new URLSearchParams()
 
-  if (!response.ok) {
-    throw new Error(`Request failed: ${response.status} ${response.statusText}`)
+  if (filters.page !== undefined) {
+    params.set('page', String(filters.page))
   }
 
-  return (await response.json()) as T
+  if (filters.limit !== undefined) {
+    params.set('limit', String(filters.limit))
+  }
+
+  const multiValueFilters: Array<[string, string[] | undefined]> = [
+    ['category', filters.category],
+    ['careLevel', filters.careLevel],
+    ['lightLevel', filters.lightLevel],
+    ['size', filters.size],
+  ]
+
+  for (const [key, values] of multiValueFilters) {
+    for (const value of values ?? []) {
+      params.append(key, value)
+    }
+  }
+
+  if (typeof filters.petFriendly === 'boolean') {
+    params.set('petFriendly', String(filters.petFriendly))
+  }
+
+  const searchTerm = filters.q?.trim()
+  if (searchTerm) {
+    params.set('q', searchTerm)
+  }
+
+  if (filters.sort) {
+    params.set('sort', filters.sort)
+  }
+
+  const queryString = params.toString()
+  return queryString ? `?${queryString}` : ''
 }
 
 export type ProductsRepository = {
-  list: () => Promise<Product[]>
-  findById: (id: string) => Promise<Product | undefined>
+  list: (filters?: ProductListFilters) => Promise<ProductListPage>
+  findById: (id: string) => Promise<Product>
+  findBySlug: (slug: string) => Promise<Product>
   listRelated: (productId: string) => Promise<Product[]>
   listFeatured: () => Promise<Product[]>
 }
 
 export const productsRepository: ProductsRepository = {
-  async list() {
-    const response = await getJson<ProductListResponse>('/products')
-    return response.items.map(mapApiProduct)
+  async list(filters) {
+    const response = await apiRequest<ProductListApiResponse>(`/products${buildListQuery(filters)}`)
+
+    return {
+      items: response.items.map(mapApiProduct),
+      total: response.total,
+      page: response.page,
+      limit: response.limit,
+      totalPages: response.totalPages,
+    }
   },
+
   async findById(id) {
-    const product = await getJson<ProductApi>(`/products/${id}`)
+    const product = await apiRequest<ProductApi>(`/products/${encodeURIComponent(id)}`)
     return mapApiProduct(product)
   },
+
+  async findBySlug(slug) {
+    const product = await apiRequest<ProductApi>(`/products/slug/${encodeURIComponent(slug)}`)
+    return mapApiProduct(product)
+  },
+
   async listRelated(productId) {
-    const products = await getJson<ProductApi[]>(`/products/related/${productId}`)
+    const products = await apiRequest<ProductApi[]>(
+      `/products/related/${encodeURIComponent(productId)}`,
+    )
     return products.map(mapApiProduct)
   },
+
   async listFeatured() {
-    const products = await getJson<ProductApi[]>('/products/featured')
+    const products = await apiRequest<ProductApi[]>('/products/featured')
     return products.map(mapApiProduct)
   },
 }
+
+export const PRODUCT_SORT_OPTIONS: ProductSortOption[] = ['featured', 'price_asc', 'price_desc']

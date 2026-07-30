@@ -9,10 +9,14 @@
 }
 
 .form {
-  border: 1px solid #e3dccf;
-  border-radius: 18px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
   padding: 2rem;
-  background: linear-gradient(180deg, #fffdf8 0%, #f9f4ea 100%);
+  background: linear-gradient(
+    180deg,
+    var(--color-surface-raised) 0%,
+    var(--color-surface-sunken) 100%
+  );
   display: grid;
   gap: 1.1rem;
 }
@@ -25,15 +29,15 @@
 .field label {
   font-size: 0.92rem;
   font-weight: 600;
-  color: #314135;
+  color: var(--color-text-deepest);
 }
 
 .field input,
 .field textarea {
   padding: 0.72rem 0.92rem;
-  border-color: #d9d2c5;
-  border-radius: 12px;
-  background: #fffdf9;
+  border-color: var(--color-border-stone);
+  border-radius: var(--radius-md);
+  background: var(--color-surface-raised-alt);
 }
 
 .field textarea {
@@ -47,18 +51,22 @@
 }
 
 .statusSuccess {
-  color: #2e8b57;
+  color: var(--color-brand);
 }
 
 .statusError {
-  color: #b5473c;
+  color: var(--color-error);
 }
 
 .info {
-  border: 1px solid #e3dccf;
-  border-radius: 18px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
   padding: 2rem;
-  background: linear-gradient(180deg, #fffdf8 0%, #f9f4ea 100%);
+  background: linear-gradient(
+    180deg,
+    var(--color-surface-raised) 0%,
+    var(--color-surface-sunken) 100%
+  );
   display: grid;
   gap: 0.5rem;
 }

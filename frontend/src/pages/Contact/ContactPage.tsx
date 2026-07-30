@@ -1,8 +1,8 @@
 import { useState } from 'react'
 import type { FormEvent } from 'react'
-import Footer from '../../components/layout/Footer'
-import Header from '../../components/layout/Header'
-import { contentRepository } from '../../services/content.repository'
+import Footer from '@/components/layout/Footer'
+import Header from '@/components/layout/Header'
+import { contentRepository } from '@/services/content.repository'
 import styles from './ContactPage.module.css'
 
 export default function ContactPage() {
@@ -54,7 +54,7 @@ export default function ContactPage() {
   return (
     <div className="page brand-page">
       <Header />
-      <main className={styles.contact}>
+      <main id="main-content" className={styles.contact}>
         <section className="container page-hero">
           <p className="page-eyebrow">Contacto</p>
           <h1>Estamos aquí para ayudarte</h1>

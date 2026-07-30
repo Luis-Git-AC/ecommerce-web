@@ -51,7 +51,7 @@ const parseErrorMessage = async (response: Response) => {
       return body.message.trim()
     }
   } catch {
-    // No-op: si la respuesta no es JSON util, uso un mensaje amigable.
+    // noop
   }
 
   return friendlyStatusMessage(response.status)

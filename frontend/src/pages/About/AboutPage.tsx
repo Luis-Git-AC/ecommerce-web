@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
-import Footer from '../../components/layout/Footer'
-import Header from '../../components/layout/Header'
+import Footer from '@/components/layout/Footer'
+import Header from '@/components/layout/Header'
 import styles from './AboutPage.module.css'
 
 const values = [
@@ -22,7 +22,7 @@ export default function AboutPage() {
   return (
     <div className="page brand-page">
       <Header />
-      <main className={styles.about}>
+      <main id="main-content" className={styles.about}>
         <section className="container page-hero">
           <p className="page-eyebrow">Sobre nosotros</p>
           <h1>{'{ecommerce} nace para ayudarte a elegir con confianza'}</h1>

@@ -14,20 +14,20 @@
 }
 
 .card {
-  border: 1px solid #e7e2d8;
-  border-radius: 18px;
+  border: 1px solid var(--color-border-soft);
+  border-radius: var(--radius-xl);
   padding: 1.5rem;
-  background: #fffdf7;
+  background: var(--color-surface-raised-warm);
   display: grid;
   gap: 0.75rem;
   transition:
-    border-color 0.2s ease,
-    box-shadow 0.2s ease;
+    border-color var(--transition-base),
+    box-shadow var(--transition-base);
 }
 
 .card:hover {
-  border-color: #ddd6ca;
-  box-shadow: 0 10px 20px rgba(31, 42, 34, 0.06);
+  border-color: var(--color-border-sand);
+  box-shadow: 0 10px 20px var(--color-ink-alpha-06);
 }
 
 .detail {

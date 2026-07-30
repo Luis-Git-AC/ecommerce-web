@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { heroFrames } from '../../assets/hero/heroFrames.ts'
+import { heroFrames } from '@/assets/hero/heroFrames.ts'
 import styles from './HeroSection.module.css'
 
 export default function HeroSection() {

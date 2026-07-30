@@ -1,0 +1,56 @@
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.3rem 0.7rem 0.3rem 0.6rem;
+  border-radius: var(--radius-pill);
+  border: 1px solid transparent;
+  font-size: 0.8rem;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+}
+
+.dot {
+  width: 7px;
+  height: 7px;
+  border-radius: var(--radius-pill);
+  background: currentColor;
+  flex: 0 0 7px;
+}
+
+.positive {
+  color: var(--color-order-positive-fg);
+  background: var(--color-order-positive-bg);
+  border-color: var(--color-order-positive-border);
+}
+
+.pending {
+  color: var(--color-order-pending-fg);
+  background: var(--color-order-pending-bg);
+  border-color: var(--color-order-pending-border);
+}
+
+.progress {
+  color: var(--color-order-progress-fg);
+  background: var(--color-order-progress-bg);
+  border-color: var(--color-order-progress-border);
+}
+
+.negative {
+  color: var(--color-order-negative-fg);
+  background: var(--color-order-negative-bg);
+  border-color: var(--color-order-negative-border);
+}
+
+.lg {
+  font-size: 0.88rem;
+  padding: 0.4rem 0.9rem 0.4rem 0.75rem;
+}
+
+.lg .dot {
+  width: 8px;
+  height: 8px;
+  flex-basis: 8px;
+}

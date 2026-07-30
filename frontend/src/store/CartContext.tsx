@@ -1,17 +1,8 @@
 /* eslint-disable react-refresh/only-export-components */
-import {
-  createContext,
-  useCallback,
-  useContext,
-  useEffect,
-  useMemo,
-  useState,
-  type ReactNode,
-} from 'react'
-import { useLocation } from 'react-router-dom'
-import { cartRepository } from '../services/cart.repository'
-import { ApiClientError } from '../services/api.client'
-import type { Cart } from '../types/commerce'
+import { createContext, useContext, useMemo, type ReactNode } from 'react'
+import { useCartMutations, useCartQuery } from '@/features/cart/queries'
+import { ApiClientError } from '@/services/api.client'
+import type { Cart } from '@/types/commerce'
 import { useAuth } from './AuthContext'
 
 type CartContextValue = {
@@ -30,11 +21,7 @@ type CartContextValue = {
 const CartContext = createContext<CartContextValue | undefined>(undefined)
 
 const toClientError = (error: unknown) => {
-  if (error instanceof ApiClientError) {
-    return error.message
-  }
-
-  if (error instanceof Error) {
+  if (error instanceof ApiClientError || error instanceof Error) {
     return error.message
   }
 
@@ -43,168 +30,74 @@ const toClientError = (error: unknown) => {
 
 export function CartProvider({ children }: { children: ReactNode }) {
   const { accessToken } = useAuth()
-  const { pathname } = useLocation()
-  const [cart, setCart] = useState<Cart | null>(null)
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState<string | null>(null)
+  const { data, isLoading, error: queryError } = useCartQuery(accessToken)
+  const { addItem, updateItem, removeItem, clearCart, invalidate, clearOptimistic } =
+    useCartMutations(accessToken)
 
-  const loadCart = useCallback(
-    async (silent = false) => {
-      if (!accessToken) {
-        setCart(null)
-        setError(null)
-        return
-      }
+  const value = useMemo<CartContextValue>(() => {
+    const cart = accessToken ? (data ?? null) : null
 
-      if (!silent) {
-        setLoading(true)
-        setError(null)
-      }
-
-      try {
-        const nextCart = await cartRepository.getCart(accessToken)
-        setCart(nextCart)
-        if (!silent) {
-          setError(null)
-        }
-      } catch (incomingError) {
-        if (!silent) {
-          setError(toClientError(incomingError))
-        }
-      } finally {
-        if (!silent) {
-          setLoading(false)
-        }
-      }
-    },
-    [accessToken],
-  )
-
-  const refreshCart = useCallback(async () => {
-    await loadCart(false)
-  }, [loadCart])
-
-  const clearCartOptimistic = useCallback(() => {
-    setCart((prev) => {
-      if (!prev) {
-        return prev
-      }
-
-      return {
-        ...prev,
-        items: [],
-        subtotal: 0,
-        total: 0,
-        totalItems: 0,
-      }
-    })
-  }, [])
-
-  useEffect(() => {
-    void refreshCart()
-  }, [refreshCart])
-
-  useEffect(() => {
-    void loadCart(true)
-  }, [loadCart, pathname])
-
-  useEffect(() => {
-    const onFocus = () => {
-      void loadCart(true)
-    }
-
-    const onVisibilityChange = () => {
-      if (document.visibilityState === 'visible') {
-        void loadCart(true)
-      }
-    }
-
-    window.addEventListener('focus', onFocus)
-    document.addEventListener('visibilitychange', onVisibilityChange)
-
-    return () => {
-      window.removeEventListener('focus', onFocus)
-      document.removeEventListener('visibilitychange', onVisibilityChange)
-    }
-  }, [loadCart])
-
-  const addToCart = useCallback(
-    async (productId: string, quantity = 1) => {
-      if (!accessToken) {
-        throw new Error('Debes iniciar sesión para usar el carrito.')
-      }
-
-      setError(null)
-      const nextCart = await cartRepository.addItem(accessToken, { productId, quantity })
-      setCart(nextCart)
-    },
-    [accessToken],
-  )
-
-  const updateItemQuantity = useCallback(
-    async (productId: string, quantity: number) => {
-      if (!accessToken) {
-        throw new Error('Debes iniciar sesión para usar el carrito.')
-      }
-
-      if (quantity <= 0) {
-        const nextCart = await cartRepository.removeItem(accessToken, productId)
-        setCart(nextCart)
-        return
-      }
-
-      const nextCart = await cartRepository.updateItem(accessToken, productId, quantity)
-      setCart(nextCart)
-    },
-    [accessToken],
-  )
-
-  const removeItem = useCallback(
-    async (productId: string) => {
-      if (!accessToken) {
-        throw new Error('Debes iniciar sesión para usar el carrito.')
-      }
-
-      const nextCart = await cartRepository.removeItem(accessToken, productId)
-      setCart(nextCart)
-    },
-    [accessToken],
-  )
-
-  const clearCart = useCallback(async () => {
-    if (!accessToken) {
-      throw new Error('Debes iniciar sesión para usar el carrito.')
-    }
-
-    const nextCart = await cartRepository.clear(accessToken)
-    setCart(nextCart)
-  }, [accessToken])
-
-  const value = useMemo<CartContextValue>(
-    () => ({
+    return {
       cart,
       totalItems: cart?.totalItems ?? 0,
-      loading,
-      error,
-      clearCartOptimistic,
-      refreshCart,
-      addToCart,
-      updateItemQuantity,
-      removeItem,
-      clearCart,
-    }),
-    [
-      addToCart,
-      cart,
-      clearCart,
-      clearCartOptimistic,
-      error,
-      loading,
-      refreshCart,
-      removeItem,
-      updateItemQuantity,
-    ],
-  )
+      loading: Boolean(accessToken) && isLoading,
+      error: queryError ? toClientError(queryError) : null,
+
+      clearCartOptimistic: clearOptimistic,
+
+      refreshCart: async () => {
+        await invalidate()
+      },
+
+      addToCart: async (productId, quantity = 1) => {
+        if (!accessToken) {
+          throw new Error('Debes iniciar sesión para usar el carrito.')
+        }
+
+        await addItem.mutateAsync({ productId, quantity })
+      },
+
+      updateItemQuantity: async (productId, quantity) => {
+        if (!accessToken) {
+          throw new Error('Debes iniciar sesión para usar el carrito.')
+        }
+
+        if (quantity <= 0) {
+          await removeItem.mutateAsync(productId)
+          return
+        }
+
+        await updateItem.mutateAsync({ productId, quantity })
+      },
+
+      removeItem: async (productId) => {
+        if (!accessToken) {
+          throw new Error('Debes iniciar sesión para usar el carrito.')
+        }
+
+        await removeItem.mutateAsync(productId)
+      },
+
+      clearCart: async () => {
+        if (!accessToken) {
+          throw new Error('Debes iniciar sesión para usar el carrito.')
+        }
+
+        await clearCart.mutateAsync()
+      },
+    }
+  }, [
+    accessToken,
+    addItem,
+    clearCart,
+    clearOptimistic,
+    data,
+    invalidate,
+    isLoading,
+    queryError,
+    removeItem,
+    updateItem,
+  ])
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>
 }

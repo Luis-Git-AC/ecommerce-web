@@ -1,14 +1,24 @@
 import { Types } from 'mongoose'
+import { escapeRegex } from '../../../common/utils/regex'
 import { ProductModel, type ProductDocument } from '../schemas/product.schema'
 
 type ProductSort = 'featured' | 'price_asc' | 'price_desc'
 
 type ProductFilters = {
-  category?: string
-  careLevel?: string
-  lightLevel?: string
-  size?: string
+  category?: string[]
+  careLevel?: string[]
+  lightLevel?: string[]
+  size?: string[]
   petFriendly?: boolean
+  q?: string
+}
+
+const toMatch = (values?: string[]) => {
+  if (!values || values.length === 0) {
+    return undefined
+  }
+
+  return values.length === 1 ? values[0] : { $in: values }
 }
 
 type FindAllProductsOptions = {
@@ -35,12 +45,28 @@ export type PaginatedProducts = {
 export class ProductRepository {
   async findAll(options: FindAllProductsOptions): Promise<PaginatedProducts> {
     const { filters, page, limit, sort } = options
+    const searchTerm = filters.q?.trim()
+    const categoryMatch = toMatch(filters.category)
+    const careLevelMatch = toMatch(filters.careLevel)
+    const lightLevelMatch = toMatch(filters.lightLevel)
+    const sizeMatch = toMatch(filters.size)
+
     const query = {
-      ...(filters.category ? { category: filters.category } : {}),
-      ...(filters.careLevel ? { careLevel: filters.careLevel } : {}),
-      ...(filters.lightLevel ? { lightLevel: filters.lightLevel } : {}),
-      ...(filters.size ? { size: filters.size } : {}),
+      isActive: true,
+      ...(categoryMatch !== undefined ? { category: categoryMatch } : {}),
+      ...(careLevelMatch !== undefined ? { careLevel: careLevelMatch } : {}),
+      ...(lightLevelMatch !== undefined ? { lightLevel: lightLevelMatch } : {}),
+      ...(sizeMatch !== undefined ? { size: sizeMatch } : {}),
       ...(typeof filters.petFriendly === 'boolean' ? { petFriendly: filters.petFriendly } : {}),
+      ...(searchTerm
+        ? {
+            $or: [
+              { name: { $regex: escapeRegex(searchTerm), $options: 'i' } },
+              { description: { $regex: escapeRegex(searchTerm), $options: 'i' } },
+              { tags: { $regex: escapeRegex(searchTerm), $options: 'i' } },
+            ],
+          }
+        : {}),
     }
 
     const [items, total] = await Promise.all([
@@ -64,15 +90,24 @@ export class ProductRepository {
   }
 
   async findById(id: string): Promise<ProductDocument | null> {
-    return ProductModel.findById(id).lean()
+    return ProductModel.findOne({ _id: id, isActive: true }).lean()
+  }
+
+  async findBySlug(slug: string): Promise<ProductDocument | null> {
+    return ProductModel.findOne({ slug, isActive: true }).lean()
   }
 
   async findFeatured(limit = 8): Promise<ProductDocument[]> {
-    return ProductModel.find({ isFeatured: true }).sort({ createdAt: -1 }).limit(limit).lean()
+    return ProductModel.find({ isFeatured: true, isActive: true })
+      .sort({ createdAt: -1 })
+      .limit(limit)
+      .lean()
   }
 
   async findRelated(productId: string, limit = 4): Promise<ProductDocument[]> {
-    const product = await ProductModel.findById(productId).select({ category: 1 }).lean()
+    const product = await ProductModel.findOne({ _id: productId, isActive: true })
+      .select({ category: 1 })
+      .lean()
 
     if (!product) {
       return []
@@ -81,6 +116,7 @@ export class ProductRepository {
     return ProductModel.find({
       _id: { $ne: new Types.ObjectId(productId) },
       category: product.category,
+      isActive: true,
     })
       .sort({ isFeatured: -1, createdAt: -1 })
       .limit(limit)

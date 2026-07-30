@@ -1,6 +1,6 @@
 .siteFooter {
-  background: #1f2a22;
-  color: #f6f3ee;
+  background: var(--color-footer-bg);
+  color: var(--color-footer-fg);
   padding: 3rem 0 1.5rem;
 }
 
@@ -8,7 +8,7 @@
   font-family: var(--home-display-font, 'Fraunces', 'Playfair Display', serif);
   font-size: 1.5rem;
   font-weight: 700;
-  color: #f6f3ee;
+  color: var(--color-footer-fg);
 }
 
 .footerGrid {
@@ -34,7 +34,7 @@
 }
 
 .footerDetails {
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid var(--color-footer-9);
   padding-bottom: 0.75rem;
 }
 
@@ -66,19 +66,19 @@
 .footerGrid a,
 .footerDetails summary {
   transition:
-    color 0.2s ease,
-    opacity 0.2s ease;
+    color var(--transition-base),
+    opacity var(--transition-base);
 }
 
 .footerGrid a:hover,
 .footerDetails summary:hover {
-  color: #d7f0df;
+  color: var(--color-footer-accent);
 }
 
 .footerGrid a:focus-visible,
 .footerDetails summary:focus-visible {
   outline: none;
-  color: #d7f0df;
+  color: var(--color-footer-accent);
 }
 
 .socials {
@@ -90,12 +90,12 @@
 .socials a {
   width: 36px;
   height: 36px;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-pill);
+  background: var(--color-white-alpha-10);
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  color: #f6f3ee;
+  color: var(--color-footer-fg);
 }
 
 .socials svg {
@@ -116,13 +116,13 @@
   gap: 0.5rem;
   align-items: center;
   font-size: 0.9rem;
-  color: rgba(246, 243, 238, 0.75);
+  color: var(--color-footer-5);
   justify-content: center;
 }
 
 .footerBottom {
   margin-top: 2rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  border-top: 1px solid var(--color-white-alpha-10);
   padding-top: 1rem;
   font-size: 0.9rem;
 }
@@ -146,8 +146,8 @@
   justify-content: space-between;
   padding: 0.5rem 0.9rem 0.75rem;
   border-radius: 16px;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: var(--color-footer-7);
+  border: 1px solid var(--color-footer-8);
 }
 
 .newsletterCopy {
@@ -160,11 +160,11 @@
 
 .newsletterTitle {
   font-weight: 600;
-  color: #f6f3ee;
+  color: var(--color-footer-fg);
 }
 
 .newsletterText {
-  color: rgba(246, 243, 238, 0.7);
+  color: var(--color-footer-fg-muted);
 }
 
 .newsletterForm {
@@ -178,38 +178,38 @@
   flex: 1 1 200px;
   min-width: 220px;
   padding: 0.45rem 0.85rem;
-  border-radius: 999px;
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  background: rgba(31, 42, 34, 0.25);
-  color: #f6f3ee;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--color-white-alpha-25);
+  background: var(--color-footer-11);
+  color: var(--color-footer-fg);
 }
 
 .newsletterForm input::placeholder {
-  color: rgba(246, 243, 238, 0.7);
+  color: var(--color-footer-fg-muted);
 }
 
 .newsletterForm input:focus-visible {
-  border-color: rgba(196, 234, 215, 0.9);
-  box-shadow: 0 0 0 3px rgba(171, 216, 193, 0.2);
+  border-color: var(--color-footer-4);
+  box-shadow: 0 0 0 3px var(--color-footer-2);
 }
 
 .newsletterButton {
-  background: rgba(255, 255, 255, 0.85);
-  color: #1f2a22;
+  background: var(--color-footer-10);
+  color: var(--color-footer-btn-text);
   border: none;
   padding: 0.45rem 0.95rem;
-  border-radius: 999px;
+  border-radius: var(--radius-pill);
   font-weight: 600;
   cursor: pointer;
   min-height: 40px;
   transition:
-    background-color 0.2s ease,
-    box-shadow 0.2s ease,
-    transform 0.15s ease;
+    background-color var(--transition-base),
+    box-shadow var(--transition-base),
+    transform var(--transition-fast);
 }
 
 .newsletterButton:hover {
-  background: #ffffff;
+  background: var(--color-footer-btn-bg-hover);
 }
 
 .newsletterButton:active {
@@ -218,7 +218,7 @@
 
 .newsletterButton:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 3px rgba(171, 216, 193, 0.35);
+  box-shadow: 0 0 0 3px var(--color-footer-3);
 }
 
 .footerBar p {
@@ -231,11 +231,11 @@
 }
 
 .newsletterStatusSuccess {
-  color: rgba(246, 243, 238, 0.8);
+  color: var(--color-footer-6);
 }
 
 .newsletterStatusError {
-  color: #ffb4ab;
+  color: var(--color-footer-1);
 }
 
 @media (max-width: 768px) {

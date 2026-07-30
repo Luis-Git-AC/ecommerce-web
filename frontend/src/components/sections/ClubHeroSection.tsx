@@ -1,4 +1,4 @@
-import boxMedioPreview from '../../assets/club/box-medio-preview.png'
+import boxMedioPreview from '@/assets/club/box-medio-preview.png'
 import styles from './ClubHeroSection.module.css'
 
 export default function ClubHeroSection() {

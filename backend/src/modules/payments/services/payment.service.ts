@@ -1,16 +1,21 @@
 import Stripe from 'stripe'
-import { Types } from 'mongoose'
+import { Types, type ClientSession } from 'mongoose'
 import { HttpError } from '../../../common/errors/http-error'
 import { logger } from '../../../config/logger'
 import { env } from '../../../config/env'
+import { withOptionalTransaction } from '../../../config/transactions'
 import { createPaymentIntentSchema } from '../dto/payments.dto'
 import { OrderModel } from '../../orders/schemas/order.schema'
 import { CartModel } from '../../cart/schemas/cart.schema'
+import { ProductModel } from '../../products/schemas/product.schema'
+import { ProcessedWebhookEventModel } from '../schemas/processed-webhook-event.schema'
+import { UserModel } from '../../auth/schemas/user.schema'
+import { EmailService } from '../../notifications/services/email.service'
 
 export class PaymentService {
   private readonly stripe: Stripe | null
 
-  constructor() {
+  constructor(private readonly emailService: EmailService = new EmailService()) {
     this.stripe = env.STRIPE_SECRET_KEY ? new Stripe(env.STRIPE_SECRET_KEY) : null
   }
 
@@ -183,6 +188,16 @@ export class PaymentService {
 
     logger.info({ eventType: event.type, eventId: event.id }, 'Stripe webhook received')
 
+    const isNewEvent = await this.registerWebhookEvent(event.id, event.type)
+    if (!isNewEvent) {
+      logger.info({ eventId: event.id, eventType: event.type }, 'Stripe webhook ignored: duplicate')
+      return {
+        received: true,
+        eventType: event.type,
+        duplicate: true,
+      }
+    }
+
     switch (event.type) {
       case 'payment_intent.succeeded': {
         const intent = event.data.object as Stripe.PaymentIntent
@@ -206,6 +221,25 @@ export class PaymentService {
     return {
       received: true,
       eventType: event.type,
+      duplicate: false,
+    }
+  }
+
+  private async registerWebhookEvent(eventId: string, type: string): Promise<boolean> {
+    try {
+      await ProcessedWebhookEventModel.create({ eventId, type })
+      return true
+    } catch (error) {
+      if (
+        typeof error === 'object' &&
+        error !== null &&
+        'code' in error &&
+        (error as { code?: number }).code === 11000
+      ) {
+        return false
+      }
+
+      throw error
     }
   }
 
@@ -246,21 +280,97 @@ export class PaymentService {
       return
     }
 
-    order.status = 'paid'
-    order.paymentIntentId = intent.id
-    order.paymentLastError = undefined
-    order.paidAt = order.paidAt ?? new Date()
-    await order.save()
-    await this.clearUserCart(order.userId)
+    const orderId = String(order._id)
+    const userId = order.userId
+
+    await withOptionalTransaction(async (session) => {
+      order.status = 'paid'
+      order.paymentIntentId = intent.id
+      order.paymentLastError = undefined
+      order.paidAt = order.paidAt ?? new Date()
+      await order.save({ session })
+
+      for (const item of order.items) {
+        const result = await ProductModel.updateOne(
+          { _id: item.productId, stock: { $gte: item.quantity } },
+          { $inc: { stock: -item.quantity } },
+          { session },
+        )
+
+        if (result.matchedCount === 0) {
+          logger.error(
+            {
+              orderId,
+              productId: String(item.productId),
+              quantity: item.quantity,
+            },
+            'Stock decrement skipped: insufficient stock at payment confirmation',
+          )
+        }
+      }
+
+      await this.clearUserCart(userId, session)
+    })
 
     logger.info(
       {
-        orderId: String(order._id),
-        userId: String(order.userId),
+        orderId,
+        userId: String(userId),
         paymentIntentId: intent.id,
+        itemsCount: order.items.length,
       },
       'Order marked as paid from webhook',
     )
+
+    void this.sendConfirmationEmail(order)
+  }
+
+  private async sendConfirmationEmail(order: {
+    _id: unknown
+    userId: unknown
+    total: number
+    currency: string
+    items: Array<{
+      name: string
+      quantity: number
+      unitPrice: number
+      currency: string
+      lineTotal: number
+    }>
+    shippingAddress?: {
+      fullName: string
+      line1: string
+      line2?: string | null
+      city: string
+      postalCode: string
+      province: string
+      country: string
+      phone: string
+    } | null
+  }) {
+    try {
+      const user = await UserModel.findById(order.userId).select({ email: 1 }).lean()
+      if (!user?.email) {
+        return
+      }
+
+      await this.emailService.sendOrderConfirmation({
+        to: user.email,
+        orderId: String(order._id),
+        total: order.total,
+        currency: order.currency,
+        items: order.items,
+        shippingAddress: order.shippingAddress,
+      })
+    } catch (error) {
+      logger.error(
+        {
+          orderId: String(order._id),
+          error: error instanceof Error ? error.message : 'desconocido',
+        },
+        'Failed to dispatch order confirmation email',
+      )
+    }
   }
 
   private async markOrderAsFailed(intent: Stripe.PaymentIntent) {
@@ -340,8 +450,8 @@ export class PaymentService {
     return Math.round((total + Number.EPSILON) * 100)
   }
 
-  private async clearUserCart(userId: Types.ObjectId) {
-    const cart = await CartModel.findOne({ userId })
+  private async clearUserCart(userId: Types.ObjectId, session?: ClientSession) {
+    const cart = await CartModel.findOne({ userId }).session(session ?? null)
     if (!cart || cart.items.length === 0) {
       return
     }
@@ -349,6 +459,6 @@ export class PaymentService {
     cart.items.splice(0, cart.items.length)
     cart.subtotal = 0
     cart.total = 0
-    await cart.save()
+    await cart.save({ session })
   }
 }

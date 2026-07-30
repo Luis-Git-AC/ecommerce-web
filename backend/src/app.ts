@@ -16,6 +16,7 @@ import { contentRouter } from './modules/content/content.routes'
 import { ordersRouter } from './modules/orders/orders.routes'
 import { paymentsRouter } from './modules/payments/payments.routes'
 import { productsRouter } from './modules/products/products.routes'
+import { docsRouter } from './docs/docs.routes'
 import { systemRouter } from './routes/system.routes'
 
 export const app = express()
@@ -80,6 +81,8 @@ app.use(
 app.get('/', (_req, res) => {
   res.status(200).json({ message: 'Backend is running' })
 })
+
+app.use(env.API_PREFIX, docsRouter)
 
 app.use(env.API_PREFIX, async (req, _res, next) => {
   if (req.path === '/health' || req.path === '/ready') {

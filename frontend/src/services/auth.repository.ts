@@ -80,6 +80,24 @@ export const authRepository = {
     return response.data
   },
 
+  async me(accessToken: string) {
+    const response = await apiRequest<
+      WrappedResponse<{
+        id: string
+        name: string
+        email: string
+        role: 'user' | 'admin'
+        activeSessions: number
+      }>
+    >('/auth/me', { accessToken })
+
+    return response.data
+  },
+
+  async logoutAll(accessToken: string) {
+    await apiRequest('/auth/logout-all', { method: 'POST', accessToken })
+  },
+
   async logout(refreshToken: string) {
     await apiRequest('/auth/logout', {
       method: 'POST',

@@ -35,5 +35,6 @@ backend/scripts/output
 *.swp
 *.swo
 
+
 # Project artifacts that should not be reformatted
 tree.txt
