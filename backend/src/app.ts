@@ -1,3 +1,6 @@
+// Triple-slash (not `import`) so the Rollup-based Vercel build doesn't try to bundle this type-only file at runtime.
+// eslint-disable-next-line @typescript-eslint/triple-slash-reference
+/// <reference path="./types/express.d.ts" />
 import cors from 'cors'
 import express from 'express'
 import helmet from 'helmet'
@@ -18,7 +21,6 @@ import { paymentsRouter } from './modules/payments/payments.routes'
 import { productsRouter } from './modules/products/products.routes'
 import { docsRouter } from './docs/docs.routes'
 import { systemRouter } from './routes/system.routes'
-import './types/express'
 
 export const app = express()
 

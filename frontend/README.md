@@ -98,8 +98,8 @@ El tema oscuro se aplica con un único selector `:root[data-theme='dark']` que r
 
 Los contrastes de texto sobre fondo cumplen WCAG AA (≥ 4.5:1) en ambos temas.
 
-| Tema claro                                                   | Tema oscuro                                                  |
-| ------------------------------------------------------------ | ------------------------------------------------------------ |
+| Tema claro                                                | Tema oscuro                                                |
+| --------------------------------------------------------- | ---------------------------------------------------------- |
 | ![Tema claro](../docs/screenshots/theme-comparison-1.png) | ![Tema oscuro](../docs/screenshots/theme-comparison-2.png) |
 
 ---
