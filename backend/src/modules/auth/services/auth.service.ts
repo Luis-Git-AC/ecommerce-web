@@ -1,11 +1,11 @@
 import { createHash } from 'node:crypto'
 import bcrypt from 'bcryptjs'
-import { HttpError } from '../../../common/errors/http-error'
-import { logger } from '../../../config/logger'
-import { loginSchema, refreshSessionSchema, registerSchema } from '../dto/auth.dto'
-import { UserRepository } from '../repositories/user.repository'
-import { MAX_ACTIVE_SESSIONS, type UserRole } from '../schemas/user.schema'
-import { TokenService } from './token.service'
+import { HttpError } from '../../../common/errors/http-error.js'
+import { logger } from '../../../config/logger.js'
+import { loginSchema, refreshSessionSchema, registerSchema } from '../dto/auth.dto.js'
+import { UserRepository } from '../repositories/user.repository.js'
+import { MAX_ACTIVE_SESSIONS, type UserRole } from '../schemas/user.schema.js'
+import { TokenService } from './token.service.js'
 
 const SALT_ROUNDS = 12
 

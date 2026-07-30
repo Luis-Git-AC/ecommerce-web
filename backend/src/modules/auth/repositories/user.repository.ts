@@ -1,5 +1,5 @@
 import { Types } from 'mongoose'
-import { UserModel } from '../schemas/user.schema'
+import { UserModel } from '../schemas/user.schema.js'
 
 export class UserRepository {
   async findByEmail(email: string) {

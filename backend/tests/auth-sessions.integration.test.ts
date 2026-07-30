@@ -1,8 +1,8 @@
 import request from 'supertest'
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
-import { app } from '../src/app'
-import { connectToDatabase, disconnectDatabase } from '../src/config/db'
-import { UserModel } from '../src/modules/auth/schemas/user.schema'
+import { app } from '../src/app.js'
+import { connectToDatabase, disconnectDatabase } from '../src/config/db.js'
+import { UserModel } from '../src/modules/auth/schemas/user.schema.js'
 
 const suffix = `ses${Date.now()}`
 

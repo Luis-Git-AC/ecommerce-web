@@ -1,4 +1,4 @@
-import { cloudinary, isCloudinaryConfigured } from '../../../config/cloudinary'
+import { cloudinary, isCloudinaryConfigured } from '../../../config/cloudinary.js'
 
 type ProductImage = {
   url: string

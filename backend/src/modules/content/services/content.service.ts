@@ -1,15 +1,15 @@
-import { HttpError } from '../../../common/errors/http-error'
+import { HttpError } from '../../../common/errors/http-error.js'
 import {
   blogListQuerySchema,
   createClubLeadSchema,
   createContactMessageSchema,
   subscribeNewsletterSchema,
   type BlogListQuery,
-} from '../dto/content.dto'
-import { BlogPostModel } from '../schemas/blog-post.schema'
-import { ClubLeadModel } from '../schemas/club-lead.schema'
-import { ContactMessageModel } from '../schemas/contact-message.schema'
-import { NewsletterSubscriberModel } from '../schemas/newsletter-subscriber.schema'
+} from '../dto/content.dto.js'
+import { BlogPostModel } from '../schemas/blog-post.schema.js'
+import { ClubLeadModel } from '../schemas/club-lead.schema.js'
+import { ContactMessageModel } from '../schemas/contact-message.schema.js'
+import { NewsletterSubscriberModel } from '../schemas/newsletter-subscriber.schema.js'
 
 export class ContentService {
   async listBlog(rawQuery: unknown) {

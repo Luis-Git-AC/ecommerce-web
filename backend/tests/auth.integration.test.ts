@@ -1,7 +1,7 @@
 import request from 'supertest'
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
-import { app } from '../src/app'
-import { connectToDatabase, disconnectDatabase } from '../src/config/db'
+import { app } from '../src/app.js'
+import { connectToDatabase, disconnectDatabase } from '../src/config/db.js'
 
 describe('Auth integration', () => {
   beforeAll(async () => {

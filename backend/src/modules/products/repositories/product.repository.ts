@@ -1,6 +1,6 @@
 import { Types } from 'mongoose'
-import { escapeRegex } from '../../../common/utils/regex'
-import { ProductModel, type ProductDocument } from '../schemas/product.schema'
+import { escapeRegex } from '../../../common/utils/regex.js'
+import { ProductModel, type ProductDocument } from '../schemas/product.schema.js'
 
 type ProductSort = 'featured' | 'price_asc' | 'price_desc'
 

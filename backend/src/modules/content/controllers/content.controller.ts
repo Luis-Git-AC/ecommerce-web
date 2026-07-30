@@ -1,5 +1,5 @@
 import type { NextFunction, Request, Response } from 'express'
-import { ContentService } from '../services/content.service'
+import { ContentService } from '../services/content.service.js'
 
 export class ContentController {
   constructor(private readonly contentService: ContentService = new ContentService()) {}

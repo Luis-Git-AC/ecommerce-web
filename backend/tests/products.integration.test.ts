@@ -1,8 +1,8 @@
 import request from 'supertest'
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
-import { app } from '../src/app'
-import { connectToDatabase, disconnectDatabase } from '../src/config/db'
-import { ProductModel } from '../src/modules/products/schemas/product.schema'
+import { app } from '../src/app.js'
+import { connectToDatabase, disconnectDatabase } from '../src/config/db.js'
+import { ProductModel } from '../src/modules/products/schemas/product.schema.js'
 
 const suffix = `p${Date.now()}`
 

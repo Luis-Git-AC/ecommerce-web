@@ -1,13 +1,13 @@
 import request from 'supertest'
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
-import { app } from '../src/app'
-import { connectToDatabase, disconnectDatabase } from '../src/config/db'
-import { OrderModel } from '../src/modules/orders/schemas/order.schema'
+import { app } from '../src/app.js'
+import { connectToDatabase, disconnectDatabase } from '../src/config/db.js'
+import { OrderModel } from '../src/modules/orders/schemas/order.schema.js'
 
-import type { OrderStatus } from '../src/modules/orders/schemas/order.schema'
-import { ProductModel } from '../src/modules/products/schemas/product.schema'
-import { UserModel } from '../src/modules/auth/schemas/user.schema'
-import { validShippingAddress } from './fixtures'
+import type { OrderStatus } from '../src/modules/orders/schemas/order.schema.js'
+import { ProductModel } from '../src/modules/products/schemas/product.schema.js'
+import { UserModel } from '../src/modules/auth/schemas/user.schema.js'
+import { validShippingAddress } from './fixtures.js'
 
 const suffix = `a${Date.now()}`
 

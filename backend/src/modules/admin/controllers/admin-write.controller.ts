@@ -1,7 +1,7 @@
 import type { NextFunction, Request, Response } from 'express'
-import { HttpError } from '../../../common/errors/http-error'
-import { AdminOperationsService } from '../services/admin-operations.service'
-import { AdminProductService } from '../services/admin-product.service'
+import { HttpError } from '../../../common/errors/http-error.js'
+import { AdminOperationsService } from '../services/admin-operations.service.js'
+import { AdminProductService } from '../services/admin-product.service.js'
 
 export class AdminWriteController {
   constructor(

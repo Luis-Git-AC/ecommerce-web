@@ -1,7 +1,7 @@
 import { Router } from 'express'
 import helmet from 'helmet'
-import { env } from '../config/env'
-import { openApiDocument } from './openapi'
+import { env } from '../config/env.js'
+import { openApiDocument } from './openapi.js'
 
 export const docsRouter = Router()
 

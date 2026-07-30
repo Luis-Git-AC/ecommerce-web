@@ -1,8 +1,8 @@
 import { Types } from 'mongoose'
-import { HttpError } from '../../../common/errors/http-error'
-import { ProductModel } from '../../products/schemas/product.schema'
-import { addCartItemSchema, updateCartItemSchema } from '../dto/cart.dto'
-import { CartRepository } from '../repositories/cart.repository'
+import { HttpError } from '../../../common/errors/http-error.js'
+import { ProductModel } from '../../products/schemas/product.schema.js'
+import { addCartItemSchema, updateCartItemSchema } from '../dto/cart.dto.js'
+import { CartRepository } from '../repositories/cart.repository.js'
 
 export class CartService {
   constructor(private readonly cartRepository: CartRepository = new CartRepository()) {}

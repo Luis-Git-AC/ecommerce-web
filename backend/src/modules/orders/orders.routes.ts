@@ -1,7 +1,7 @@
 import { Router } from 'express'
-import { createRateLimitMiddleware } from '../../common/middlewares/rate-limit.middleware'
-import { requireAuth } from '../../common/middlewares/auth.middleware'
-import { OrderController } from './controllers/order.controller'
+import { createRateLimitMiddleware } from '../../common/middlewares/rate-limit.middleware.js'
+import { requireAuth } from '../../common/middlewares/auth.middleware.js'
+import { OrderController } from './controllers/order.controller.js'
 
 const orderController = new OrderController()
 

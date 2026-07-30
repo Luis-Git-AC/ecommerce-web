@@ -1,6 +1,6 @@
 import { Router } from 'express'
-import { isCloudinaryConfigured } from '../config/cloudinary'
-import { isDatabaseReady } from '../config/db'
+import { isCloudinaryConfigured } from '../config/cloudinary.js'
+import { isDatabaseReady } from '../config/db.js'
 
 export const systemRouter = Router()
 

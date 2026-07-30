@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
-import { env } from './env'
-import { logger } from './logger'
+import { env } from './env.js'
+import { logger } from './logger.js'
 
 const MAX_RETRIES = 5
 const RETRY_DELAY_MS = 2000

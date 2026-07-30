@@ -1,5 +1,5 @@
-import { env } from '../config/env'
-import { errorResponses, schemas, securitySchemes } from './components'
+import { env } from '../config/env.js'
+import { errorResponses, schemas, securitySchemes } from './components.js'
 
 const wrapped = (ref: string) => ({
   type: 'object' as const,

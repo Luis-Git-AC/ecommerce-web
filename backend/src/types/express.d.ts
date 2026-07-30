@@ -1,5 +1,5 @@
 import 'express-serve-static-core'
-import type { UserRole } from '../modules/auth/schemas/user.schema'
+import type { UserRole } from '../modules/auth/schemas/user.schema.js'
 
 declare module 'express-serve-static-core' {
   interface Request {

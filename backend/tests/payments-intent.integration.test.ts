@@ -1,8 +1,8 @@
 import request from 'supertest'
 import { afterAll, beforeAll, describe, expect, it, vi } from 'vitest'
-import { connectToDatabase, disconnectDatabase } from '../src/config/db'
-import { ProductModel } from '../src/modules/products/schemas/product.schema'
-import { createOrderBody } from './fixtures'
+import { connectToDatabase, disconnectDatabase } from '../src/config/db.js'
+import { ProductModel } from '../src/modules/products/schemas/product.schema.js'
+import { createOrderBody } from './fixtures.js'
 
 const stripeMocks = vi.hoisted(() => ({
   createIntent: vi.fn(),
@@ -27,7 +27,7 @@ vi.mock('stripe', () => {
   }
 })
 
-import { app } from '../src/app'
+import { app } from '../src/app.js'
 
 describe('Payments intent integration', () => {
   beforeAll(async () => {

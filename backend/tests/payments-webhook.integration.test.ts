@@ -1,10 +1,10 @@
 import request from 'supertest'
 import { Types } from 'mongoose'
 import { afterAll, beforeAll, describe, expect, it, vi } from 'vitest'
-import { connectToDatabase, disconnectDatabase } from '../src/config/db'
-import { OrderModel } from '../src/modules/orders/schemas/order.schema'
-import { validShippingAddress } from './fixtures'
-import { ProductModel } from '../src/modules/products/schemas/product.schema'
+import { connectToDatabase, disconnectDatabase } from '../src/config/db.js'
+import { OrderModel } from '../src/modules/orders/schemas/order.schema.js'
+import { validShippingAddress } from './fixtures.js'
+import { ProductModel } from '../src/modules/products/schemas/product.schema.js'
 
 const stripeMocks = vi.hoisted(() => ({
   constructEvent: vi.fn(),
@@ -29,7 +29,7 @@ vi.mock('stripe', () => {
   }
 })
 
-import { app } from '../src/app'
+import { app } from '../src/app.js'
 
 describe('Payments webhook integration', () => {
   beforeAll(async () => {

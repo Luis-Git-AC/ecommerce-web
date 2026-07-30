@@ -1,5 +1,5 @@
 import type { NextFunction, Request, Response } from 'express'
-import { AdminService } from '../services/admin.service'
+import { AdminService } from '../services/admin.service.js'
 
 export class AdminController {
   constructor(private readonly adminService: AdminService = new AdminService()) {}

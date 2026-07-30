@@ -1,11 +1,11 @@
 import { Types } from 'mongoose'
-import { HttpError } from '../../../common/errors/http-error'
-import { logger } from '../../../config/logger'
-import { CartRepository } from '../../cart/repositories/cart.repository'
-import { ProductModel } from '../../products/schemas/product.schema'
-import { createOrderSchema, listOrdersQuerySchema } from '../dto/orders.dto'
-import { OrderRepository } from '../repositories/order.repository'
-import type { OrderStatus } from '../schemas/order.schema'
+import { HttpError } from '../../../common/errors/http-error.js'
+import { logger } from '../../../config/logger.js'
+import { CartRepository } from '../../cart/repositories/cart.repository.js'
+import { ProductModel } from '../../products/schemas/product.schema.js'
+import { createOrderSchema, listOrdersQuerySchema } from '../dto/orders.dto.js'
+import { OrderRepository } from '../repositories/order.repository.js'
+import type { OrderStatus } from '../schemas/order.schema.js'
 
 type RevalidatedOrderLines = {
   items: Array<{

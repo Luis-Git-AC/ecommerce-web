@@ -1,7 +1,7 @@
 import { Router } from 'express'
-import { createRateLimitMiddleware } from '../../common/middlewares/rate-limit.middleware'
-import { requireAuth } from '../../common/middlewares/auth.middleware'
-import { PaymentController } from './controllers/payment.controller'
+import { createRateLimitMiddleware } from '../../common/middlewares/rate-limit.middleware.js'
+import { requireAuth } from '../../common/middlewares/auth.middleware.js'
+import { PaymentController } from './controllers/payment.controller.js'
 
 const paymentController = new PaymentController()
 

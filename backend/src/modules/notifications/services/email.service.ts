@@ -1,6 +1,6 @@
 import { Resend } from 'resend'
-import { env } from '../../../config/env'
-import { logger } from '../../../config/logger'
+import { env } from '../../../config/env.js'
+import { logger } from '../../../config/logger.js'
 
 type OrderItem = {
   name: string

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { listProductsQuerySchema } from '../src/modules/products/dto/list-products.query'
+import { listProductsQuerySchema } from '../src/modules/products/dto/list-products.query.js'
 
 describe('Products query schema', () => {
   it('applies defaults when query is empty', () => {

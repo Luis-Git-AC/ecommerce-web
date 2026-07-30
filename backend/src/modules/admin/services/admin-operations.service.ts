@@ -1,16 +1,16 @@
 import { Types } from 'mongoose'
-import { HttpError } from '../../../common/errors/http-error'
-import { logger } from '../../../config/logger'
-import { ClubLeadModel } from '../../content/schemas/club-lead.schema'
-import { ContactMessageModel } from '../../content/schemas/contact-message.schema'
+import { HttpError } from '../../../common/errors/http-error.js'
+import { logger } from '../../../config/logger.js'
+import { ClubLeadModel } from '../../content/schemas/club-lead.schema.js'
+import { ContactMessageModel } from '../../content/schemas/contact-message.schema.js'
 import {
   ALLOWED_STATUS_TRANSITIONS,
   OrderModel,
   type OrderStatus,
-} from '../../orders/schemas/order.schema'
-import { ProductModel } from '../../products/schemas/product.schema'
-import { UserModel } from '../../auth/schemas/user.schema'
-import { listContentQuerySchema, updateOrderStatusSchema } from '../dto/admin-products.dto'
+} from '../../orders/schemas/order.schema.js'
+import { ProductModel } from '../../products/schemas/product.schema.js'
+import { UserModel } from '../../auth/schemas/user.schema.js'
+import { listContentQuerySchema, updateOrderStatusSchema } from '../dto/admin-products.dto.js'
 
 const STATUS_LABELS: Record<OrderStatus, string> = {
   pending: 'pendiente de pago',

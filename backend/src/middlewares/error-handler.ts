@@ -1,6 +1,6 @@
 import type { NextFunction, Request, Response } from 'express'
-import { HttpError } from '../common/errors/http-error'
-import { logger } from '../config/logger'
+import { HttpError } from '../common/errors/http-error.js'
+import { logger } from '../config/logger.js'
 
 export function notFoundHandler(req: Request, res: Response) {
   const requestId = (req as Request & { id?: string }).id

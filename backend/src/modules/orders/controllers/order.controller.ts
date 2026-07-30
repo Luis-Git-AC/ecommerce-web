@@ -1,6 +1,6 @@
 import type { NextFunction, Request, Response } from 'express'
-import { HttpError } from '../../../common/errors/http-error'
-import { OrderService } from '../services/order.service'
+import { HttpError } from '../../../common/errors/http-error.js'
+import { OrderService } from '../services/order.service.js'
 
 export class OrderController {
   constructor(private readonly orderService: OrderService = new OrderService()) {}

@@ -1,6 +1,6 @@
 import { Router } from 'express'
-import { createRateLimitMiddleware } from '../../common/middlewares/rate-limit.middleware'
-import { ProductController } from './controllers/product.controller'
+import { createRateLimitMiddleware } from '../../common/middlewares/rate-limit.middleware.js'
+import { ProductController } from './controllers/product.controller.js'
 
 const productController = new ProductController()
 

@@ -1,15 +1,15 @@
 import { Types } from 'mongoose'
-import { HttpError } from '../../../common/errors/http-error'
-import { escapeRegex } from '../../../common/utils/regex'
-import { cloudinary, isCloudinaryConfigured } from '../../../config/cloudinary'
-import { env } from '../../../config/env'
-import { logger } from '../../../config/logger'
-import { ProductModel } from '../../products/schemas/product.schema'
+import { HttpError } from '../../../common/errors/http-error.js'
+import { escapeRegex } from '../../../common/utils/regex.js'
+import { cloudinary, isCloudinaryConfigured } from '../../../config/cloudinary.js'
+import { env } from '../../../config/env.js'
+import { logger } from '../../../config/logger.js'
+import { ProductModel } from '../../products/schemas/product.schema.js'
 import {
   createProductSchema,
   listAdminProductsQuerySchema,
   updateProductSchema,
-} from '../dto/admin-products.dto'
+} from '../dto/admin-products.dto.js'
 
 const MAX_IMAGE_BYTES = 5 * 1024 * 1024
 const ALLOWED_MIME_TYPES = ['image/jpeg', 'image/png', 'image/webp']

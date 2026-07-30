@@ -1,7 +1,7 @@
 import type { NextFunction, Request, Response } from 'express'
-import { HttpError } from '../errors/http-error'
-import { TokenService } from '../../modules/auth/services/token.service'
-import { UserModel } from '../../modules/auth/schemas/user.schema'
+import { HttpError } from '../errors/http-error.js'
+import { TokenService } from '../../modules/auth/services/token.service.js'
+import { UserModel } from '../../modules/auth/schemas/user.schema.js'
 
 const tokenService = new TokenService()
 

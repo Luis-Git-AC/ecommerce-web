@@ -1,5 +1,5 @@
 import { Types } from 'mongoose'
-import { CartModel } from '../schemas/cart.schema'
+import { CartModel } from '../schemas/cart.schema.js'
 
 export class CartRepository {
   async findByUser(userId: Types.ObjectId) {

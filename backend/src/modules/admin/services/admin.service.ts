@@ -1,9 +1,9 @@
 import { Types } from 'mongoose'
-import { HttpError } from '../../../common/errors/http-error'
-import { OrderModel } from '../../orders/schemas/order.schema'
-import { UserModel } from '../../auth/schemas/user.schema'
-import { escapeRegex } from '../../../common/utils/regex'
-import { listAdminOrdersQuerySchema, listAdminUsersQuerySchema } from '../dto/admin.dto'
+import { HttpError } from '../../../common/errors/http-error.js'
+import { OrderModel } from '../../orders/schemas/order.schema.js'
+import { UserModel } from '../../auth/schemas/user.schema.js'
+import { escapeRegex } from '../../../common/utils/regex.js'
+import { listAdminOrdersQuerySchema, listAdminUsersQuerySchema } from '../dto/admin.dto.js'
 
 export class AdminService {
   async listUsers(rawQuery: unknown) {

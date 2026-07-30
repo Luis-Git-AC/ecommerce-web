@@ -1,8 +1,8 @@
 import { randomUUID } from 'node:crypto'
 import jwt, { type SignOptions } from 'jsonwebtoken'
-import { HttpError } from '../../../common/errors/http-error'
-import { env } from '../../../config/env'
-import type { UserRole } from '../schemas/user.schema'
+import { HttpError } from '../../../common/errors/http-error.js'
+import { env } from '../../../config/env.js'
+import type { UserRole } from '../schemas/user.schema.js'
 
 type TokenType = 'access' | 'refresh'
 

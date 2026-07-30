@@ -1,7 +1,7 @@
 import { Types, type QueryFilter } from 'mongoose'
-import { OrderModel } from '../schemas/order.schema'
+import { OrderModel } from '../schemas/order.schema.js'
 
-import type { OrderDocument, OrderStatus } from '../schemas/order.schema'
+import type { OrderDocument, OrderStatus } from '../schemas/order.schema.js'
 
 type ListOrdersOptions = {
   userId: Types.ObjectId

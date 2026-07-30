@@ -1,10 +1,10 @@
 import request from 'supertest'
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
-import { app } from '../src/app'
-import { connectToDatabase, disconnectDatabase, isDatabaseReady } from '../src/config/db'
-import { supportsTransactions } from '../src/config/transactions'
-import { ProductModel } from '../src/modules/products/schemas/product.schema'
-import { createOrderBody } from './fixtures'
+import { app } from '../src/app.js'
+import { connectToDatabase, disconnectDatabase, isDatabaseReady } from '../src/config/db.js'
+import { supportsTransactions } from '../src/config/transactions.js'
+import { ProductModel } from '../src/modules/products/schemas/product.schema.js'
+import { createOrderBody } from './fixtures.js'
 
 const suffix = `s${Date.now()}`
 

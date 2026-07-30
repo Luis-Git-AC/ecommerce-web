@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { EmailService } from '../src/modules/notifications/services/email.service'
+import { EmailService } from '../src/modules/notifications/services/email.service.js'
 
 describe('EmailService', () => {
   it('no envía y registra en log cuando el email está deshabilitado', async () => {

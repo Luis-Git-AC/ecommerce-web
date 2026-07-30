@@ -1,8 +1,8 @@
 import { Types } from 'mongoose'
-import { HttpError } from '../../../common/errors/http-error'
-import { listProductsQuerySchema, type ListProductsQuery } from '../dto/list-products.query'
-import { ProductRepository } from '../repositories/product.repository'
-import { optimizeProductImages } from './product-image-delivery'
+import { HttpError } from '../../../common/errors/http-error.js'
+import { listProductsQuerySchema, type ListProductsQuery } from '../dto/list-products.query.js'
+import { ProductRepository } from '../repositories/product.repository.js'
+import { optimizeProductImages } from './product-image-delivery.js'
 
 export class ProductService {
   constructor(private readonly productRepository: ProductRepository = new ProductRepository()) {}

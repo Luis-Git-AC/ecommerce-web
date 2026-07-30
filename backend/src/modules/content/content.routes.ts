@@ -1,6 +1,6 @@
 import { Router } from 'express'
-import { createRateLimitMiddleware } from '../../common/middlewares/rate-limit.middleware'
-import { ContentController } from './controllers/content.controller'
+import { createRateLimitMiddleware } from '../../common/middlewares/rate-limit.middleware.js'
+import { ContentController } from './controllers/content.controller.js'
 
 const contentController = new ContentController()
 

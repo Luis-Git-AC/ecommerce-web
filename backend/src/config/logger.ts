@@ -1,5 +1,5 @@
 import pino from 'pino'
-import { env } from './env'
+import { env } from './env.js'
 
 const shouldUsePrettyLogs =
   env.NODE_ENV === 'development' && !process.env.VERCEL && Boolean(process.stdout.isTTY)

@@ -1,6 +1,6 @@
 import type { NextFunction, Request, Response } from 'express'
-import { HttpError } from '../../../common/errors/http-error'
-import { AuthService } from '../services/auth.service'
+import { HttpError } from '../../../common/errors/http-error.js'
+import { AuthService } from '../services/auth.service.js'
 
 export class AuthController {
   constructor(private readonly authService: AuthService = new AuthService()) {}

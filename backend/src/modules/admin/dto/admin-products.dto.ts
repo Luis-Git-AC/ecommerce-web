@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { ORDER_STATUSES } from '../../orders/schemas/order.schema'
+import { ORDER_STATUSES } from '../../orders/schemas/order.schema.js'
 
 const slugPattern = /^[a-z0-9]+(?:-[a-z0-9]+)*$/
 

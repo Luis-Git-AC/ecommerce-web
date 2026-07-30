@@ -1,6 +1,6 @@
 import { v2 as cloudinary } from 'cloudinary'
-import { env } from './env'
-import { logger } from './logger'
+import { env } from './env.js'
+import { logger } from './logger.js'
 
 export const isCloudinaryConfigured =
   Boolean(env.CLOUDINARY_CLOUD_NAME) &&

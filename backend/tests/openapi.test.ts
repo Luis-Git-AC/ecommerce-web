@@ -1,7 +1,7 @@
 import request from 'supertest'
 import { describe, expect, it } from 'vitest'
-import { app } from '../src/app'
-import { openApiDocument } from '../src/docs/openapi'
+import { app } from '../src/app.js'
+import { openApiDocument } from '../src/docs/openapi.js'
 
 describe('Documentación de la API', () => {
   it('sirve la especificación OpenAPI', async () => {

@@ -1,6 +1,6 @@
 import request from 'supertest'
 import { describe, expect, it } from 'vitest'
-import { app } from '../src/app'
+import { app } from '../src/app.js'
 
 describe('System routes', () => {
   it('returns 200 for /api/health', async () => {

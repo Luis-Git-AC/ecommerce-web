@@ -1,10 +1,10 @@
 import { Router } from 'express'
 import multer from 'multer'
-import { requireAdmin, requireAuth } from '../../common/middlewares/auth.middleware'
-import { createRateLimitMiddleware } from '../../common/middlewares/rate-limit.middleware'
-import { HttpError } from '../../common/errors/http-error'
-import { AdminController } from './controllers/admin.controller'
-import { AdminWriteController } from './controllers/admin-write.controller'
+import { requireAdmin, requireAuth } from '../../common/middlewares/auth.middleware.js'
+import { createRateLimitMiddleware } from '../../common/middlewares/rate-limit.middleware.js'
+import { HttpError } from '../../common/errors/http-error.js'
+import { AdminController } from './controllers/admin.controller.js'
+import { AdminWriteController } from './controllers/admin-write.controller.js'
 
 const adminController = new AdminController()
 const adminWriteController = new AdminWriteController()
