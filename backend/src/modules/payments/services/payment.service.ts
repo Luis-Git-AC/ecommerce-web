@@ -282,13 +282,26 @@ export class PaymentService {
 
     const orderId = String(order._id)
     const userId = order.userId
+    const paidAt = order.paidAt ?? new Date()
 
     await withOptionalTransaction(async (session) => {
-      order.status = 'paid'
-      order.paymentIntentId = intent.id
-      order.paymentLastError = undefined
-      order.paidAt = order.paidAt ?? new Date()
-      await order.save({ session })
+      // Actualizacion atomica en vez de mutar y guardar el documento ya cargado:
+      // withTransaction reintenta el callback ante errores transitorios, y en el
+      // segundo intento un order.save() no escribiria nada (Mongoose ya limpio
+      // los campos modificados en el primer intento). La transaccion commitearia
+      // sin marcar el pedido como pagado y el webhook devolveria 200 igualmente.
+      await OrderModel.updateOne(
+        { _id: order._id },
+        {
+          $set: {
+            status: 'paid',
+            paymentIntentId: intent.id,
+            paidAt,
+          },
+          $unset: { paymentLastError: '' },
+        },
+        { session },
+      )
 
       for (const item of order.items) {
         const result = await ProductModel.updateOne(

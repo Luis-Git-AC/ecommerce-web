@@ -52,3 +52,4 @@ frontend/src/assets/imagenes_ia/
 *.njsproj
 *.sln
 *.sw?
+.vercel
