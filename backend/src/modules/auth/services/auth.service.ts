@@ -7,11 +7,14 @@ import { UserRepository } from '../repositories/user.repository.js'
 import { MAX_ACTIVE_SESSIONS, type UserRole } from '../schemas/user.schema.js'
 import { TokenService } from './token.service.js'
 
-// Ver comentario en app.ts: require() via createRequire evita la inestabilidad
-// de interop ESM/CJS que el type-checker de Vercel aplica a paquetes duales
-// como bcryptjs (misma forma de export que helmet).
+// Ver comentario en app.ts sobre require() + resolution-mode explicito. A
+// diferencia de helmet, el build CJS de bcryptjs (`export = bcrypt`, sin
+// `default`) no expone `.default`: require() devuelve el namespace con
+// `.hash`/`.compare` directamente en la raiz (verificado en runtime), asi que
+// el tipo va sin `.default` para que coincida con el valor real.
 const require = createRequire(import.meta.url)
-const bcrypt: typeof import('bcryptjs').default = require('bcryptjs')
+const bcrypt: typeof import('bcryptjs', { with: { 'resolution-mode': 'require' } }) =
+  require('bcryptjs')
 const SALT_ROUNDS = 12
 
 type AuthResponse = {

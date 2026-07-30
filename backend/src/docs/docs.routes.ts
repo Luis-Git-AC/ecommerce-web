@@ -3,10 +3,10 @@ import { createRequire } from 'node:module'
 import { env } from '../config/env.js'
 import { openApiDocument } from './openapi.js'
 
-// Ver comentario en app.ts: require() via createRequire evita la inestabilidad
-// de interop ESM/CJS de helmet entre el type-checker de Vercel y el local.
+// Ver comentario en app.ts sobre require() + resolution-mode explicito.
 const require = createRequire(import.meta.url)
-const helmet: typeof import('helmet').default = require('helmet')
+const helmet: typeof import('helmet', { with: { 'resolution-mode': 'require' } }).default =
+  require('helmet')
 
 export const docsRouter = Router()
 

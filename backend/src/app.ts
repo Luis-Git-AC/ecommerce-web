@@ -23,15 +23,16 @@ import { docsRouter } from './docs/docs.routes.js'
 import { systemRouter } from './routes/system.routes.js'
 
 // helmet es un paquete dual CJS+ESM cuyo default export el type-checker de
-// Vercel (Linux) resuelve como no invocable bajo node16/nodenext, aunque en
-// local (Windows) y en runtime (verificado con curl real) resuelve bien. Ya
-// se probo `import * as helmetModule from 'helmet'` con `.default` y tampoco
-// bastaba: Vercel seguia marcandolo no invocable. `require()` via
-// createRequire evita por completo la logica de interop ESM/CJS de
-// TypeScript para el VALOR en runtime; el tipo se toma aparte con
-// `typeof import(...)`, que es solo type-level y no depende de esa logica.
+// Vercel (Linux) resolvia como no invocable bajo node16/nodenext, aunque en
+// local (Windows) y en runtime (verificado con curl real) resuelve bien.
+// require() via createRequire evita la logica de interop ESM/CJS para el
+// VALOR en runtime. El tipo fija `resolution-mode: 'require'` explicitamente
+// (en vez de dejar que cada entorno infiera cual condicion de `exports` usar,
+// que es justo lo que causaba la inconsistencia) para que coincida siempre
+// con lo que require() resuelve de verdad.
 const require = createRequire(import.meta.url)
-const helmet: typeof import('helmet').default = require('helmet')
+const helmet: typeof import('helmet', { with: { 'resolution-mode': 'require' } }).default =
+  require('helmet')
 
 export const app = express()
 
