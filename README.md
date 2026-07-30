@@ -94,7 +94,6 @@ ecommerce-web/
 ├── frontend/           # SPA — ver frontend/README.md
 ├── .github/workflows/  # ci.yml (calidad + e2e), codeql.yml
 ├── docker-compose.yml  # MongoDB (replica set) + Redis para desarrollo
-├── vercel.json         # despliegue del monorepo
 └── package.json        # scripts que orquestan ambos paquetes
 ```
 
@@ -208,12 +207,13 @@ Los e2e necesitan backend y frontend en marcha, y la primera vez `npm run test:e
 
 ## Despliegue
 
-`vercel.json` declara los dos servicios del monorepo: el frontend (Vite, servido en `/`) y el backend. La CI (`.github/workflows/ci.yml`) ejecuta dos jobs: **calidad** (formato, lint, typecheck, tests, build y presupuesto de rendimiento) y **e2e** (levanta Mongo como replica set, siembra el catálogo, arranca el backend y corre Playwright). CodeQL se ejecuta en un workflow aparte.
+Frontend y backend se despliegan como **dos proyectos de Vercel independientes** sobre el mismo repo (`Root Directory` distinto en cada uno: `frontend` y `backend`), no como un monorepo con `vercel.json` — Vercel deprecó ese modelo (`experimentalServices`) para proyectos nuevos. El backend usa la detección zero-config de Express (`export default app` en `backend/src/app.ts`); el frontend, la de Vite. La CI (`.github/workflows/ci.yml`) ejecuta dos jobs: **calidad** (formato, lint, typecheck, tests, build y presupuesto de rendimiento) y **e2e** (levanta Mongo como replica set, siembra el catálogo, arranca el backend y corre Playwright). CodeQL se ejecuta en un workflow aparte.
 
 Antes de desplegar:
 
-1. Configurar las variables de entorno de producción en Vercel — el backend valida en el arranque que existan las obligatorias (`MONGODB_URI`, `JWT_*`, `CLOUDINARY_*`, `STRIPE_*`) y rechaza `CORS_ORIGIN=*`.
-2. Regenerar el sitemap con la URL real: `npm run seo:sitemap --prefix frontend` con `VITE_SITE_URL` apuntando al dominio de producción.
-3. Dar de alta el endpoint del webhook en el dashboard de Stripe y usar ese secreto de firma.
+1. Configurar las variables de entorno de producción en cada proyecto de Vercel — el backend valida en el arranque que existan las obligatorias (`MONGODB_URI`, `JWT_*`, `CLOUDINARY_*`, `STRIPE_*`) y rechaza `CORS_ORIGIN=*`.
+2. En el proyecto del frontend, `VITE_API_BASE_URL` debe apuntar al dominio del proyecto del backend (p. ej. `https://ecommerce-web-backend.vercel.app/api`); en el del backend, `CORS_ORIGIN` debe apuntar al dominio del frontend.
+3. Regenerar el sitemap con la URL real: `npm run seo:sitemap --prefix frontend` con `VITE_SITE_URL` apuntando al dominio de producción.
+4. Dar de alta el endpoint del webhook en el dashboard de Stripe (URL del backend + `/api/payments/webhook`) y usar ese secreto de firma.
 
 ---
