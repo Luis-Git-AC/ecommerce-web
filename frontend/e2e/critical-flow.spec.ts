@@ -60,6 +60,9 @@ test('completa el pago con la tarjeta de prueba de Stripe', async ({ page }) => 
   await page.goto('/shop')
   await page.getByRole('link', { name: 'Ver detalle' }).first().click()
   await page.getByRole('button', { name: 'Añadir al carrito' }).click()
+  // Sin esperar la confirmacion se puede llegar a /cart antes de que la peticion
+  // termine: el carrito estaria vacio y el formulario de envio no se renderiza.
+  await expect(page.getByText('Producto agregado al carrito.')).toBeVisible()
 
   await page.goto('/cart')
   await page.getByLabel('Nombre y apellidos').fill('Playwright Pay User')
@@ -70,6 +73,11 @@ test('completa el pago con la tarjeta de prueba de Stripe', async ({ page }) => 
   await page.getByLabel('Teléfono').fill('+34 600 123 456')
   await page.getByRole('button', { name: 'Crear pedido' }).click()
   await expect(page).toHaveURL(/\/checkout\//)
+
+  // El resumen aparece cuando el pedido ya se ha cargado. Hasta ese momento la
+  // pantalla muestra "Preparando pago...", y la comprobacion de abajo (que es
+  // inmediata, sin espera) daria un falso negativo y no llegaria a saltarse.
+  await expect(page.getByRole('heading', { name: 'Resumen del pedido' })).toBeVisible()
 
   // Si Stripe no está configurado en el entorno, no hay formulario que rellenar.
   const stripeUnavailable = page.getByRole('heading', { name: 'Stripe no configurado' })

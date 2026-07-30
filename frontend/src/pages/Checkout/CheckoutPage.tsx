@@ -110,7 +110,11 @@ export default function CheckoutPage() {
   const [order, setOrder] = useState<OrderDetail | null>(null)
   const [clientSecret, setClientSecret] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
+  // `error` es fatal (no se pudo cargar el pedido) y oculta la pantalla entera.
+  // `paymentError` solo afecta al panel de pago: si el pedido ya se cargo, el
+  // usuario debe seguir viendo su resumen aunque Stripe no este disponible.
   const [error, setError] = useState<string | null>(null)
+  const [paymentError, setPaymentError] = useState<string | null>(null)
 
   const elementsOptions = useMemo(() => ({ clientSecret: clientSecret ?? '' }), [clientSecret])
 
@@ -123,10 +127,24 @@ export default function CheckoutPage() {
 
     setLoading(true)
     setError(null)
+    setPaymentError(null)
+
+    let orderLoaded = false
+
+    // Si el pedido ya se habia cargado, el fallo viene de preparar el pago y no
+    // debe tumbar la pantalla: el resumen del pedido tiene que seguir visible.
+    const setFailure = (loaded: boolean, message: string) => {
+      if (loaded) {
+        setPaymentError(message)
+      } else {
+        setError(message)
+      }
+    }
 
     try {
       const orderData = await ordersRepository.getById(accessToken, orderId)
       setOrder(orderData)
+      orderLoaded = true
 
       if (orderData.status === 'paid') {
         setClientSecret(null)
@@ -156,11 +174,11 @@ export default function CheckoutPage() {
           }
         }
 
-        setError(incomingError.message)
+        setFailure(orderLoaded, incomingError.message)
       } else if (incomingError instanceof Error) {
-        setError(incomingError.message)
+        setFailure(orderLoaded, incomingError.message)
       } else {
-        setError('No pudimos preparar tu pago.')
+        setFailure(orderLoaded, 'No pudimos preparar tu pago.')
       }
     } finally {
       setLoading(false)
@@ -316,7 +334,7 @@ export default function CheckoutPage() {
             ) : (
               <article className={styles.panel}>
                 <h2>No pudimos iniciar el pago</h2>
-                <p className="muted">Intenta recargar esta pantalla.</p>
+                <p className="muted">{paymentError ?? 'Intenta recargar esta pantalla.'}</p>
               </article>
             )}
           </section>
