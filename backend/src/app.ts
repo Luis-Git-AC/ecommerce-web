@@ -31,8 +31,9 @@ import { systemRouter } from './routes/system.routes.js'
 // que es justo lo que causaba la inconsistencia) para que coincida siempre
 // con lo que require() resuelve de verdad.
 const require = createRequire(import.meta.url)
-const helmet: typeof import('helmet', { with: { 'resolution-mode': 'require' } }).default =
-  require('helmet')
+const helmet: typeof import('helmet', {
+  with: { 'resolution-mode': 'require' },
+}).default = require('helmet')
 
 export const app = express()
 

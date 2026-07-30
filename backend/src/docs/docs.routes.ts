@@ -5,8 +5,9 @@ import { openApiDocument } from './openapi.js'
 
 // Ver comentario en app.ts sobre require() + resolution-mode explicito.
 const require = createRequire(import.meta.url)
-const helmet: typeof import('helmet', { with: { 'resolution-mode': 'require' } }).default =
-  require('helmet')
+const helmet: typeof import('helmet', {
+  with: { 'resolution-mode': 'require' },
+}).default = require('helmet')
 
 export const docsRouter = Router()
 

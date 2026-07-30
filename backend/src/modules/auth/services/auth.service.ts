@@ -13,8 +13,9 @@ import { TokenService } from './token.service.js'
 // `.hash`/`.compare` directamente en la raiz (verificado en runtime), asi que
 // el tipo va sin `.default` para que coincida con el valor real.
 const require = createRequire(import.meta.url)
-const bcrypt: typeof import('bcryptjs', { with: { 'resolution-mode': 'require' } }) =
-  require('bcryptjs')
+const bcrypt: typeof import('bcryptjs', {
+  with: { 'resolution-mode': 'require' },
+}) = require('bcryptjs')
 const SALT_ROUNDS = 12
 
 type AuthResponse = {
