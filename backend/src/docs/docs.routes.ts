@@ -1,5 +1,7 @@
 import { Router } from 'express'
-import helmet from 'helmet'
+// Ver comentario en app.ts: import por namespace por la misma inestabilidad
+// de interop ESM/CJS de helmet entre entornos.
+import * as helmetModule from 'helmet'
 import { env } from '../config/env.js'
 import { openApiDocument } from './openapi.js'
 
@@ -9,7 +11,7 @@ docsRouter.get('/openapi.json', (_req, res) => {
   res.status(200).json(openApiDocument)
 })
 
-const docsCsp = helmet.contentSecurityPolicy({
+const docsCsp = helmetModule.default.contentSecurityPolicy({
   directives: {
     defaultSrc: ["'self'"],
     scriptSrc: ["'self'", "'unsafe-inline'", 'https://cdn.jsdelivr.net'],

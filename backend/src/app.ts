@@ -3,7 +3,11 @@
 /// <reference path="./types/express.d.ts" />
 import cors from 'cors'
 import express from 'express'
-import helmet from 'helmet'
+// Import por namespace: bajo resolucion ESM estricta (node16/nodenext) el import
+// por defecto de paquetes duales CJS+ESM como helmet resuelve a veces a un
+// objeto no invocable segun el entorno de build (funciona en local, falla en
+// Vercel). `.default` es estable independientemente de esa ambiguedad.
+import * as helmetModule from 'helmet'
 import { pinoHttp } from 'pino-http'
 import type { Request } from 'express'
 import type { CorsOptions } from 'cors'
@@ -50,7 +54,7 @@ const corsOptions: CorsOptions = {
   maxAge: 60 * 60 * 24,
 }
 
-app.use(helmet())
+app.use(helmetModule.default())
 app.use(cors(corsOptions))
 app.use(
   express.json({
