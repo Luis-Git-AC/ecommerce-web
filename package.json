@@ -7,7 +7,7 @@
   },
   "devDependencies": {
     "concurrently": "^9.2.1",
-    "prettier": "^3.8.3"
+    "prettier": "^3.9.6"
   },
   "scripts": {
     "backend:dev": "npm run dev --prefix backend",
